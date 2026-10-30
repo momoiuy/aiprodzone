@@ -1,0 +1,78 @@
+{
+  "seededAt": "2026-10-30T22:32:08.664Z",
+  "categoriesCount": 10,
+  "coursesCount": 24,
+  "ebooksCount": 10,
+  "categories": [
+    {
+      "orderIndex": 1,
+      "id": "ai-filmmaking",
+      "name": "صناعة الأفلام والفيديو السينمائي (AI Filmmaking)",
+      "lessonsCount": 3,
+      "ebookTitle": "دليل الإخراج السينمائي والتحكم بالكاميرا في نماذج الفيديو الذكية (Runway & Kling & Veo)"
+    },
+    {
+      "orderIndex": 2,
+      "id": "prompt-engineering",
+      "name": "هندسة الأوامر والتلقين المتقدم (Prompt Engineering)",
+      "lessonsCount": 3,
+      "ebookTitle": "موسوعة قوالب التلقين الاحترافية وهندسة السياق (Prompt & Context Engineering Cheat Sheet)"
+    },
+    {
+      "orderIndex": 3,
+      "id": "ai-commercials",
+      "name": "إنتاج الإعلانات التجارية بالذكاء الاصطناعي (AI Commercials & Ads)",
+      "lessonsCount": 3,
+      "ebookTitle": "دليل صناعة الإعلانات التجارية ومقاطع المنتجات عالية التحويل بالذكاء الاصطناعي"
+    },
+    {
+      "orderIndex": 4,
+      "id": "ai-animation",
+      "name": "الأفلام الكرتونية والقصص التعليمية المتحركة (AI Animation)",
+      "lessonsCount": 2,
+      "ebookTitle": "كتاب ثبات الشخصيات وتحريك القصص الكرتونية بالذكاء الاصطناعي"
+    },
+    {
+      "orderIndex": 5,
+      "id": "comfyui-flux",
+      "name": "توليد الصور الاحترافية وسير عمل ComfyUI & Flux",
+      "lessonsCount": 3,
+      "ebookTitle": "الدليل المصور لإتقان Flux و ComfyUI وتصميم الصور الواقعية"
+    },
+    {
+      "orderIndex": 6,
+      "id": "ai-avatars",
+      "name": "الأفاتار المتحدث واستنساخ الصوت (AI Avatars & Voice Cloning)",
+      "lessonsCount": 2,
+      "ebookTitle": "دليل صناعة القنوات الآلية والأفاتار المتحدث والدبلجة الاحترافية"
+    },
+    {
+      "orderIndex": 7,
+      "id": "ai-audio-suno",
+      "name": "صناعة الموسيقى والهندسة الصوتية بالذكاء الاصطناعي (AI Audio & Suno)",
+      "lessonsCount": 2,
+      "ebookTitle": "قاموس أوامر الهندسة الصوتية والمؤثرات السينمائية بالذكاء الاصطناعي"
+    },
+    {
+      "orderIndex": 8,
+      "id": "ai-agents-n8n",
+      "name": "الوكلاء الأذكياء والأتمتة بدون كود (AI Agents & n8n Automation)",
+      "lessonsCount": 2,
+      "ebookTitle": "كتاب تصميم وبناء وكلاء الأتمتة الأذكياء (n8n AI Agents Blueprint)"
+    },
+    {
+      "orderIndex": 9,
+      "id": "vibe-coding",
+      "name": "البرمجة بالذكاء الاصطناعي وبناء التطبيقات (Vibe Coding & AI Dev)",
+      "lessonsCount": 2,
+      "ebookTitle": "دليل المطور لبناء ونشر تطبيقات الويب الكاملة عبر وكلاء البرمجة و Vercel"
+    },
+    {
+      "orderIndex": 10,
+      "id": "local-ai-rag",
+      "name": "النماذج المحلية وأنظمة المعرفة الذكية (Local AI & RAG Systems)",
+      "lessonsCount": 2,
+      "ebookTitle": "المعمارية العملية لأنظمة الاسترجاع المعرفي (RAG) وتشغيل النماذج الخاصة"
+    }
+  ]
+}
