@@ -35,8 +35,8 @@ export interface RootLayoutProps {
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
-    <html lang="ar" dir="ltr" data-theme="dark" className={`${cairo.variable} ${inter.variable}`}>
-      <body className="font-arabic antialiased bg-bg text-text">{children}</body>
+    <html lang="ar" dir="ltr" data-theme="dark" suppressHydrationWarning className={`${cairo.variable} ${inter.variable}`}>
+      <body suppressHydrationWarning className="font-arabic antialiased bg-bg text-text">{children}</body>
     </html>
   );
 }

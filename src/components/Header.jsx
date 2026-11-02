@@ -84,7 +84,7 @@ export default function Header({
                 }`}
               >
                 <Icon className={`w-3.5 h-3.5 shrink-0 ${tab.active ? 'text-accent' : 'text-text-muted'}`} />
-                <span>{tab.label}</span>
+                <span suppressHydrationWarning>{tab.label}</span>
               </button>
             );
           })}
@@ -127,6 +127,7 @@ export default function Header({
           <Button
             variant="secondary"
             onClick={toggleTheme}
+            suppressHydrationWarning
             className="w-9 h-9 sm:w-auto sm:h-10 p-0 sm:px-3 shrink-0"
             title={theme === 'dark' ? 'التبديل إلى الوضع النهاري الدافئ' : 'التبديل إلى الوضع الليلي المريح'}
             aria-label="تبديل مظهر الموقع"
@@ -134,12 +135,12 @@ export default function Header({
             {theme === 'dark' ? (
               <>
                 <Sun className="w-4 h-4 shrink-0 text-text-muted" />
-                <span className="hidden sm:inline">نهاري</span>
+                <span suppressHydrationWarning className="hidden sm:inline">نهاري</span>
               </>
             ) : (
               <>
                 <Moon className="w-4 h-4 shrink-0 text-text-muted" />
-                <span className="hidden sm:inline">ليلي</span>
+                <span suppressHydrationWarning className="hidden sm:inline">ليلي</span>
               </>
             )}
           </Button>

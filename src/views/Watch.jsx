@@ -139,15 +139,15 @@ export default function Watch({ course, onBack, onWatchCourse }) {
                 )}
                 <Button variant={completedIds.includes(course.id) ? 'primary' : 'secondary'} onClick={() => toggleCompleted(course.id)} className="py-2.5">
                   <CheckSquare className="w-4 h-4" />
-                  <span>{completedIds.includes(course.id) ? 'أكملت هذا الدرس ✓' : 'تحديد كمكتمل'}</span>
+                  <span suppressHydrationWarning>{completedIds.includes(course.id) ? 'أكملت هذا الدرس ✓' : 'تحديد كمكتمل'}</span>
                 </Button>
                 <Button variant="secondary" onClick={(e) => toggleWatchlist(e, course.id)} className={`py-2.5 ${watchlistIds.includes(course.id) ? 'border-accent text-accent' : ''}`}>
                   <Bookmark className="w-4 h-4" />
-                  <span>{watchlistIds.includes(course.id) ? 'محفوظ' : 'حفظ'}</span>
+                  <span suppressHydrationWarning>{watchlistIds.includes(course.id) ? 'محفوظ' : 'حفظ'}</span>
                 </Button>
                 <Button variant="primary" onClick={() => { if (activeUserRating) setUserScores(activeUserRating.scores); setUserVoteOpen(!userVoteOpen); }} className="px-4 py-2.5">
                   <Sliders className="w-4 h-4 text-accent-ink" />
-                  <span>{!activeUserRating ? 'قيّم الشرح' : canEditActiveRating ? `تقييمي: ${activeUserRating.overall} (تعديل)` : `تقييمي: ${activeUserRating.overall}`}</span>
+                  <span suppressHydrationWarning>{!activeUserRating ? 'قيّم الشرح' : canEditActiveRating ? `تقييمي: ${activeUserRating.overall} (تعديل)` : `تقييمي: ${activeUserRating.overall}`}</span>
                 </Button>
               </div>
             </div>

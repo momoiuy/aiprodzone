@@ -66,7 +66,7 @@ export default function BottomNav({ view, setView, displayMode, setDisplayMode }
             }`}
           >
             <Icon className={`w-4 h-4 shrink-0 ${item.active ? 'text-accent' : 'text-text-muted'}`} />
-            <span className="truncate max-w-full">{item.label}</span>
+            <span suppressHydrationWarning className="truncate max-w-full">{item.label}</span>
           </button>
         );
       })}
