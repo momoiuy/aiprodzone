@@ -1,19 +1,19 @@
 /**
- * @param {{ onClick?: () => void }} props
+ * @param {{ onClick?: () => void, showSubtitle?: boolean, className?: string }} props
  */
-export default function Logo({ onClick = () => {} }) {
+export default function Logo({ onClick = () => {}, showSubtitle = false, className = '' }) {
   return (
     <div
       onClick={onClick}
       dir="ltr"
-      className="flex items-center gap-1.5 sm:gap-2.5 cursor-pointer select-none group shrink-0 text-left"
+      className={`flex items-center gap-1.5 sm:gap-2.5 cursor-pointer select-none group shrink-0 text-left ${className}`}
       title="AIProdZone — دورات وكتب إلكترونية مجانية"
     >
       <svg
         viewBox="0 0 44 44"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-8 h-8 sm:w-[38px] sm:h-[38px] shrink-0 transition-transform duration-300 ease-out group-hover:scale-105 shadow-sm"
+        className="w-7 h-7 sm:w-9 sm:h-9 shrink-0 transition-transform duration-300 ease-out group-hover:scale-105 shadow-sm"
       >
         <rect
           x="1.5"
@@ -69,13 +69,15 @@ export default function Logo({ onClick = () => {} }) {
       </svg>
 
       <div className="flex flex-col justify-center items-start leading-none">
-        <div className="font-extrabold text-[15px] sm:text-[21px] tracking-tight leading-none flex items-center">
+        <div className="font-extrabold text-[15px] sm:text-[19px] tracking-tight leading-none flex items-center">
           <span className="text-text-heading">AIProd</span>
           <span className="text-accent">Zone</span>
         </div>
-        <span className="hidden sm:block text-[10px] font-bold mt-1 tracking-normal text-text-muted">
-          دورات وكتب إلكترونية مجانية
-        </span>
+        {showSubtitle && (
+          <span className="block text-[10px] font-bold mt-1 tracking-normal text-text-muted">
+            دورات وكتب إلكترونية مجانية
+          </span>
+        )}
       </div>
     </div>
   );

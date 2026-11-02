@@ -47,7 +47,7 @@ export default function Sidebar({
             <Button variant="secondary" onClick={onClose} className="w-9 h-9 p-0" aria-label="إغلاق القائمة">
               <Menu className="w-4 h-4 text-text-muted" />
             </Button>
-            <Logo onClick={() => onSelectFilter('الكل')} />
+            <Logo onClick={() => onSelectFilter('الكل')} showSubtitle={true} />
           </div>
           <Button variant="ghost" onClick={onClose} className="w-8 h-8 p-0" aria-label="إغلاق">
             <X className="w-4 h-4 text-text-muted" />
