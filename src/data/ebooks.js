@@ -1,4 +1,4 @@
-// بيانات الكتب الإلكترونية والأدلة التطبيقية المرافقة للأقسام الـ 10
+// بيانات الكتب الإلكترونية والأدلة التطبيقية المرافقة للأقسام الـ 10 + المكتبة السحابية والتحميل المباشر
 export const EBOOK_GUIDES = [
   {
     id: "ebook-1",
@@ -129,5 +129,97 @@ export const EBOOK_GUIDES = [
     date: "إصدار 2026",
     excerpt: "كيف تشغل نماذج Llama 3 و DeepSeek محلياً على جهازك وتبني قاعدة معرفة ذكية تبحث في ملفاتك ومستنداتك بأمان تام.",
     content: "دليل عملي لتثبيت وتشغيل Ollama محلياً، إنشاء التضمينات الشعاعية (Vector Embeddings)، استخدام قواعد البيانات المتجهة (ChromaDB / Qdrant)، وبناء نظام RAG متكامل يجيب على الاستفسارات من وثائقك الخاصة دون إرسال أي بيانات للسحابة."
+  },
+
+  // ==================== كتب وحقائب المكتبة السحابية (تحميل مباشر بصفر حمل) ====================
+  {
+    id: "bimo-super-prompt",
+    sectionOrder: 11,
+    tag: "كتاب سحابي • Mega.nz",
+    category: "هندسة الأوامر والتلقين المتقدم (Prompt Engineering)",
+    title: "Six Figure Super Prompt | Unlock the Secret to Earning $1,211 Per Day",
+    author: "BimoCode Masterclass",
+    pages: "دليل تنفيذي شامل + برومبتات",
+    readTime: "تحميل سحابي مباشر",
+    date: "إصدار 2025/2026",
+    downloadUrl: "https://mega.nz/folder/7n4wxJCI#Ra0WIZ8D35en8Wmy960PRw",
+    remoteCoverUrl: "http://bimocode.com/public/storage/product/sat-jan-18-2025-128-pm62015.png",
+    provider: "Mega.nz",
+    fileType: "مجلد سحابي / Super Prompts",
+    isCloudBook: true,
+    excerpt: "دليل احترافي يفكك أسرار تحقيق دخل عبر هندسة الأوامر الخارقة (Super Prompts) مع استراتيجيات تحويل الأوامر إلى منتجات وخدمات رقمية عالية العائد.",
+    content: "يحتوي هذا الكتاب والملف الرقمي على:\n• صيغ برومبتات استثنائية (Super Prompts) لاستهداف الأسواق المربحة وتحقيق أرباح مستمرة.\n• نماذج لأتمتة صناعة المحتوى وخدمات الذكاء الاصطناعي للمشاريع والعملاء الدوليين.\n• قوالب تشغيل متقدمة لـ ChatGPT و Claude لتحليل البيانات واستخراج دراسات جدوى سريعة.\n• رابط التخزين السحابي الرسمي على Mega.nz متاح للتحميل المباشر بنقرة واحدة بصفر حمل على الخادم."
+  },
+  {
+    id: "bimo-dropshipping-guide",
+    sectionOrder: 12,
+    tag: "كتاب سحابي • MediaFire",
+    category: "إنتاج الإعلانات التجارية بالذكاء الاصطناعي (AI Commercials & Ads)",
+    title: "Dropshipping Business - How to Start Drop shipping (PLR & Resell Rights)",
+    author: "E-Commerce Pro",
+    pages: "20 صفحة مركّزة (PDF)",
+    readTime: "تحميل فوري مباشر",
+    date: "إصدار 2025/2026",
+    downloadUrl: "https://www.mediafire.com/file/bcichcdadke0j57/DropshippingLink.pdf/file",
+    remoteCoverUrl: "http://bimocode.com/public/storage/product/fri-may-23-2025-1004-am60785.png",
+    provider: "MediaFire",
+    fileType: "مستند PDF رقمي",
+    isCloudBook: true,
+    excerpt: "دليل عملي موجز لبدء وتأسيس متجر دروب شيبينغ ناجح من الصفر، مع حقوق إعادة البيع الكاملة (PLR / Resell Rights).",
+    content: "المحاور الرئيسية في هذا الكتيب:\n• خطوات اختيار المنتج الرابح (Winning Product) باستخدام أدوات التحليل الذكي.\n• بناء المتجر، تصميم الإعلانات عالية التحويل، واستراتيجيات التسعير.\n• إدارة الموردين، الشحن السريع، وتجربة العملاء للوصول لأعلى نسبة تقييم إيجابي.\n• الكتاب مرفق برابط تحميل مباشر من سيرفرات MediaFire بصيغة PDF بدون أي إعلانات أو وسائط محلية."
+  },
+  {
+    id: "bimo-50-marketing-bundle",
+    sectionOrder: 13,
+    tag: "حقيبة سحابية • Google Drive",
+    category: "الوكلاء الأذكياء والأتمتة بدون كود (AI Agents & n8n Automation)",
+    title: "50+ Business & Marketing eBooks Mega Bundle (Master Resell Rights)",
+    author: "Digital Wealth Collective",
+    pages: "حقيبة ضخمة (+50 كتاباً)",
+    readTime: "مجلد Google Drive مباشر",
+    date: "إصدار 2025/2026",
+    downloadUrl: "https://drive.google.com/drive/folders/1IFsntCAPKHEtzZP1dHRJulqyY-mz4_k7",
+    remoteCoverUrl: "http://bimocode.com/public/storage/product/fri-may-23-2025-959-am31090.png",
+    provider: "Google Drive",
+    fileType: "مجلد سحابي (+50 كتاباً)",
+    isCloudBook: true,
+    excerpt: "حزمة ضخمة تضم أكثر من 50 كتاباً ودليلاً في ريادة الأعمال، التسويق الرقمي، قنوات التحويل، وإطلاق المشاريع عبر الإنترنت مع حقوق إعادة البيع (MRR).",
+    content: "تشتمل هذه الحقيبة الماسية على:\n• أكثر من 50 كتاب إلكتروني تغطي: التسويق بالمحتوى، إعلانات السوشيال ميديا، قمع المبيعات (Sales Funnel)، والبريد الإلكتروني.\n• جميع المواد مرفقة بترخيص MRR لإعادة البيع أو الاستفادة الشخصية للمشاريع.\n• وصول فوري ودائم لمجلد Google Drive بدون أي حدود للسرعة أو التنزيل وبصفر استهلاك لموارد الموقع."
+  },
+  {
+    id: "bimo-passive-income-bundle",
+    sectionOrder: 14,
+    tag: "حزمة سحابية • MediaFire",
+    category: "البرمجة بالذكاء الاصطناعي وبناء التطبيقات (Vibe Coding & AI Dev)",
+    title: "MRR Passive Income eBook Bundle - Master Resell & Private Label Rights",
+    author: "Digital Freedom Labs",
+    pages: "حزمة أرشيف رقمي مضغوط",
+    readTime: "تحميل RAR مباشر",
+    date: "إصدار 2025/2026",
+    downloadUrl: "https://www.mediafire.com/file/oq6i5awvje5ejwg/MRR+Passive+Income+eBook+Bundle,+master+resell+rights,+private+label+rights,+plr+ebook,+PLR+digital+products,+sell+on+etsy,+DFY+ebook.rar/file",
+    remoteCoverUrl: "http://bimocode.com/public/storage/product/fri-may-16-2025-218-pm34338.png",
+    provider: "MediaFire",
+    fileType: "أرشيف RAR (منتجات جاهزة DFY)",
+    isCloudBook: true,
+    excerpt: "حزمة الدخل السلبي الشاملة للمنتجات الرقمية الجاهزة (DFY)، تشمل كتب وأدلة PLR قابلة لإعادة التعديل والبيع على منصات مثل Etsy وGumroad.",
+    content: "محتويات حزمة الدخل السلبي:\n• أدلة وكتب جاهزة للتعديل وإعادة التوزيع (Done-For-You Products).\n• خطط إطلاق المتاجر الرقمية واستراتيجيات تحقيق مبيعات متكررة دون مجهود يومي.\n• ملفات التصميم وقوالب الإطلاق التسويقي كاملة داخل ملف RAR جاهز للتحميل عبر MediaFire."
+  },
+  {
+    id: "bimo-5million-ebooks-index",
+    sectionOrder: 15,
+    tag: "فهرس سحابي • MediaFire",
+    category: "النماذج المحلية وأنظمة المعرفة الذكية (Local AI & RAG Systems)",
+    title: "5 Million eBooks Mega Bundle (PLR & MRR Full Access Index)",
+    author: "Global Knowledge Repository",
+    pages: "فهرس وسجل وصول لـ 5 ملايين مادة",
+    readTime: "دليل PDF مباشر",
+    date: "إصدار 2025/2026",
+    downloadUrl: "https://www.mediafire.com/file/1fvb7i9iljy3dk6/5MillioneBooks.pdf/file",
+    remoteCoverUrl: "http://bimocode.com/public/storage/product/thu-may-15-2025-124-pm27486.png",
+    provider: "MediaFire",
+    fileType: "فهرس وصول PDF",
+    isCloudBook: true,
+    excerpt: "الدليل الإرشادي وفهرس الوصول الشامل لأضخم مستودع كتب ومواد رقمية (5 ملايين كتاب إلكتروني مع حقوق إعادة البيع والتعديل).",
+    content: "يقدم هذا الملف وثيقة الوصول إلى المستودع المليوني:\n• تصنيفات وفهارس ملايين الكتب في مجالات الأعمال، التكنولوجيا، التطوير الذاتي، والذكاء الاصطناعي.\n• روابط الوصول السحابية المباشرة والمحدثة لسيرفرات التخزين العالمية.\n• ملف PDF منظم وخفيف جداً متاح للتحميل المباشر من MediaFire."
   }
 ];

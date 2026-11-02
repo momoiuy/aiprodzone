@@ -56,7 +56,7 @@ export function LibraryProvider({ children }) {
   );
 
   const [ebooksList, setEbooksList] = useLocalStorage(
-    'aiprodzone_ebooks_v2',
+    'aiprodzone_ebooks_v3',
     EBOOK_GUIDES,
     isEbookArray
   );

@@ -94,6 +94,9 @@ function AdminDashboardContent() {
     category: categories?.[0]?.name || '',
     author: 'فريق AIProdZone',
     pages: '40 صفحة مركزة',
+    downloadUrl: '',
+    remoteCoverUrl: '',
+    provider: '',
     excerpt: '',
     content: ''
   });
@@ -678,6 +681,9 @@ function AdminDashboardContent() {
                     category: categories?.[0]?.name || '',
                     author: 'فريق AIProdZone',
                     pages: '40 صفحة مركزة',
+                    downloadUrl: '',
+                    remoteCoverUrl: '',
+                    provider: '',
                     excerpt: '',
                     content: ''
                   });
@@ -721,6 +727,7 @@ function AdminDashboardContent() {
                       <div className="space-y-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
                           <Chip tone="accent">دليل القسم #{eb.sectionOrder}</Chip>
+                          {eb.provider && <Chip tone="warning">{eb.provider}</Chip>}
                           {eb.category && <Chip tone="neutral">{eb.category}</Chip>}
                           <span className="text-xs text-text-muted">{eb.pages}</span>
                         </div>
@@ -732,6 +739,17 @@ function AdminDashboardContent() {
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                      {eb.downloadUrl && (
+                        <a
+                          href={eb.downloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 rounded-lg border border-border bg-surface-2 hover:border-accent text-accent transition-colors"
+                          title="رابط التحميل المباشر"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      )}
                       <Button
                         variant="secondary"
                         onClick={() => {
@@ -741,6 +759,9 @@ function AdminDashboardContent() {
                             category: eb.category || '',
                             author: eb.author || 'فريق AIProdZone',
                             pages: eb.pages || '40 صفحة مركزة',
+                            downloadUrl: eb.downloadUrl || '',
+                            remoteCoverUrl: eb.remoteCoverUrl || '',
+                            provider: eb.provider || '',
                             excerpt: eb.excerpt || '',
                             content: eb.content || ''
                           });
@@ -1100,6 +1121,40 @@ function AdminDashboardContent() {
                     className="w-full text-xs rounded-xl px-3.5 py-2.5 border border-border bg-surface-2 text-text focus:border-accent"
                   />
                 </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-text-heading">رابط التحميل السحابي (اختياري للكتب السحابية)</label>
+                  <input
+                    type="url"
+                    placeholder="https://mega.nz/... أو Google Drive أو MediaFire"
+                    value={ebookForm.downloadUrl}
+                    onChange={(e) => setEbookForm({ ...ebookForm, downloadUrl: e.target.value })}
+                    className="w-full text-xs rounded-xl px-3.5 py-2.5 border border-border bg-surface-2 text-text focus:border-accent"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-text-heading">مزود السحابة (مثال: Mega.nz / Google Drive)</label>
+                  <input
+                    type="text"
+                    placeholder="Mega.nz, MediaFire..."
+                    value={ebookForm.provider}
+                    onChange={(e) => setEbookForm({ ...ebookForm, provider: e.target.value })}
+                    className="w-full text-xs rounded-xl px-3.5 py-2.5 border border-border bg-surface-2 text-text focus:border-accent"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-text-heading">رابط صورة الغلاف عن بُعد (Zero Weight CDN Cover)</label>
+                <input
+                  type="url"
+                  placeholder="https://... رابط صورة الغلاف الخارجية"
+                  value={ebookForm.remoteCoverUrl}
+                  onChange={(e) => setEbookForm({ ...ebookForm, remoteCoverUrl: e.target.value })}
+                  className="w-full text-xs rounded-xl px-3.5 py-2.5 border border-border bg-surface-2 text-text focus:border-accent"
+                />
               </div>
 
               <div className="space-y-1">
