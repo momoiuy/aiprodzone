@@ -11,8 +11,11 @@ export default function Logo({ onClick = () => {}, showSubtitle = false, classNa
     >
       <svg
         viewBox="0 0 44 44"
+        width="36"
+        height="36"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        style={{ maxWidth: '36px', maxHeight: '36px' }}
         className="w-7 h-7 sm:w-9 sm:h-9 shrink-0 transition-transform duration-300 ease-out group-hover:scale-105 shadow-sm"
       >
         <rect
