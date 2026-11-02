@@ -227,7 +227,7 @@ function AdminDashboardContent() {
   });
 
   return (
-    <div dir="rtl" className="min-h-screen bg-bg text-text font-arabic antialiased pb-12 transition-colors duration-300">
+    <div dir="ltr" className="min-h-screen bg-bg text-text font-arabic antialiased pb-12 transition-colors duration-300">
       {/* الشريط العلوي */}
       <header className="sticky top-0 z-40 w-full border-b border-border bg-bg/95 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">

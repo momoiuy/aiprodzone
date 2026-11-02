@@ -54,11 +54,11 @@ export default function CategoryPills({
     <div className="relative flex-1 flex items-center min-w-0">
       <Button
         variant="secondary"
-        onClick={() => scrollCategoryPills('right')}
-        className="hidden sm:flex w-8 h-8 p-0 rounded-lg shrink-0 ml-1.5"
-        aria-label="تمرير لليمين"
+        onClick={() => scrollCategoryPills('left')}
+        className="hidden sm:flex w-8 h-8 p-0 rounded-lg shrink-0 mr-1.5"
+        aria-label="تمرير لليسار"
       >
-        <ChevronRight className="w-4 h-4 text-text-muted" />
+        <ChevronLeft className="w-4 h-4 text-text-muted" />
       </Button>
 
       <div
@@ -117,11 +117,11 @@ export default function CategoryPills({
 
       <Button
         variant="secondary"
-        onClick={() => scrollCategoryPills('left')}
-        className="hidden sm:flex w-8 h-8 p-0 rounded-lg shrink-0 mr-1.5"
-        aria-label="تمرير لليسار"
+        onClick={() => scrollCategoryPills('right')}
+        className="hidden sm:flex w-8 h-8 p-0 rounded-lg shrink-0 ml-1.5"
+        aria-label="تمرير لليمين"
       >
-        <ChevronLeft className="w-4 h-4 text-text-muted" />
+        <ChevronRight className="w-4 h-4 text-text-muted" />
       </Button>
     </div>
   );

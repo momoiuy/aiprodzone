@@ -120,7 +120,7 @@ function AppShell() {
 
   return (
     <div
-      dir="rtl"
+      dir="ltr"
       className="min-h-screen w-full overflow-x-clip bg-bg text-text font-arabic antialiased transition-colors duration-300 flex flex-col pb-[calc(7rem+env(safe-area-inset-bottom,0px))] md:pb-8 selection:bg-accent selection:text-accent-ink"
     >
       <Sidebar

@@ -26,10 +26,10 @@ export default function RoadmapPath({ groups, onWatchCourse }) {
             </Chip>
           </Card>
 
-          <div className="relative pr-6 sm:pr-8 space-y-4">
+          <div className="relative pl-6 sm:pl-8 space-y-4">
             <div
               aria-hidden="true"
-              className="absolute right-[11px] sm:right-[15px] top-4 bottom-4 w-0.5 bg-gradient-to-b from-accent via-accent/40 to-transparent rounded-full"
+              className="absolute left-[11px] sm:left-[15px] top-4 bottom-4 w-0.5 bg-gradient-to-b from-accent via-accent/40 to-transparent rounded-full"
             />
 
             {group.items.map((course) => {
@@ -45,7 +45,7 @@ export default function RoadmapPath({ groups, onWatchCourse }) {
                 >
                   <span
                     aria-hidden="true"
-                    className={`absolute -right-[18px] sm:-right-[22px] top-8 w-3 h-3 rounded-full border-2 border-accent ${
+                    className={`absolute -left-[18px] sm:-left-[22px] top-8 w-3 h-3 rounded-full border-2 border-accent ${
                       isDone ? 'bg-accent' : 'bg-bg'
                     }`}
                   />

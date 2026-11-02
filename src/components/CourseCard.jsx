@@ -1,4 +1,4 @@
-import { Bookmark, Star, Play, CheckCircle2, ArrowUpLeft } from 'lucide-react';
+import { Bookmark, Star, Play, CheckCircle2, ArrowUpRight } from 'lucide-react';
 import { formatViews, getOverallScore } from '../lib/format';
 import { handleThumbnailError } from '../lib/youtube';
 import { useLibrary } from '../context/LibraryContext';
@@ -109,7 +109,7 @@ export default function CourseCard({ course, onWatchCourse }) {
           </span>
           <span className="font-extrabold inline-flex items-center gap-1 shrink-0 text-text-heading group-hover:text-accent transition-colors">
             <span>{isDone ? 'مكتمل ✓' : 'ابدأ الشرح'}</span>
-            <ArrowUpLeft className="w-3.5 h-3.5 text-accent" />
+            <ArrowUpRight className="w-3.5 h-3.5 text-accent" />
           </span>
         </div>
       </div>

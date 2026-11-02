@@ -23,12 +23,12 @@ export default function Hero({ course, onWatchCourse }) {
       />
 
       <div
-        className="absolute inset-y-0 left-0 w-full sm:w-[65%] md:w-[58%] pointer-events-none select-none overflow-hidden"
+        className="absolute inset-y-0 right-0 w-full sm:w-[65%] md:w-[58%] pointer-events-none select-none overflow-hidden"
         style={{
           WebkitMaskImage:
-            'linear-gradient(to right, rgba(0,0,0,1) 18%, rgba(0,0,0,0.82) 48%, rgba(0,0,0,0.25) 78%, rgba(0,0,0,0) 100%)',
+            'linear-gradient(to left, rgba(0,0,0,1) 18%, rgba(0,0,0,0.82) 48%, rgba(0,0,0,0.25) 78%, rgba(0,0,0,0) 100%)',
           maskImage:
-            'linear-gradient(to right, rgba(0,0,0,1) 18%, rgba(0,0,0,0.82) 48%, rgba(0,0,0,0.25) 78%, rgba(0,0,0,0) 100%)'
+            'linear-gradient(to left, rgba(0,0,0,1) 18%, rgba(0,0,0,0.82) 48%, rgba(0,0,0,0.25) 78%, rgba(0,0,0,0) 100%)'
         }}
       >
         <img
@@ -39,10 +39,10 @@ export default function Hero({ course, onWatchCourse }) {
           onError={handleThumbnailError}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000"
         />
-        <div className="absolute inset-0 bg-gradient-to-l from-surface-2 via-accent-soft to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-surface-2 via-accent-soft to-transparent" />
       </div>
 
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-l from-surface-2 via-surface-2/85 to-transparent" />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-surface-2 via-surface-2/85 to-transparent" />
 
       <div className="relative z-10 w-full px-5 sm:px-8 md:px-10 py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
         <div className="max-w-2xl space-y-3">
@@ -65,7 +65,7 @@ export default function Hero({ course, onWatchCourse }) {
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center justify-center pl-2 lg:pl-8 shrink-0">
+        <div className="hidden sm:flex items-center justify-center pr-2 lg:pr-8 shrink-0">
           <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-surface/90 backdrop-blur-md border border-border group-hover:border-accent flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
             <Play className="w-5 h-5 fill-current text-accent" />
           </div>

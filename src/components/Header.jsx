@@ -51,7 +51,7 @@ export default function Header({
   ];
 
   return (
-    <header dir="rtl" className="sticky top-0 z-40 w-full border-b border-border bg-bg/95 backdrop-blur-md">
+    <header dir="ltr" className="sticky top-0 z-40 w-full border-b border-border bg-bg/95 backdrop-blur-md">
       <div className="max-w-7xl w-full mx-auto px-2.5 sm:px-6 lg:px-8 h-14 sm:h-[68px] flex items-center justify-between gap-1.5 sm:gap-3">
         <div className="flex items-center gap-1.5 sm:gap-3 min-w-0 shrink-0">
           <Button
@@ -92,7 +92,7 @@ export default function Header({
 
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <div className="relative hidden lg:block w-52 xl:w-64">
-            <Search className="w-4 h-4 absolute right-3.5 top-3 pointer-events-none text-text-muted" />
+            <Search className="w-4 h-4 absolute left-3.5 top-3 pointer-events-none text-text-muted" />
             <input
               type="text"
               value={searchQuery}
@@ -101,13 +101,13 @@ export default function Header({
                 if (view !== 'courses') setView('courses');
               }}
               placeholder="ابحث عن شرح، Veo 3، بايثون..."
-              className="w-full h-10 text-xs rounded-xl pr-9 pl-7 bg-surface-2 text-text placeholder:text-text-muted border border-border hover:border-accent focus:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring transition-all"
+              className="w-full h-10 text-xs rounded-xl pl-9 pr-7 bg-surface-2 text-text placeholder:text-text-muted border border-border hover:border-accent focus:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring transition-all"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute left-2.5 top-3 text-text-muted hover:text-text-heading"
+                className="absolute right-2.5 top-3 text-text-muted hover:text-text-heading"
                 aria-label="مسح البحث"
               >
                 <X className="w-3.5 h-3.5" />
@@ -168,7 +168,7 @@ export default function Header({
       {mobileSearchOpen && (
         <div className="lg:hidden px-3 pb-2.5">
           <div className="relative">
-            <Search className="w-4 h-4 absolute right-3.5 top-2.5 text-text-muted" />
+            <Search className="w-4 h-4 absolute left-3.5 top-2.5 text-text-muted" />
             <input
               type="text"
               autoFocus
@@ -178,13 +178,13 @@ export default function Header({
                 if (view !== 'courses') setView('courses');
               }}
               placeholder="ابحث عن صناعة الفيديو، بايثون، ChatGPT، كتب إلكترونية..."
-              className="w-full h-9 text-xs rounded-xl pr-10 pl-9 bg-surface-2 text-text placeholder:text-text-muted border border-border focus:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+              className="w-full h-9 text-xs rounded-xl pl-10 pr-9 bg-surface-2 text-text placeholder:text-text-muted border border-border focus:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute left-3 top-2.5 text-text-muted hover:text-text-heading"
+                className="absolute right-3 top-2.5 text-text-muted hover:text-text-heading"
                 aria-label="مسح البحث"
               >
                 <X className="w-4 h-4" />

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, CheckCircle2, CheckSquare, Bookmark, Sliders, Lightbulb, Clock } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle2, CheckSquare, Bookmark, Sliders, Lightbulb, Clock } from 'lucide-react';
 import { formatViews, getOverallScore } from '../lib/format';
 import { toSeconds } from '../lib/youtube';
 import { useLibrary } from '../context/LibraryContext';
@@ -81,7 +81,7 @@ export default function Watch({ course, onBack, onWatchCourse }) {
     <div className="space-y-6 animate-smooth">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <Button variant="secondary" onClick={onBack} className="text-xs sm:text-sm">
-          <ArrowRight className="w-4 h-4 text-text-muted" />
+          <ArrowLeft className="w-4 h-4 text-text-muted" />
           <span>العودة إلى فهرس الشروحات</span>
         </Button>
         <div className="flex items-center gap-2 text-xs">
@@ -134,7 +134,7 @@ export default function Watch({ course, onBack, onWatchCourse }) {
                     title={`الانتقال إلى: ${nextLesson.title}`}
                   >
                     <span>الدرس التالي #{nextLesson.orderIndex || nextLesson.rankOrder}</span>
-                    <ArrowRight className="w-4 h-4 rotate-180" />
+                    <ArrowRight className="w-4 h-4" />
                   </Button>
                 )}
                 <Button variant={completedIds.includes(course.id) ? 'primary' : 'secondary'} onClick={() => toggleCompleted(course.id)} className="py-2.5">

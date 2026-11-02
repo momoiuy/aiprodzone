@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Play, ExternalLink, CheckCircle2, ArrowLeft, RotateCcw } from 'lucide-react';
+import { Play, ExternalLink, CheckCircle2, ArrowRight, RotateCcw } from 'lucide-react';
 import { handleThumbnailError, getCleanYouTubeEmbedUrl } from '../lib/youtube';
 import Card from './Card';
 import Button from './Button';
@@ -161,7 +161,7 @@ export default function YouTubePlayer({
                       className="px-5 py-2.5 text-xs sm:text-sm font-extrabold shadow-lg"
                     >
                       <span>الانتقال للدرس التالي #{nextLesson.orderIndex || nextLesson.rankOrder}: {nextLesson.title}</span>
-                      <ArrowLeft className="w-4 h-4 text-accent-ink" />
+                      <ArrowRight className="w-4 h-4 text-accent-ink" />
                     </Button>
                   )}
 

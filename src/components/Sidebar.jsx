@@ -38,8 +38,8 @@ export default function Sidebar({
       )}
 
       <aside
-        className={`fixed top-0 right-0 bottom-0 z-50 w-[288px] border-l border-border bg-surface-2 text-text flex flex-col justify-between transition-transform duration-300 ease-out ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+        className={`fixed top-0 left-0 bottom-0 z-50 w-[288px] border-r border-border bg-surface-2 text-text flex flex-col justify-between transition-transform duration-300 ease-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="h-16 px-4 flex items-center justify-between border-b border-border shrink-0">

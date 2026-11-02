@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, ArrowUpLeft, BookOpen } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, BookOpen } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
 import Card from '../components/Card';
 import Chip from '../components/Chip';
@@ -32,7 +32,7 @@ export default function Ebooks({ activeEbook, setActiveEbook, onSelectCategory }
         <Card className="p-6 sm:p-8 space-y-5">
           <div className="flex items-center justify-between">
             <Button variant="ghost" onClick={() => setActiveEbook(null)} className="px-2 py-1">
-              <ArrowRight className="w-4 h-4 text-text-muted" />
+              <ArrowLeft className="w-4 h-4 text-text-muted" />
               <span>العودة إلى جميع الكتب والأدلة الـ 10</span>
             </Button>
             {activeEbook.category && (
@@ -99,7 +99,7 @@ export default function Ebooks({ activeEbook, setActiveEbook, onSelectCategory }
                 <span className="text-text-muted">{eb.readTime}</span>
                 <span className="font-extrabold inline-flex items-center gap-1 text-text-heading group-hover:text-accent transition-colors">
                   <span>قراءة الدليل</span>
-                  <ArrowUpLeft className="w-3.5 h-3.5 text-accent" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-accent" />
                 </span>
               </div>
             </Card>
