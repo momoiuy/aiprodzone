@@ -39,7 +39,8 @@ interface EbookItem {
   [key: string]: any;
 }
 
-export default function BooksExplorer({ initialBooks = EBOOK_GUIDES }: { initialBooks?: EbookItem[] }) {
+export default function BooksExplorer({ initialBooks }: { initialBooks?: EbookItem[] } = {}) {
+  const booksList: any[] = (initialBooks && initialBooks.length > 0 ? initialBooks : EBOOK_GUIDES) as any[];
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -47,7 +48,7 @@ export default function BooksExplorer({ initialBooks = EBOOK_GUIDES }: { initial
 
   // تصنيف الكتب
   const filteredBooks = useMemo(() => {
-    return initialBooks.filter((book) => {
+    return booksList.filter((book) => {
       // فلتر التصنيف
       if (selectedCategory === 'tracks') {
         if (book.isCloudBook) return false;
@@ -75,7 +76,7 @@ export default function BooksExplorer({ initialBooks = EBOOK_GUIDES }: { initial
 
       return true;
     });
-  }, [initialBooks, selectedCategory, searchQuery]);
+  }, [booksList, selectedCategory, searchQuery]);
 
   // تقسيم الصفحات
   const totalPages = Math.ceil(filteredBooks.length / ITEMS_PER_PAGE) || 1;
@@ -120,7 +121,7 @@ export default function BooksExplorer({ initialBooks = EBOOK_GUIDES }: { initial
 
           <div className="flex items-center gap-2 text-xs font-bold text-text-muted">
             <span className="px-3 py-1.5 rounded-xl bg-surface-2 border border-border">
-              إجمالي النتائج: <span className="text-accent font-black">{filteredBooks.length}</span> من {initialBooks.length}
+              إجمالي النتائج: <span className="text-accent font-black">{filteredBooks.length}</span> من {booksList.length}
             </span>
           </div>
         </div>

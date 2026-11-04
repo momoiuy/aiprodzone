@@ -3,8 +3,8 @@ import {
   parsePlaylistId,
   searchYouTubePlaylists,
   fetchPlaylistDetails
-} from '@/src/lib/youtube-scraper';
-import { REAL_YOUTUBE_PLAYLISTS } from '@/src/data/real-playlists';
+} from '../../../../src/lib/youtube-scraper';
+import { REAL_YOUTUBE_PLAYLISTS } from '../../../../src/data/real-playlists';
 
 export const runtime = 'nodejs';
 
@@ -12,8 +12,16 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const rawPlaylistId = searchParams.get('playlistId') || searchParams.get('list') || searchParams.get('id');
   const query = searchParams.get('query') || searchParams.get('q');
-  const offsetParam = parseInt(searchParams.get('offset') || '0', 10);
-  const limitParam = parseInt(searchParams.get('limit') || '300', 10);
+  const offsetParam = Math.max(0, parseInt(searchParams.get('offset') || '0', 10) || 0);
+  const limitParam = Math.min(500, Math.max(1, parseInt(searchParams.get('limit') || '300', 10) || 300));
+
+  // حماية ضد الاستعلامات العشوائية أو الطويلة جداً
+  if (rawPlaylistId && rawPlaylistId.length > 200) {
+    return NextResponse.json({ error: 'معرف قائمة التشغيل طويل جداً' }, { status: 400 });
+  }
+  if (query && query.length > 150) {
+    return NextResponse.json({ error: 'استعلام البحث طويل جداً' }, { status: 400 });
+  }
 
   let playlistId = rawPlaylistId ? parsePlaylistId(rawPlaylistId) : null;
 

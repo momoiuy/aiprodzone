@@ -236,7 +236,12 @@ function AdminDashboardContent() {
     setRevalidating(true);
     setRevalidateStatus(null);
     try {
-      const res = await fetch('/api/revalidate', { method: 'POST' });
+      const res = await fetch('/api/revalidate?secret=aiprodzone-secret-2026', {
+        method: 'POST',
+        headers: {
+          'x-revalidate-secret': 'aiprodzone-secret-2026'
+        }
+      });
       if (res.ok) {
         setRevalidateStatus('✓ تم تحديث وإفراغ كاش Vercel بنجاح (revalidatePath)');
       } else {

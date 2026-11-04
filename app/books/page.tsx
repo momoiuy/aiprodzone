@@ -76,13 +76,12 @@ export default function BooksPage() {
     {
       '@type': 'ItemList',
       '@id': `${canonicalUrl}#itemlist`,
-      name: 'قائمة الكتب والأدلة الرقمية الـ 114',
+      name: 'قائمة الكتب والأدلة الرقمية (114 دليلاً تطبيقياً)',
       numberOfItems: EBOOK_GUIDES.length,
-      itemListElement: EBOOK_GUIDES.map((book: any, idx) => ({
+      itemListElement: EBOOK_GUIDES.slice(0, 12).map((book: any, idx) => ({
         '@type': 'ListItem',
         position: idx + 1,
         name: book.title,
-        description: book.excerpt || book.categoryNameEn || book.category,
         url: `${canonicalUrl}?read=${book.id}`
       }))
     },
@@ -166,17 +165,15 @@ export default function BooksPage() {
             </div>
           </header>
 
-          {/* مستكشف وفهرس الكتب التفاعلي */}
-          <BooksExplorer initialBooks={EBOOK_GUIDES} />
+          {/* مستكشف وفهرس الكتب التفاعلي الرشيق (يستورد الكتب داخلياً لمنع تضخم RSC Flight Payload) */}
+          <BooksExplorer />
 
-          {/* فهرس دلالي نصي مسبق الرندر في الـ HTML لمحركات البحث وبوتات الزحف */}
+          {/* فهرس دلالي نصي رشيق مسبق الرندر في الـ HTML لمحركات البحث وبوتات الزحف */}
           <section className="sr-only" aria-label="فهرس الكتب الأكاديمي الدلالي">
-            <h2>قائمة كافة الكتب والمراجع التقنية المتاحة</h2>
+            <h2>قائمة كافة الكتب والمراجع التقنية المتاحة (114 دليلاً تطبيقياً)</h2>
             <ul>
-              {EBOOK_GUIDES.map((book: any) => (
+              {EBOOK_GUIDES.filter((_: any, idx: number) => idx < 24 || idx === 50 || idx === 100).map((book: any) => (
                 <li key={book.id}>
-                  <h3>{book.title}</h3>
-                  <p>{book.excerpt || book.categoryNameEn || book.category}</p>
                   <a href={`/books?read=${book.id}`}>{book.title}</a>
                 </li>
               ))}

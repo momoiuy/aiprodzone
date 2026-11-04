@@ -2,8 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { Cairo, Inter } from 'next/font/google';
 import './globals.css';
-import { ArticleCollectionJsonLd } from '../src/components/ArticleJsonLd';
-import { INITIAL_ARTICLES } from '../src/data/articles';
 
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
@@ -29,6 +27,14 @@ export const metadata: Metadata = {
   },
   description:
     'منصة أكاديمية عربية مجانية 100% وبلا إعلانات تضم 73 مساراً تعليمياً متعدد المحاضرين، 114 كتاباً ودليلاً برمجياً، و18 مقالاً هندسياً معمقاً في البرمجة، الذكاء الاصطناعي، والأمن السيبراني.',
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/icon', type: 'image/png' }
+    ],
+    shortcut: '/icon.svg',
+    apple: '/icon'
+  },
   openGraph: {
     title: 'AIProdZone — الدليل الأكاديمي العربي للمسارات التقنية والذكاء الاصطناعي وعلوم الحاسوب',
     description:
@@ -36,13 +42,22 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: 'AIProdZone',
     locale: 'ar_AR',
-    type: 'website'
+    type: 'website',
+    images: [
+      {
+        url: `${siteUrl}/opengraph-image`,
+        width: 1200,
+        height: 630,
+        alt: 'AIProdZone — الدليل الأكاديمي العربي'
+      }
+    ]
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AIProdZone — الدليل الأكاديمي العربي للمسارات التقنية والذكاء الاصطناعي وعلوم الحاسوب',
     description:
-      'منصة أكاديمية عربية مجانية 100% وبلا إعلانات تضم 73 مساراً تعليمياً متعدد المحاضرين، 114 كتاباً ودليلاً برمجياً، و18 مقالاً هندسياً معمقاً في البرمجة، الذكاء الاصطناعي، والأمن السيبراني.'
+      'منصة أكاديمية عربية مجانية 100% وبلا إعلانات تضم 73 مساراً تعليمياً متعدد المحاضرين، 114 كتاباً ودليلاً برمجياً، و18 مقالاً هندسياً معمقاً في البرمجة، الذكاء الاصطناعي، والأمن السيبراني.',
+    images: [`${siteUrl}/opengraph-image`]
   }
 };
 
@@ -60,7 +75,6 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="ar" dir="ltr" data-theme="dark" suppressHydrationWarning className={`${cairo.variable} ${inter.variable} overflow-x-hidden w-full max-w-full`}>
       <head>
-        <ArticleCollectionJsonLd articles={INITIAL_ARTICLES} />
         <script
           id="purge-legacy-2026"
           dangerouslySetInnerHTML={{

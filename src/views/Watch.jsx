@@ -200,12 +200,8 @@ export default function Watch({
     const currentLessons = dynamicLessonsMap[activeInstructor.id] || activeInstructor.lessons || [];
     const expectedCount = activeInstructor.lessonsCount || 0;
 
-    // شرط التحقق من الاقتطاع أو النقص
-    const isTruncated =
-      (expectedCount > 0 && currentLessons.length < expectedCount) ||
-      currentLessons.length === 50 ||
-      currentLessons.length === 100 ||
-      (currentLessons.length < 50 && expectedCount > currentLessons.length);
+    // لا يتم الاستدعاء التلقائي في الخلفية إذا كانت الدروس موجودة مسبقاً في الدليل الأكاديمي الثابت (حماية باقة Vercel)
+    const isTruncated = currentLessons.length === 0;
 
     const fetchKey = `${course?.id || ''}_${activeInstructor.id}_${playlistId}`;
     if (!isTruncated || fetchedPlaylistsRef.current.has(fetchKey)) {

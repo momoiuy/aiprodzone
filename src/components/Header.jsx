@@ -75,7 +75,13 @@ export default function Header({
       shortLabel: 'المقالات',
       icon: Newspaper,
       active: view === 'articles',
-      onClick: () => setView('articles')
+      onClick: () => {
+        if (typeof window !== 'undefined') {
+          window.location.href = '/articles';
+        } else {
+          setView('articles');
+        }
+      }
     },
     {
       id: 'tools-view',
@@ -83,7 +89,13 @@ export default function Header({
       shortLabel: 'الأدوات',
       icon: Wrench,
       active: view === 'tools',
-      onClick: () => setView('tools')
+      onClick: () => {
+        if (typeof window !== 'undefined') {
+          window.location.href = '/tools';
+        } else {
+          setView('tools');
+        }
+      }
     },
     {
       id: 'ebooks-view',
@@ -91,7 +103,13 @@ export default function Header({
       shortLabel: 'الكتب',
       icon: BookOpen,
       active: view === 'ebooks',
-      onClick: () => setView('ebooks')
+      onClick: () => {
+        if (typeof window !== 'undefined') {
+          window.location.href = '/books';
+        } else {
+          setView('ebooks');
+        }
+      }
     }
   ];
 

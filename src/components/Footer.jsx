@@ -58,11 +58,24 @@ export default function Footer({ onNavigate = null, onOpenLegal = null, onSelect
   };
 
   const handleQuickNav = (viewName, options = {}) => {
+    if (typeof window !== 'undefined') {
+      if (viewName === 'ebooks') {
+        window.location.href = '/books';
+        return;
+      }
+      if (viewName === 'articles') {
+        window.location.href = '/articles';
+        return;
+      }
+      if (viewName === 'tools') {
+        window.location.href = '/tools';
+        return;
+      }
+    }
     if (onNavigate) {
       onNavigate(viewName, options);
     } else if (typeof window !== 'undefined') {
       if (viewName === 'courses') window.location.href = '/';
-      else if (viewName === 'articles') window.location.href = '/articles';
       else window.location.href = `/?view=${viewName}`;
     }
   };
