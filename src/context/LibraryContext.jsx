@@ -1,10 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
-import { INITIAL_COURSES } from '../data/courses';
 import { SEED_CATEGORIES } from '../data/categories';
-import { EBOOK_GUIDES } from '../data/ebooks';
-import { INITIAL_ARTICLES } from '../data/articles';
 import { getOverallScore } from '../lib/format';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useTheme } from '../hooks/useTheme';
@@ -44,8 +41,15 @@ const triggerRevalidate = async () => {
   }
 };
 
-// Props: { children: import('react').ReactNode }
-export function LibraryProvider({ children }) {
+/**
+ * @param {{ children: any, initialCourses?: any[], initialEbooks?: any[], initialArticles?: any[] }} props
+ */
+export function LibraryProvider({
+  children,
+  initialCourses = [],
+  initialEbooks = [],
+  initialArticles = []
+}) {
   const { theme, toggleTheme, mounted } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState('الكل');
 
@@ -64,19 +68,19 @@ export function LibraryProvider({ children }) {
 
   const [coursesList, setCoursesList] = useLocalStorage(
     'aiprodzone_courses_v8',
-    INITIAL_COURSES,
+    initialCourses,
     isCourseArray
   );
 
   const [ebooksList, setEbooksList] = useLocalStorage(
     'aiprodzone_ebooks_v6',
-    EBOOK_GUIDES,
+    initialEbooks,
     isEbookArray
   );
 
   const [articlesList, setArticlesList] = useLocalStorage(
     'aiprodzone_articles_v1',
-    INITIAL_ARTICLES,
+    initialArticles,
     isArticleArray
   );
 
@@ -88,7 +92,8 @@ export function LibraryProvider({ children }) {
 
   // دمج التعليقات المخصصة مع الدروس
   const courses = useMemo(() => {
-    return coursesList.map((course) => {
+    const list = (coursesList && coursesList.length > 0) ? coursesList : (initialCourses || []);
+    return list.map((course) => {
       const extraComments = customComments[course.id];
       if (Array.isArray(extraComments) && extraComments.length > 0) {
         return {
@@ -98,7 +103,7 @@ export function LibraryProvider({ children }) {
       }
       return course;
     });
-  }, [coursesList, customComments]);
+  }, [coursesList, customComments, initialCourses]);
 
   // إدارة قائمة المشاهدة لاحقاً
   const toggleWatchlist = useCallback(
@@ -463,11 +468,20 @@ export function LibraryProvider({ children }) {
   );
 
   // إعادة التعيين إلى البيانات الأولية المغذاة (Seed Data)
-  const resetToSeedData = useCallback(() => {
+  const resetToSeedData = useCallback(async () => {
     setCategoriesList(SEED_CATEGORIES);
-    setCoursesList(INITIAL_COURSES);
-    setEbooksList(EBOOK_GUIDES);
-    setArticlesList(INITIAL_ARTICLES);
+    try {
+      const [{ INITIAL_COURSES }, { EBOOK_GUIDES }, { INITIAL_ARTICLES }] = await Promise.all([
+        import('../data/courses'),
+        import('../data/ebooks'),
+        import('../data/articles')
+      ]);
+      setCoursesList(INITIAL_COURSES);
+      setEbooksList(EBOOK_GUIDES);
+      setArticlesList(INITIAL_ARTICLES);
+    } catch {
+      // fallback
+    }
     triggerRevalidate();
   }, [setCategoriesList, setCoursesList, setEbooksList, setArticlesList]);
 
@@ -478,8 +492,8 @@ export function LibraryProvider({ children }) {
       mounted,
       courses,
       categories: categoriesList,
-      ebooks: ebooksList,
-      articles: articlesList,
+      ebooks: (ebooksList && ebooksList.length > 0) ? ebooksList : (initialEbooks || []),
+      articles: (articlesList && articlesList.length > 0) ? articlesList : (initialArticles || []),
       bookmarkedArticleIds,
       selectedCategory,
       setSelectedCategory,
@@ -553,7 +567,9 @@ export function LibraryProvider({ children }) {
       addArticle,
       updateArticle,
       deleteArticle,
-      resetToSeedData
+      resetToSeedData,
+      initialArticles,
+      initialEbooks
     ]
   );
 

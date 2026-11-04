@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import {
   FileText,
   Clock,
@@ -99,11 +100,12 @@ function FormattedArticleText({ content }) {
 // Props: { onWatchCourse?: (courseId: string, instructorId?: string) => void, initialArticleSlug?: string }
 export default function Articles({ onWatchCourse, initialArticleSlug }) {
   const {
-    articles = INITIAL_ARTICLES,
+    articles: rawArticles,
     courses = [],
     bookmarkedArticleIds = [],
     toggleBookmarkArticle
   } = useLibrary();
+  const articles = Array.isArray(rawArticles) && rawArticles.length > 0 ? rawArticles : INITIAL_ARTICLES;
 
   const [selectedCategory, setSelectedCategory] = useState('الكل');
   const [searchQuery, setSearchQuery] = useState('');
@@ -794,14 +796,17 @@ export default function Articles({ onWatchCourse, initialArticleSlug }) {
                     />
                   </Button>
 
-                  <Button
-                    variant="primary"
-                    onClick={() => openArticle(heroArticle.id)}
-                    className="h-9 px-4 text-xs font-black flex items-center gap-1.5 shadow-sm"
+                  <Link
+                    href={`/articles/${heroArticle.id}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openArticle(heroArticle.id);
+                    }}
+                    className="h-9 px-4 text-xs font-black rounded-xl bg-accent text-accent-ink hover:opacity-90 transition-opacity inline-flex items-center gap-1.5 shadow-sm"
                   >
                     <span>اقرأ المقال كاملاً</span>
                     <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
-                  </Button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -999,10 +1004,18 @@ export default function Articles({ onWatchCourse, initialArticleSlug }) {
                     </span>
                   </div>
 
-                  <span className="font-extrabold inline-flex items-center gap-1 text-teal-700 dark:text-teal-400 group-hover:translate-x-0.5 transition-transform text-xs shrink-0">
+                  <Link
+                    href={`/articles/${article.id}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      openArticle(article.id);
+                    }}
+                    className="font-extrabold inline-flex items-center gap-1 text-teal-700 dark:text-teal-400 group-hover:translate-x-0.5 transition-transform text-xs shrink-0"
+                  >
                     <span>قراءة</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
-                  </span>
+                  </Link>
                 </div>
               </Card>
             );

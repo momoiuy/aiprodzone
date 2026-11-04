@@ -23,6 +23,7 @@ import {
   ChevronLeft
 } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
+import { EBOOK_GUIDES } from '../data/ebooks';
 import { BIMO_CATEGORIES } from '../data/bimo-catalog';
 import Card from '../components/Card';
 import Chip from '../components/Chip';
@@ -108,7 +109,8 @@ const CATEGORY_ICONS = {
 const ITEMS_PER_PAGE = 12;
 
 export default function Ebooks({ activeEbook, setActiveEbook, onSelectCategory }) {
-  const { ebooks = [] } = useLibrary();
+  const library = useLibrary();
+  const ebooks = Array.isArray(library?.ebooks) && library.ebooks.length > 0 ? library.ebooks : EBOOK_GUIDES;
 
   // فلاتر التصنيف والبحث والتنقل
   const [selectedCategory, setSelectedCategory] = useState('all'); // 'all' | 'tracks' | 'ebook' | 'software' | 'stickers' | 'adobe' | 'theme' | 'plugin'

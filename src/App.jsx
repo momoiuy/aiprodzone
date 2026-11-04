@@ -3,18 +3,20 @@
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { INITIAL_COURSES } from './data/courses';
 import { LibraryProvider, useLibrary } from './context/LibraryContext';
+import dynamic from 'next/dynamic';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import BottomNav from './components/BottomNav';
-import SubmitModal from './components/SubmitModal';
-import BrandModal from './components/BrandModal';
 import Home from './views/Home';
-import Watch from './views/Watch';
-import Ebooks from './views/Ebooks';
-import Tools from './views/Tools';
-import Articles from './views/Articles';
-import LegalView from './views/LegalView';
 import Footer from './components/Footer';
+
+const SubmitModal = dynamic(() => import('./components/SubmitModal'), { ssr: false });
+const BrandModal = dynamic(() => import('./components/BrandModal'), { ssr: false });
+const Watch = dynamic(() => import('./views/Watch'), { ssr: false });
+const Ebooks = dynamic(() => import('./views/Ebooks'), { ssr: false });
+const Tools = dynamic(() => import('./views/Tools'), { ssr: false });
+const Articles = dynamic(() => import('./views/Articles'), { ssr: false });
+const LegalView = dynamic(() => import('./views/LegalView'), { ssr: false });
 
 // Props: {} (تخطيط وتنقل المنصة الداخلي مع مزامنة الروابط وزر الرجوع)
 function AppShell() {
@@ -267,7 +269,7 @@ function AppShell() {
 // Props: {} (المكوّن الجذري للتركيب والتنقل فقط)
 export default function App() {
   return (
-    <LibraryProvider>
+    <LibraryProvider initialCourses={INITIAL_COURSES}>
       <AppShell />
     </LibraryProvider>
   );

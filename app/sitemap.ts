@@ -31,13 +31,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.95
     },
     {
-      url: `${BASE_URL}/?view=ebooks`,
+      url: `${BASE_URL}/books`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.85
     },
     {
-      url: `${BASE_URL}/?view=tools`,
+      url: `${BASE_URL}/tools`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.8
@@ -80,7 +80,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // 5. الصفحات والسياسات القانونية (5 Legal Pages)
   const legalRoutes: MetadataRoute.Sitemap = (LEGAL_PAGES_LIST as any[]).map((page) => ({
-    url: `${BASE_URL}/?view=legal&tab=${page.slug}`,
+    url: `${BASE_URL}/governance/${page.slug}`,
     lastModified: currentDate,
     changeFrequency: 'monthly',
     priority: 0.5

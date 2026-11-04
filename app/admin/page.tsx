@@ -26,6 +26,9 @@ import {
   Search
 } from 'lucide-react';
 import { LibraryProvider, useLibrary } from '@/src/context/LibraryContext';
+import { INITIAL_COURSES } from '@/src/data/courses';
+import { EBOOK_GUIDES } from '@/src/data/ebooks';
+import { INITIAL_ARTICLES } from '@/src/data/articles';
 import { parseYouTubeUrl, handleThumbnailError } from '@/src/lib/youtube';
 import { ARTICLE_CATEGORIES } from '@/src/data/articles';
 import Card from '@/src/components/Card';
@@ -1304,7 +1307,11 @@ function AdminDashboardContent() {
 
 export default function AdminPage() {
   return (
-    <LibraryProvider>
+    <LibraryProvider
+      initialCourses={INITIAL_COURSES}
+      initialEbooks={EBOOK_GUIDES}
+      initialArticles={INITIAL_ARTICLES}
+    >
       <AdminDashboardContent />
     </LibraryProvider>
   );

@@ -134,11 +134,11 @@ describe('AIProdZone Technical SEO & Generative Engine Optimization (GEO) Tests'
       expect(articlesHub).toBeDefined();
       expect(articlesHub.priority).toBe(0.95);
 
-      const ebooksHub = items.find((i) => i.url === `${BASE_URL}/?view=ebooks`);
+      const ebooksHub = items.find((i) => i.url === `${BASE_URL}/books` || i.url === `${BASE_URL}/?view=ebooks`);
       expect(ebooksHub).toBeDefined();
       expect(ebooksHub.priority).toBe(0.85);
 
-      const toolsHub = items.find((i) => i.url === `${BASE_URL}/?view=tools`);
+      const toolsHub = items.find((i) => i.url === `${BASE_URL}/tools` || i.url === `${BASE_URL}/?view=tools`);
       expect(toolsHub).toBeDefined();
       expect(toolsHub.priority).toBe(0.8);
     });
@@ -168,8 +168,9 @@ describe('AIProdZone Technical SEO & Generative Engine Optimization (GEO) Tests'
     it('يتحقق من تضمين جميع الصفحات القانونية الـ 5', () => {
       const items = sitemap();
       LEGAL_PAGES_LIST.forEach((page) => {
-        const expectedUrl = `${BASE_URL}/?view=legal&tab=${page.slug}`;
-        const found = items.find((i) => i.url === expectedUrl);
+        const expectedCleanUrl = `${BASE_URL}/governance/${page.slug}`;
+        const expectedLegacyUrl = `${BASE_URL}/?view=legal&tab=${page.slug}`;
+        const found = items.find((i) => i.url === expectedCleanUrl || i.url === expectedLegacyUrl);
         expect(found, `الصفحة القانونية ${page.slug} غير مدرجة في خريطة الموقع`).toBeDefined();
         expect(found.priority).toBe(0.5);
       });

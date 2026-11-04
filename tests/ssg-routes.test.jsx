@@ -3,6 +3,9 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { INITIAL_ARTICLES } from '../src/data/articles';
 import { INITIAL_COURSES } from '../src/data/courses';
+import { EBOOK_GUIDES } from '../src/data/ebooks';
+import { CURATED_AI_TOOLS } from '../src/data/tools';
+import { LEGAL_PAGES_LIST } from '../src/data/legal-pages';
 import ArticlePage, {
   generateStaticParams as generateArticleStaticParams,
   generateMetadata as generateArticleMetadata
@@ -12,6 +15,12 @@ import TrackPage, {
   generateMetadata as generateTrackMetadata
 } from '../app/tracks/[id]/page';
 import ArticlesHubPage, { metadata as articlesHubMetadata } from '../app/articles/page';
+import BooksPage, { metadata as booksMetadata } from '../app/books/page';
+import ToolsPage, { metadata as toolsMetadata } from '../app/tools/page';
+import GovernancePage, {
+  generateStaticParams as generateGovernanceStaticParams,
+  generateMetadata as generateGovernanceMetadata
+} from '../app/governance/[slug]/page';
 
 describe('AIProdZone SSG & Technical SEO Static Generation Tests (المرحلة 9)', () => {
   // =========================================================================
@@ -155,6 +164,116 @@ describe('AIProdZone SSG & Technical SEO Static Generation Tests (المرحلة
         expect(html).toContain(article.title);
         expect(html).toContain(`/articles/${article.id}`);
       });
+    });
+  });
+
+  // =========================================================================
+  // 4. اختبارات صفحة مكتبة الكتب والأدلة المستقلة (app/books/page.tsx)
+  // =========================================================================
+  describe('4. اختبارات صفحة مكتبة الكتب والأدلة المستقلة (app/books)', () => {
+    it('تحتوي صفحة الكتب على بيانات ميتا كاملة ورابط canonical نظيف (/books)', () => {
+      expect(booksMetadata).toBeDefined();
+      const titleStr = typeof booksMetadata.title === 'object' && booksMetadata.title !== null ? booksMetadata.title.absolute || booksMetadata.title.default : String(booksMetadata.title);
+      expect(titleStr).toContain('مكتبة الكتب والأدلة الرقمية');
+      expect(titleStr).toContain('114');
+      expect(booksMetadata.alternates?.canonical).toBe('https://aiprodzone.com/books');
+      expect(booksMetadata.openGraph?.url).toBe('https://aiprodzone.com/books');
+    });
+
+    it('ترندر صفحة الكتب مخطط CollectionPage و ItemList JSON-LD وفهرس الـ 114 كتاباً في HTML', () => {
+      const html = renderToStaticMarkup(<BooksPage />);
+      expect(html).toContain('المكتبة السحابية الشاملة للأدلة والكتب التقنية');
+      expect(html).toContain('<h1');
+      expect(html).toContain('CollectionPage');
+      expect(html).toContain('ItemList');
+      expect(html).toContain('BreadcrumbList');
+      expect(html).toContain('https://aiprodzone.com/books');
+
+      // التحقق من أن عدد الكتب المدرجة في البيانات 114
+      expect(EBOOK_GUIDES.length).toBe(114);
+      // التأكد من وجود عينات من الكتب في الرندر الثابت
+      expect(html).toContain(EBOOK_GUIDES[0].title);
+      expect(html).toContain(EBOOK_GUIDES[10].title);
+      expect(html).toContain(EBOOK_GUIDES[50].title);
+    });
+  });
+
+  // =========================================================================
+  // 5. اختبارات صفحة مقارنة الأدوات الذكية المستقلة (app/tools/page.tsx)
+  // =========================================================================
+  describe('5. اختبارات صفحة مقارنة الأدوات الذكية المستقلة (app/tools)', () => {
+    it('تحتوي صفحة الأدوات على بيانات ميتا دقيقة ورابط canonical نظيف (/tools)', () => {
+      expect(toolsMetadata).toBeDefined();
+      const titleStr = typeof toolsMetadata.title === 'object' && toolsMetadata.title !== null ? toolsMetadata.title.absolute || toolsMetadata.title.default : String(toolsMetadata.title);
+      expect(titleStr).toContain('أفضل أدوات الذكاء الاصطناعي والبرمجة');
+      expect(toolsMetadata.alternates?.canonical).toBe('https://aiprodzone.com/tools');
+      expect(toolsMetadata.openGraph?.url).toBe('https://aiprodzone.com/tools');
+    });
+
+    it('ترندر صفحة الأدوات جدول مقارنة هندسي ومخطط ItemList JSON-LD في HTML', () => {
+      const html = renderToStaticMarkup(<ToolsPage />);
+      expect(html).toContain('مقارنة أدوات الذكاء الاصطناعي وهندسة البرمجيات');
+      expect(html).toContain('<h1');
+      expect(html).toContain('ItemList');
+      expect(html).toContain('BreadcrumbList');
+      expect(html).toContain('https://aiprodzone.com/tools');
+
+      // التحقق من وجود الأدوات المنسقة في المحتوى
+      expect(CURATED_AI_TOOLS.length).toBeGreaterThanOrEqual(8);
+      CURATED_AI_TOOLS.forEach((tool) => {
+        expect(html).toContain(tool.name);
+      });
+    });
+  });
+
+  // =========================================================================
+  // 6. اختبارات مسارات الحوكمة والسياسات الخمس (app/governance/[slug]/page.tsx)
+  // =========================================================================
+  describe('6. اختبارات مسارات الحوكمة والسياسات الخمس (app/governance/[slug])', () => {
+    it('يولد generateStaticParams مسارات لجميع الصفحات التنظيمية الخمس بدقة', () => {
+      const params = generateGovernanceStaticParams();
+      expect(Array.isArray(params)).toBe(true);
+      expect(params.length).toBe(5);
+
+      const slugs = params.map((p) => p.slug);
+      expect(slugs).toContain('about');
+      expect(slugs).toContain('privacy');
+      expect(slugs).toContain('terms');
+      expect(slugs).toContain('copyright');
+      expect(slugs).toContain('contact');
+    });
+
+    it('يولد generateMetadata بيانات ميتا وعنوان و canonical لكل صفحة حوكمة', async () => {
+      for (const legalPage of LEGAL_PAGES_LIST) {
+        const metadata = await generateGovernanceMetadata({ params: { slug: legalPage.slug } });
+        expect(metadata).toBeDefined();
+        const titleStr = typeof metadata.title === 'object' && metadata.title !== null ? metadata.title.absolute || metadata.title.default : String(metadata.title);
+        expect(titleStr).toContain(legalPage.title);
+        expect(titleStr).toContain('AIProdZone');
+        expect(metadata.alternates?.canonical).toBe(`https://aiprodzone.com/governance/${legalPage.slug}`);
+        expect(metadata.openGraph?.url).toBe(`https://aiprodzone.com/governance/${legalPage.slug}`);
+      }
+    });
+
+    it('يتعامل generateMetadata بأمان مع slugs غير موجودة', async () => {
+      const metadata = await generateGovernanceMetadata({ params: { slug: 'unknown-policy' } });
+      expect(metadata).toBeDefined();
+      expect(metadata.title).toContain('غير موجودة');
+    });
+
+    it('يرندر GovernancePage محتوى الصفحة وشارات E-E-A-T ومخطط JSON-LD المناسب', () => {
+      for (const legalPage of LEGAL_PAGES_LIST) {
+        const html = renderToStaticMarkup(<GovernancePage params={{ slug: legalPage.slug }} />);
+        expect(html).toContain(legalPage.title);
+        expect(html).toContain('<h1');
+        expect(html).toContain('application/ld+json');
+        expect(html).toContain(`https://aiprodzone.com/governance/${legalPage.slug}`);
+      }
+
+      // التحقق من وجود معايير التقييم ومنهجية الجودة الأكاديمية E-E-A-T في صفحة "من نحن ومنهجية التقييم"
+      const aboutHtml = renderToStaticMarkup(<GovernancePage params={{ slug: 'about' }} />);
+      expect(aboutHtml).toContain('معايير التقييم الأربعة الصارمة');
+      expect(aboutHtml).toContain('Evaluation Methodology');
     });
   });
 });

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import {
   Layers,
   GraduationCap,
@@ -18,25 +19,26 @@ import {
 import Logo from './Logo';
 import { ACADEMIC_DOMAINS } from '../data/categories';
 import { LEGAL_PAGES_LIST } from '../data/legal-pages';
-import { INITIAL_ARTICLES } from '../data/articles';
-import { INITIAL_COURSES } from '../data/courses';
-import { EBOOK_GUIDES } from '../data/ebooks';
 import { useLibrary } from '../context/LibraryContext';
+
+const STATIC_COURSES_COUNT = 73;
+const STATIC_EBOOKS_COUNT = 114;
+const STATIC_ARTICLES_COUNT = 18;
 
 // Props: { onNavigate?: (view: string, options?: any) => void, onOpenLegal?: (tab: string) => void, onSelectCategory?: (cat: string) => void }
 export default function Footer({ onNavigate = null, onOpenLegal = null, onSelectCategory = null } = {}) {
-  let coursesCount = INITIAL_COURSES.length;
-  let ebooksCount = EBOOK_GUIDES.length;
-  let articlesCount = INITIAL_ARTICLES.length;
+  let coursesCount = STATIC_COURSES_COUNT;
+  let ebooksCount = STATIC_EBOOKS_COUNT;
+  let articlesCount = STATIC_ARTICLES_COUNT;
   let domainsCount = ACADEMIC_DOMAINS.length;
 
   try {
     const library = useLibrary();
     if (library) {
-      if (Array.isArray(library.courses)) coursesCount = library.courses.length;
-      if (Array.isArray(library.ebooksList)) ebooksCount = library.ebooksList.length;
-      if (Array.isArray(library.articlesList)) articlesCount = library.articlesList.length;
-      if (Array.isArray(library.categoriesList)) domainsCount = ACADEMIC_DOMAINS.length;
+      if (Array.isArray(library.courses) && library.courses.length > 0) coursesCount = library.courses.length;
+      if (Array.isArray(library.ebooksList) && library.ebooksList.length > 0) ebooksCount = library.ebooksList.length;
+      if (Array.isArray(library.articlesList) && library.articlesList.length > 0) articlesCount = library.articlesList.length;
+      if (Array.isArray(library.categoriesList) && library.categoriesList.length > 0) domainsCount = ACADEMIC_DOMAINS.length;
     }
   } catch (err) {
     // استخدام البيانات التأسيسية كبديل آمن عند الرندر خارج موفر السياق
@@ -82,36 +84,42 @@ export default function Footer({ onNavigate = null, onOpenLegal = null, onSelect
     {
       id: 'courses',
       label: 'الشروحات والدورات الفردية',
+      href: '/',
       icon: Layers,
       onClick: () => handleQuickNav('courses', { keepSearch: false })
     },
     {
       id: 'roadmaps',
       label: 'المسارات الأكاديمية المتكاملة',
+      href: '/?display=grouped',
       icon: GraduationCap,
       onClick: () => handleQuickNav('courses', { displayMode: 'grouped' })
     },
     {
       id: 'articles',
       label: 'المجلة والمقالات التقنية',
+      href: '/articles',
       icon: Newspaper,
       onClick: () => handleQuickNav('articles')
     },
     {
       id: 'tools',
       label: 'مقارنة الأدوات البرمجية والذكية',
+      href: '/tools',
       icon: Wrench,
       onClick: () => handleQuickNav('tools')
     },
     {
       id: 'ebooks',
       label: 'مكتبة الكتب والأدلة الرقمية',
+      href: '/books',
       icon: BookOpen,
       onClick: () => handleQuickNav('ebooks')
     },
     {
       id: 'admin',
       label: 'لوحة التحكم وإدارة الفهرس',
+      href: '/admin',
       icon: Shield,
       isExternalHref: '/admin'
     }
@@ -193,14 +201,19 @@ export default function Footer({ onNavigate = null, onOpenLegal = null, onSelect
                 }
                 return (
                   <li key={link.id}>
-                    <button
-                      type="button"
-                      onClick={link.onClick}
+                    <Link
+                      href={link.href || '/'}
+                      onClick={(e) => {
+                        if (onNavigate) {
+                          e.preventDefault();
+                          link.onClick();
+                        }
+                      }}
                       className="w-full flex items-center justify-end gap-2 py-1 hover:text-accent transition-colors group text-right"
                     >
                       <span className="group-hover:translate-x-0.5 transition-transform">{link.label}</span>
                       <Icon className="w-3.5 h-3.5 text-text-muted group-hover:text-accent shrink-0" />
-                    </button>
+                    </Link>
                   </li>
                 );
               })}
@@ -215,14 +228,19 @@ export default function Footer({ onNavigate = null, onOpenLegal = null, onSelect
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-1.5 text-xs font-bold text-text-muted">
               {ACADEMIC_DOMAINS.map((domain) => (
                 <li key={domain.id}>
-                  <button
-                    type="button"
-                    onClick={() => handleCategoryClick(domain.name)}
+                  <Link
+                    href={`/?cat=${encodeURIComponent(domain.name)}`}
+                    onClick={(e) => {
+                      if (onSelectCategory || onNavigate) {
+                        e.preventDefault();
+                        handleCategoryClick(domain.name);
+                      }
+                    }}
                     className="w-full flex items-center justify-end gap-2 py-1 text-right hover:text-accent transition-colors group"
                   >
                     <span className="group-hover:translate-x-0.5 transition-transform truncate">{domain.name}</span>
                     <span className="w-1.5 h-1.5 rounded-full bg-accent/60 group-hover:bg-accent shrink-0" />
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -236,16 +254,21 @@ export default function Footer({ onNavigate = null, onOpenLegal = null, onSelect
             <ul className="space-y-2 text-xs font-bold text-text-muted">
               {LEGAL_PAGES_LIST.map((page) => (
                 <li key={page.id}>
-                  <button
-                    type="button"
-                    onClick={() => handleLegalClick(page.id)}
+                  <Link
+                    href={`/governance/${page.id}`}
+                    onClick={(e) => {
+                      if (onOpenLegal || onNavigate) {
+                        e.preventDefault();
+                        handleLegalClick(page.id);
+                      }
+                    }}
                     className="w-full flex items-center justify-end gap-2 py-1 text-right hover:text-accent transition-colors group"
                   >
                     <span className="group-hover:translate-x-0.5 transition-transform">{page.title}</span>
                     <span className="text-[10px] text-accent font-extrabold group-hover:text-text-heading">
                       ←
                     </span>
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>

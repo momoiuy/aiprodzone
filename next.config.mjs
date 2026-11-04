@@ -44,6 +44,9 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
+  experimental: {
+    optimizePackageImports: ['lucide-react']
+  },
   images: {
     unoptimized: true
   },
@@ -69,11 +72,9 @@ const nextConfig = {
       { source: '/posts', destination: '/articles', permanent: true },
       { source: '/posts/:path*', destination: '/articles', permanent: true },
 
-      // 3. تحويل روابط الكتب القديمة إلى قسم الكتب المعتمد (301)
-      { source: '/ebooks', destination: '/?view=ebooks', permanent: true },
-      { source: '/ebooks/:path*', destination: '/?view=ebooks', permanent: true },
-      { source: '/books', destination: '/?view=ebooks', permanent: true },
-      { source: '/books/:path*', destination: '/?view=ebooks', permanent: true }
+      // 3. تحويل روابط الكتب القديمة (/ebooks) إلى مسار الكتب المعتمد (/books) (301)
+      { source: '/ebooks', destination: '/books', permanent: true },
+      { source: '/ebooks/:path*', destination: '/books', permanent: true }
     ];
   },
   async headers() {

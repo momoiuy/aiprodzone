@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import {
   Bookmark,
   Star,
@@ -250,11 +251,12 @@ export default function CourseCard({ course, onWatchCourse }) {
               </div>
             )}
 
-            <button
-              type="button"
+            <Link
+              href={`/tracks/${course.id}`}
               onClick={(e) => {
                 e.stopPropagation();
                 if (typeof onWatchCourse === 'function') {
+                  e.preventDefault();
                   onWatchCourse(course.id, selectedInstructor.id);
                 }
               }}
@@ -270,7 +272,7 @@ export default function CourseCard({ course, onWatchCourse }) {
                   : `عرض دروس ${selectedInstructor.name} (${selectedInstructor.lessonsCount || selectedInstructor.lessons?.length || 0} درساً)`}
               </span>
               <ArrowUpRight className="w-4 h-4 shrink-0" />
-            </button>
+            </Link>
           </div>
         </div>
       </div>

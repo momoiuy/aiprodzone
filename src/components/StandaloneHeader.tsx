@@ -61,7 +61,7 @@ export default function StandaloneHeader({ current }: StandaloneHeaderProps) {
           </Link>
 
           <Link
-            href="/?view=ebooks"
+            href="/books"
             className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 ${
               current === 'ebooks'
                 ? 'bg-accent/15 text-accent-ink dark:text-accent font-black shadow-sm'
@@ -73,7 +73,7 @@ export default function StandaloneHeader({ current }: StandaloneHeaderProps) {
           </Link>
 
           <Link
-            href="/?view=tools"
+            href="/tools"
             className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-1.5 ${
               current === 'tools'
                 ? 'bg-accent/15 text-accent-ink dark:text-accent font-black shadow-sm'
@@ -131,7 +131,7 @@ export default function StandaloneHeader({ current }: StandaloneHeaderProps) {
             <span>المقالات التقنية (18 مقالاً)</span>
           </Link>
           <Link
-            href="/?view=ebooks"
+            href="/books"
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold text-text hover:bg-surface-2"
           >
@@ -139,7 +139,7 @@ export default function StandaloneHeader({ current }: StandaloneHeaderProps) {
             <span>مكتبة الكتب والأدلة (114 دليلاً)</span>
           </Link>
           <Link
-            href="/?view=tools"
+            href="/tools"
             onClick={() => setMobileMenuOpen(false)}
             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold text-text hover:bg-surface-2"
           >

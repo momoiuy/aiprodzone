@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { getOverallScore } from '../lib/format';
 import { useLibrary } from '../context/LibraryContext';
+import { INITIAL_COURSES } from '../data/courses';
 import Hero from '../components/Hero';
 import FilterBar from '../components/FilterBar';
 import CourseCard from '../components/CourseCard';
@@ -32,13 +33,14 @@ export default function Home({
   onWatchCourse
 }) {
   const {
-    courses,
-    categories,
-    selectedCategory,
-    setSelectedCategory,
-    watchlistIds,
-    completedIds
+    courses: rawCourses,
+    categories = [],
+    selectedCategory = 'الكل',
+    setSelectedCategory = (() => {}),
+    watchlistIds = [],
+    completedIds = []
   } = useLibrary();
+  const courses = Array.isArray(rawCourses) && rawCourses.length > 0 ? rawCourses : INITIAL_COURSES;
 
   const [selectedSubFilter, setSelectedSubFilter] = useState('الكل');
   const [selectedTool, setSelectedTool] = useState('كل الأدوات والتقنيات');
