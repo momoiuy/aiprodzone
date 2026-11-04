@@ -57,10 +57,20 @@ export function matchesSmartSearch(target, query) {
     return true;
   }
 
+  // دالة فحص مطابقة كلمة مفردة مع دعم ذكي لإسقاط أل التعريف (ال) إذا بحث بها المستخدم
+  const matchesToken = (token) => {
+    if (normHaystack.includes(token)) return true;
+    if (token.startsWith('ال') && token.length > 3) {
+      const stripped = token.slice(2);
+      if (normHaystack.includes(stripped)) return true;
+    }
+    return false;
+  };
+
   // 2. مطابقة بالكلمات المجزأة (Tokens): يجب أن تتوفر جميع كلمات البحث في الهدف
   const queryTokens = normQuery.split(/\s+/).filter(Boolean);
-  if (queryTokens.length > 1) {
-    return queryTokens.every((token) => normHaystack.includes(token));
+  if (queryTokens.length > 0) {
+    return queryTokens.every(matchesToken);
   }
 
   return false;

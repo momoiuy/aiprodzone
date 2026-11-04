@@ -84,7 +84,7 @@ export const TOP_DROPDOWN_DATA = [
 export const INSTRUCTOR_ROLES = ['أساسي', 'بديل معتمد', 'مكمل'];
 export const INSTRUCTOR_LANGUAGES = ['AR', 'EN'];
 
-export const INITIAL_COURSES_SUMMARY = ${JSON.stringify(summaryCourses, null, 2)};
+export const INITIAL_COURSES_SUMMARY = ${JSON.stringify(summaryCourses)};
 `;
 
   const outputPath = path.join(rootDir, 'src', 'data', 'courses-summary.js');

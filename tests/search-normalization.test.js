@@ -79,6 +79,14 @@ describe('Arabic Smart Normalization & Search Engine (ترقية محرك الب
       expect(matchesSmartSearch(courseTitle, 'Masterclass')).toBe(true);
     });
 
+    it('يطابق البحث المعرّف بأل (ال) مع النصوص غير المعرّفة والعكس ("البايثون" ➔ "بايثون")', () => {
+      expect(matchesSmartSearch('دورة بايثون شاملة', 'البايثون')).toBe(true);
+      expect(matchesSmartSearch('تعلم برمجة المواقع', 'البرمجة')).toBe(true);
+      expect(matchesSmartSearch('تعلم برمجة المواقع', 'البرمجه')).toBe(true);
+      expect(matchesSmartSearch('الذكاء الاصطناعي', 'ذكاء')).toBe(true);
+      expect(matchesSmartSearch('ذكاء اصطناعي', 'الذكاء الاصطناعي')).toBe(true);
+    });
+
     it('يدعم البحث متعدد الكلمات (Multi-token Search) عبر مختلف الحقول', () => {
       const combined = `${courseTitle} ${instructorsText}`;
       expect(matchesSmartSearch(combined, 'بايثون الزيرو')).toBe(true);
@@ -129,6 +137,7 @@ describe('Arabic Smart Normalization & Search Engine (ترقية محرك الب
           expect(inst.lessonsCount).toBeGreaterThan(0);
           expect(Array.isArray(inst.lessons)).toBe(true);
           expect(inst.lessons.length).toBe(0); // مفصولة لتخفيض حزمة الصفحة الرئيسية!
+          expect(typeof inst.firstVideoId).toBe('string');
         });
       });
     });

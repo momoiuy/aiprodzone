@@ -50,7 +50,7 @@ export default function CourseCard({ course, onWatchCourse }) {
   const formattedViews = formatViews(course.viewsCount);
 
   // صورة المعاينة (تفضيل أول فيديو للمحاضر المحدد بدقة hqdefault المضمونة 100% لتجنب صور 404 الرمادية)
-  const firstVideoId = selectedInstructor.lessons?.[0]?.videoId;
+  const firstVideoId = selectedInstructor.lessons?.[0]?.videoId || selectedInstructor.firstVideoId;
   const currentThumbnail = firstVideoId
     ? `https://i.ytimg.com/vi/${firstVideoId}/hqdefault.jpg`
     : (course.thumbnail || `https://i.ytimg.com/vi/${course.youtubeId || 'wHIdCNIQHpo'}/hqdefault.jpg`);
