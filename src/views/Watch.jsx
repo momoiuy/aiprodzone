@@ -122,6 +122,14 @@ export default function Watch({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isFocusMode]);
 
+  // تحديث عنوان الصفحة ديناميكياً ليعكس المسار الأكاديمي النشط
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (course?.title) {
+      document.title = `${course.title} | AIProdZone — الدليل الأكاديمي العربي`;
+    }
+  }, [course]);
+
   // تمرير تلقائي وسلس لتمييز وتوسيط الدرس النشط داخل قائمة الدروس
   useEffect(() => {
     if (activeLessonItemRef.current) {

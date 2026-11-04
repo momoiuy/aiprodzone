@@ -69,6 +69,57 @@ describe('Production Deployment, DevSecOps & PWA Manifest Tests (المرحلة 
       // التحقق من حماية frame-ancestors لمنع Clickjacking
       expect(csp).toContain("frame-ancestors 'self'");
     });
+
+    it('يتحقق من دالة redirects وتحويل روابط المتجر الرقمي القديمة (فبراير 2026) بتحويل دائم 301', async () => {
+      expect(typeof nextConfig.redirects).toBe('function');
+      const redirects = await nextConfig.redirects();
+      expect(Array.isArray(redirects)).toBe(true);
+
+      const legacyShop = redirects.find((r) => r.source === '/shop');
+      expect(legacyShop).toBeDefined();
+      expect(legacyShop.destination).toBe('/');
+      expect(legacyShop.permanent).toBe(true);
+
+      const legacyStore = redirects.find((r) => r.source === '/store');
+      expect(legacyStore).toBeDefined();
+      expect(legacyStore.destination).toBe('/');
+      expect(legacyStore.permanent).toBe(true);
+
+      const legacyProducts = redirects.find((r) => r.source === '/products');
+      expect(legacyProducts).toBeDefined();
+      expect(legacyProducts.destination).toBe('/');
+      expect(legacyProducts.permanent).toBe(true);
+
+      const legacyCart = redirects.find((r) => r.source === '/cart');
+      expect(legacyCart).toBeDefined();
+      expect(legacyCart.destination).toBe('/');
+      expect(legacyCart.permanent).toBe(true);
+
+      const legacyCheckout = redirects.find((r) => r.source === '/checkout');
+      expect(legacyCheckout).toBeDefined();
+      expect(legacyCheckout.destination).toBe('/');
+      expect(legacyCheckout.permanent).toBe(true);
+
+      const legacyOffers = redirects.find((r) => r.source === '/offers');
+      expect(legacyOffers).toBeDefined();
+      expect(legacyOffers.destination).toBe('/');
+      expect(legacyOffers.permanent).toBe(true);
+
+      const legacyBlog = redirects.find((r) => r.source === '/blog');
+      expect(legacyBlog).toBeDefined();
+      expect(legacyBlog.destination).toBe('/?view=articles');
+      expect(legacyBlog.permanent).toBe(true);
+
+      const legacyPosts = redirects.find((r) => r.source === '/posts');
+      expect(legacyPosts).toBeDefined();
+      expect(legacyPosts.destination).toBe('/?view=articles');
+      expect(legacyPosts.permanent).toBe(true);
+
+      const legacyEbooks = redirects.find((r) => r.source === '/ebooks');
+      expect(legacyEbooks).toBeDefined();
+      expect(legacyEbooks.destination).toBe('/?view=ebooks');
+      expect(legacyEbooks.permanent).toBe(true);
+    });
   });
 
   // =========================================================================
@@ -131,6 +182,23 @@ describe('Production Deployment, DevSecOps & PWA Manifest Tests (المرحلة 
       // التحقق من وجود الأيقونات
       expect(Array.isArray(m.icons)).toBe(true);
       expect(m.icons.length).toBeGreaterThanOrEqual(1);
+    });
+  });
+
+  // =========================================================================
+  // 4. فحص آلية تطهير كاش المتصفح القديم وإلغاء Service Worker لنسخة فبراير 2026
+  // =========================================================================
+  describe('4. فحص آلية تطهير كاش المتصفح القديم وإلغاء Service Worker لنسخة فبراير 2026', () => {
+    it('يتحقق من وجود سكربت التطهير التلقائي لمرة واحدة بالمفتاح aiprodzone_purge_legacy_2026_11', () => {
+      const layoutPath = path.join(rootDir, 'app', 'layout.tsx');
+      expect(fs.existsSync(layoutPath)).toBe(true);
+      const layoutContent = fs.readFileSync(layoutPath, 'utf8');
+
+      expect(layoutContent).toContain('aiprodzone_purge_legacy_2026_11');
+      expect(layoutContent).toContain('serviceWorker');
+      expect(layoutContent).toContain('unregister');
+      expect(layoutContent).toContain('caches');
+      expect(layoutContent).toContain('delete');
     });
   });
 });

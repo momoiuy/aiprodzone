@@ -141,6 +141,16 @@ export default function Articles({ onWatchCourse, initialArticleSlug }) {
     [activeArticle]
   );
 
+  // تحديث عنوان الصفحة ديناميكياً عند فتح المقال وفق معيار الهوية الأكاديمية
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (resolvedArticle?.title) {
+      document.title = `${resolvedArticle.title} | AIProdZone — الدليل الأكاديمي العربي`;
+    } else {
+      document.title = 'AIProdZone — الدليل الأكاديمي العربي للمسارات التقنية والذكاء الاصطناعي وعلوم الحاسوب';
+    }
+  }, [resolvedArticle]);
+
   // تحديث شريط تقدم القراءة عند التمرير في وضع قراءة المقال
   useEffect(() => {
     if (!activeArticle) return;

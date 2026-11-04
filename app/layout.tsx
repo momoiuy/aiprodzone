@@ -19,17 +19,20 @@ const inter = Inter({
   variable: '--font-inter'
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://aiprodzone.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://aiprodzone.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'AIProdZone — دورات وكتب إلكترونية مجانية',
+  title: {
+    default: 'AIProdZone — الدليل الأكاديمي العربي للمسارات التقنية والذكاء الاصطناعي وعلوم الحاسوب',
+    template: '%s | AIProdZone — الدليل الأكاديمي العربي'
+  },
   description:
-    'منصة عربية مجانية متخصصة في ترتيب وتنقيح أعمق شروحات يوتيوب والكتب الإلكترونية في مجالات البرمجة، الذكاء الاصطناعي، صناعة الفيديو، والربح من الإنترنت.',
+    'منصة أكاديمية عربية مجانية 100% وبلا إعلانات تضم 73 مساراً تعليمياً متعدد المحاضرين، 114 كتاباً ودليلاً برمجياً، و18 مقالاً هندسياً معمقاً في البرمجة، الذكاء الاصطناعي، والأمن السيبراني.',
   openGraph: {
-    title: 'AIProdZone — دورات وكتب إلكترونية مجانية',
+    title: 'AIProdZone — الدليل الأكاديمي العربي للمسارات التقنية والذكاء الاصطناعي وعلوم الحاسوب',
     description:
-      'منصة عربية مجانية متخصصة في ترتيب وتنقيح أعمق شروحات يوتيوب والكتب الإلكترونية في مجالات البرمجة، الذكاء الاصطناعي، صناعة الفيديو، والربح من الإنترنت.',
+      'منصة أكاديمية عربية مجانية 100% وبلا إعلانات تضم 73 مساراً تعليمياً متعدد المحاضرين، 114 كتاباً ودليلاً برمجياً، و18 مقالاً هندسياً معمقاً في البرمجة، الذكاء الاصطناعي، والأمن السيبراني.',
     url: siteUrl,
     siteName: 'AIProdZone',
     locale: 'ar_AR',
@@ -37,9 +40,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AIProdZone — دورات وكتب إلكترونية مجانية',
+    title: 'AIProdZone — الدليل الأكاديمي العربي للمسارات التقنية والذكاء الاصطناعي وعلوم الحاسوب',
     description:
-      'منصة عربية مجانية متخصصة في ترتيب وتنقيح أعمق شروحات يوتيوب والكتب الإلكترونية في مجالات البرمجة، الذكاء الاصطناعي، صناعة الفيديو، والربح من الإنترنت.'
+      'منصة أكاديمية عربية مجانية 100% وبلا إعلانات تضم 73 مساراً تعليمياً متعدد المحاضرين، 114 كتاباً ودليلاً برمجياً، و18 مقالاً هندسياً معمقاً في البرمجة، الذكاء الاصطناعي، والأمن السيبراني.'
   }
 };
 
@@ -58,6 +61,12 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
     <html lang="ar" dir="ltr" data-theme="dark" suppressHydrationWarning className={`${cairo.variable} ${inter.variable} overflow-x-hidden w-full max-w-full`}>
       <head>
         <ArticleCollectionJsonLd articles={INITIAL_ARTICLES} />
+        <script
+          id="purge-legacy-2026"
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var k='aiprodzone_purge_legacy_2026_11';if(typeof window!=='undefined'&&!localStorage.getItem(k)){if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(r){for(var i=0;i<r.length;i++){r[i].unregister();}}).catch(function(){});}if('caches' in window){caches.keys().then(function(names){for(var j=0;j<names.length;j++){caches.delete(names[j]);}}).catch(function(){});}localStorage.setItem(k,'true');}}catch(e){}})();`
+          }}
+        />
       </head>
       <body suppressHydrationWarning className="font-arabic antialiased bg-bg text-text overflow-x-hidden w-full max-w-full">{children}</body>
     </html>

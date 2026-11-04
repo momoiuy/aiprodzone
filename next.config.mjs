@@ -47,6 +47,36 @@ const nextConfig = {
   images: {
     unoptimized: true
   },
+  async redirects() {
+    return [
+      // 1. تحويل روابط المتجر الرقمي القديمة (نسخة فبراير 2026) إلى الصفحة الرئيسية دائمياً (301)
+      { source: '/shop', destination: '/', permanent: true },
+      { source: '/shop/:path*', destination: '/', permanent: true },
+      { source: '/store', destination: '/', permanent: true },
+      { source: '/store/:path*', destination: '/', permanent: true },
+      { source: '/products', destination: '/', permanent: true },
+      { source: '/products/:path*', destination: '/', permanent: true },
+      { source: '/cart', destination: '/', permanent: true },
+      { source: '/cart/:path*', destination: '/', permanent: true },
+      { source: '/checkout', destination: '/', permanent: true },
+      { source: '/checkout/:path*', destination: '/', permanent: true },
+      { source: '/offers', destination: '/', permanent: true },
+      { source: '/offers/:path*', destination: '/', permanent: true },
+
+      // 2. تحويل روابط المدونة والمقالات القديمة إلى قسم المقالات المعتمد (301)
+      { source: '/blog', destination: '/?view=articles', permanent: true },
+      { source: '/blog/:path*', destination: '/?view=articles', permanent: true },
+      { source: '/posts', destination: '/?view=articles', permanent: true },
+      { source: '/posts/:path*', destination: '/?view=articles', permanent: true },
+      { source: '/articles', destination: '/?view=articles', permanent: true },
+
+      // 3. تحويل روابط الكتب القديمة إلى قسم الكتب المعتمد (301)
+      { source: '/ebooks', destination: '/?view=ebooks', permanent: true },
+      { source: '/ebooks/:path*', destination: '/?view=ebooks', permanent: true },
+      { source: '/books', destination: '/?view=ebooks', permanent: true },
+      { source: '/books/:path*', destination: '/?view=ebooks', permanent: true }
+    ];
+  },
   async headers() {
     return [
       {
@@ -55,6 +85,15 @@ const nextConfig = {
       },
       {
         source: '/llms.txt',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400'
+          }
+        ]
+      },
+      {
+        source: '/llms-full.txt',
         headers: [
           {
             key: 'Cache-Control',

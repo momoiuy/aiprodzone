@@ -26,9 +26,14 @@ async function runSmokeTests() {
       validate: (t) => t.toLowerCase().includes("user-agent: *") && t.includes("GPTBot") && t.includes("ClaudeBot")
     },
     {
-      name: "LLMs Markdown (/llms.txt)",
+      name: "LLMs Fast Markdown (/llms.txt)",
       path: "/llms.txt",
-      validate: (t) => t.includes("# AIProdZone") && t.length > 50000
+      validate: (t) => t.includes("# AIProdZone") && t.includes("llms-full.txt") && t.length > 10000
+    },
+    {
+      name: "LLMs Full Encyclopedia (/llms-full.txt)",
+      path: "/llms-full.txt",
+      validate: (t) => t.includes("# AIProdZone") && t.length > 80000
     },
     {
       name: "PWA WebManifest (/manifest.webmanifest)",

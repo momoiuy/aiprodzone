@@ -1,4 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
+
+vi.mock('next/font/google', () => ({
+  Cairo: () => ({ variable: '--font-cairo' }),
+  Inter: () => ({ variable: '--font-inter' })
+}));
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -245,6 +250,49 @@ describe('AIProdZone Technical SEO & Generative Engine Optimization (GEO) Tests'
       const content = fs.readFileSync(llmsPath, 'utf8');
       expect(content).toContain('73 مساراً');
       expect(content).toContain('114');
+    });
+
+    it('يتحقق من إشارة llms.txt بوضوح إلى رابط الموسوعة الكاملة llms-full.txt في أوله', () => {
+      const content = fs.readFileSync(llmsPath, 'utf8');
+      expect(content).toContain('Full Detailed Documentation: https://aiprodzone.com/llms-full.txt');
+    });
+
+    it('يتحقق من وجود الموسوعة الكاملة llms-full.txt بحجم أكبر من 80KB', () => {
+      const fullLlmsPath = path.join(rootDir, 'public', 'llms-full.txt');
+      expect(fs.existsSync(fullLlmsPath)).toBe(true);
+      const fullContent = fs.readFileSync(fullLlmsPath, 'utf8');
+      expect(fullContent.length).toBeGreaterThan(80000);
+      expect(fullContent).toContain('AIProdZone - LLMs Full Documentation');
+      expect(fullContent).toContain('https://aiprodzone.com/llms-full.txt');
+    });
+  });
+
+  describe('5. التحقق من حماية مسار /admin من الفهرسة في محركات البحث', () => {
+    it('يتحقق من إعدادات robots في app/admin/layout.tsx لمنع الفهرسة والتخزين المؤقت', async () => {
+      const adminLayoutModule = await import('../app/admin/layout');
+      expect(adminLayoutModule.metadata).toBeDefined();
+      expect(adminLayoutModule.metadata.robots).toEqual({
+        index: false,
+        follow: false,
+        nocache: true
+      });
+    });
+  });
+
+  describe('6. التحقق من ترقية الهوية النصية وبيانات الميتا الرئيسية (app/layout.tsx)', () => {
+    it('يتحقق من مطابقة العنوان الرئيسي والأكاديمي والوصف الجديد لمنصة AIProdZone', async () => {
+      const layoutModule = await import('../app/layout');
+      expect(layoutModule.metadata).toBeDefined();
+      expect(layoutModule.metadata.title).toEqual({
+        default: 'AIProdZone — الدليل الأكاديمي العربي للمسارات التقنية والذكاء الاصطناعي وعلوم الحاسوب',
+        template: '%s | AIProdZone — الدليل الأكاديمي العربي'
+      });
+      const expectedDesc = 'منصة أكاديمية عربية مجانية 100% وبلا إعلانات تضم 73 مساراً تعليمياً متعدد المحاضرين، 114 كتاباً ودليلاً برمجياً، و18 مقالاً هندسياً معمقاً في البرمجة، الذكاء الاصطناعي، والأمن السيبراني.';
+      expect(layoutModule.metadata.description).toBe(expectedDesc);
+      expect(layoutModule.metadata.openGraph?.title).toBe('AIProdZone — الدليل الأكاديمي العربي للمسارات التقنية والذكاء الاصطناعي وعلوم الحاسوب');
+      expect(layoutModule.metadata.openGraph?.description).toBe(expectedDesc);
+      expect(layoutModule.metadata.twitter?.title).toBe('AIProdZone — الدليل الأكاديمي العربي للمسارات التقنية والذكاء الاصطناعي وعلوم الحاسوب');
+      expect(layoutModule.metadata.twitter?.description).toBe(expectedDesc);
     });
   });
 });
