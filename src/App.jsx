@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
-import { INITIAL_COURSES } from './data/courses';
+import { INITIAL_COURSES_SUMMARY } from './data/courses-summary';
 import { LibraryProvider, useLibrary } from './context/LibraryContext';
 import dynamic from 'next/dynamic';
 import Header from './components/Header';
@@ -25,7 +25,7 @@ function AppShell() {
   const [view, setView] = useState('courses');
   const [legalTab, setLegalTab] = useState('about');
   const [displayMode, setDisplayMode] = useState('grid');
-  const [activeCourseId, setActiveCourseId] = useState(INITIAL_COURSES[0]?.id || null);
+  const [activeCourseId, setActiveCourseId] = useState(INITIAL_COURSES_SUMMARY[0]?.id || null);
   const [activeInstructorId, setActiveInstructorId] = useState(null);
   const [activeArticleSlug, setActiveArticleSlug] = useState(null);
   const [activeEbook, setActiveEbook] = useState(null);
@@ -269,7 +269,7 @@ function AppShell() {
 // Props: {} (المكوّن الجذري للتركيب والتنقل فقط)
 export default function App() {
   return (
-    <LibraryProvider initialCourses={INITIAL_COURSES}>
+    <LibraryProvider initialCourses={INITIAL_COURSES_SUMMARY}>
       <AppShell />
     </LibraryProvider>
   );

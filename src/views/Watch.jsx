@@ -24,6 +24,7 @@ import {
   Minimize2
 } from 'lucide-react';
 import { formatViews, getOverallScore } from '../lib/format';
+import { matchesSmartSearch } from '../lib/search';
 import { useLibrary } from '../context/LibraryContext';
 import Player from '../components/Player';
 import ReviewBlock from '../components/ReviewBlock';
@@ -165,6 +166,29 @@ export default function Watch({
     setUserScores(userRatings[courseId]?.scores || DEFAULT_SCORES);
   }, [courseId, userRatings]);
 
+  // خطاف ذكي لتحميل قائمة الدروس الحقيقية ديناميكياً عند فتح المشغل للمسار والمحاضر النشط
+  useEffect(() => {
+    if (!activeInstructor?.id || !activeInstructor?.playlistId) return;
+
+    const hasLessons =
+      (activeInstructor.lessons && activeInstructor.lessons.length > 0) ||
+      (dynamicLessonsMap[activeInstructor.id] && dynamicLessonsMap[activeInstructor.id].length > 0);
+
+    if (!hasLessons) {
+      import('../data/real-playlists.js')
+        .then(({ REAL_YOUTUBE_PLAYLISTS }) => {
+          const cached = REAL_YOUTUBE_PLAYLISTS[activeInstructor.playlistId];
+          if (cached && Array.isArray(cached.videos) && cached.videos.length > 0) {
+            setDynamicLessonsMap((prev) => ({
+              ...prev,
+              [activeInstructor.id]: cached.videos
+            }));
+          }
+        })
+        .catch(() => {});
+    }
+  }, [activeInstructor?.id, activeInstructor?.playlistId, activeInstructor?.lessons, dynamicLessonsMap]);
+
   // خطاف ذكي يتحقق تلقائياً عند فتح أي محاضر:
   // إذا كان لديه playlistId صالحة، وكان عدد الدروس أقل من المتوقع أو مقتطعاً، يجلب كامل القائمة في الخلفية
   useEffect(() => {
@@ -280,15 +304,11 @@ export default function Watch({
     ];
   }, [activeInstructor, course, dynamicLessonsMap]);
 
-  // البحث والتصفية داخل قائمة الدروس
+  // البحث والتصفية داخل قائمة الدروس مع التطبيع الذكي للعربية
   const filteredLessons = useMemo(() => {
-    const q = lessonSearchQuery.trim().toLowerCase();
-    if (!q) return instructorLessons;
-    return instructorLessons.filter(
-      (l) =>
-        l.title.toLowerCase().includes(q) ||
-        String(l.index).includes(q) ||
-        (l.duration && l.duration.toLowerCase().includes(q))
+    if (!lessonSearchQuery || !lessonSearchQuery.trim()) return instructorLessons;
+    return instructorLessons.filter((l) =>
+      matchesSmartSearch([l.title, String(l.index), l.duration].filter(Boolean).join(' '), lessonSearchQuery)
     );
   }, [instructorLessons, lessonSearchQuery]);
 

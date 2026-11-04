@@ -32,6 +32,7 @@ import {
   Code
 } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
+import { matchesSmartSearch } from '../lib/search';
 import { ARTICLE_CATEGORIES, INITIAL_ARTICLES, resolveArticleGeoSeo } from '../data/articles';
 import { ArticleJsonLd, ArticleCollectionJsonLd } from '../components/ArticleJsonLd';
 import Card from '../components/Card';
@@ -222,30 +223,20 @@ export default function Articles({ onWatchCourse, initialArticleSlug }) {
       }
       if (!searchQuery.trim()) return true;
 
-      const q = searchQuery.toLowerCase().trim();
-      const matchTitle = art.title.toLowerCase().includes(q);
-      const matchSub = (art.subtitle || '').toLowerCase().includes(q);
-      const matchSummary = (art.summary || '').toLowerCase().includes(q);
-      const matchTags = (art.tags || []).some((t) => t.toLowerCase().includes(q));
-      const matchKeywords = (art.seoKeywords || []).some((k) => k.toLowerCase().includes(q));
-      const matchFaqs = (art.faqs || []).some(
-        (f) => f.question.toLowerCase().includes(q) || f.answer.toLowerCase().includes(q)
-      );
-      const matchAuthor = (art.author || '').toLowerCase().includes(q);
-      const matchSections = (art.sections || []).some(
-        (s) => s.heading.toLowerCase().includes(q) || s.body.toLowerCase().includes(q)
-      );
+      const searchableText = [
+        art.title,
+        art.subtitle,
+        art.summary,
+        art.author,
+        ...(art.tags || []),
+        ...(art.seoKeywords || []),
+        ...(art.faqs || []).map((f) => `${f.question} ${f.answer}`),
+        ...(art.sections || []).map((s) => `${s.heading} ${s.body}`)
+      ]
+        .filter(Boolean)
+        .join(' ');
 
-      return (
-        matchTitle ||
-        matchSub ||
-        matchSummary ||
-        matchTags ||
-        matchKeywords ||
-        matchFaqs ||
-        matchAuthor ||
-        matchSections
-      );
+      return matchesSmartSearch(searchableText, searchQuery);
     });
   }, [articles, selectedCategory, searchQuery, onlyBookmarked, bookmarkedArticleIds]);
 

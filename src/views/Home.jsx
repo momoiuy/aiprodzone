@@ -11,8 +11,9 @@ import {
   Layers
 } from 'lucide-react';
 import { getOverallScore } from '../lib/format';
+import { matchesSmartSearch } from '../lib/search';
 import { useLibrary } from '../context/LibraryContext';
-import { INITIAL_COURSES } from '../data/courses';
+import { INITIAL_COURSES_SUMMARY } from '../data/courses-summary';
 import Hero from '../components/Hero';
 import FilterBar from '../components/FilterBar';
 import CourseCard from '../components/CourseCard';
@@ -40,7 +41,7 @@ export default function Home({
     watchlistIds = [],
     completedIds = []
   } = useLibrary();
-  const courses = Array.isArray(rawCourses) && rawCourses.length > 0 ? rawCourses : INITIAL_COURSES;
+  const courses = Array.isArray(rawCourses) && rawCourses.length > 0 ? rawCourses : INITIAL_COURSES_SUMMARY;
 
   const [selectedSubFilter, setSelectedSubFilter] = useState('الكل');
   const [selectedTool, setSelectedTool] = useState('كل الأدوات والتقنيات');
@@ -81,38 +82,43 @@ export default function Home({
             course.domainId === selectedCategory;
         }
 
-        // فلترة التخصص/المادة الفرعية (المستوى 2)
+        // فلترة التخصص/المادة الفرعية (المستوى 2) مع التطبيع
         let matchesSubFilter = true;
         if (selectedSubFilter && selectedSubFilter !== 'الكل') {
-          const subLower = selectedSubFilter.toLowerCase();
-          matchesSubFilter =
-            course.title.toLowerCase().includes(subLower) ||
-            (course.examCode && course.examCode.toLowerCase().includes(subLower)) ||
-            (course.toolsSummary && course.toolsSummary.toLowerCase().includes(subLower)) ||
-            (Array.isArray(course.techStack) &&
-              course.techStack.some((t) => t.toLowerCase().includes(subLower)));
+          const subText = [
+            course.title,
+            course.examCode,
+            course.toolsSummary,
+            ...(Array.isArray(course.techStack) ? course.techStack : [])
+          ].filter(Boolean).join(' ');
+          matchesSubFilter = matchesSmartSearch(subText, selectedSubFilter);
         }
 
         // فلترة الأدوات القديمة إن وجدت
         const matchesTool =
           selectedTool === 'كل الأدوات والتقنيات' ||
-          (course.primaryTool && course.primaryTool.toLowerCase().includes(selectedTool.toLowerCase())) ||
-          (course.toolsSummary && course.toolsSummary.toLowerCase().includes(selectedTool.toLowerCase()));
+          matchesSmartSearch([course.primaryTool, course.toolsSummary].filter(Boolean).join(' '), selectedTool);
 
-        // البحث اللحظي الشامل
-        const q = searchQuery.trim().toLowerCase();
-        const matchesSearch =
-          !q ||
-          course.title.toLowerCase().includes(q) ||
-          course.instructor.toLowerCase().includes(q) ||
-          (course.instructors &&
-            course.instructors.some((inst) => inst.name.toLowerCase().includes(q))) ||
-          (course.examCode && course.examCode.toLowerCase().includes(q)) ||
-          (course.toolsSummary && course.toolsSummary.toLowerCase().includes(q)) ||
-          (course.category && course.category.toLowerCase().includes(q)) ||
-          (course.domainTitle && course.domainTitle.toLowerCase().includes(q)) ||
-          (course.methodologyNote && course.methodologyNote.toLowerCase().includes(q)) ||
-          (course.oneLineVerdict && course.oneLineVerdict.toLowerCase().includes(q));
+        // البحث اللحظي الشامل مع التطبيع الذكي للعربية والإنجليزية
+        const searchableText = [
+          course.title,
+          course.instructor,
+          ...(course.instructors ? course.instructors.map((inst) => inst.name) : []),
+          ...(course.instructors ? course.instructors.map((inst) => inst.note) : []),
+          course.examCode,
+          course.toolsSummary,
+          course.primaryTool,
+          course.category,
+          course.domainTitle,
+          course.methodologyNote,
+          course.oneLineVerdict,
+          course.synopsis,
+          ...(Array.isArray(course.techStack) ? course.techStack : [])
+        ]
+          .filter(Boolean)
+          .join(' ');
+
+        const matchesSearch = matchesSmartSearch(searchableText, searchQuery);
 
         return matchesCategory && matchesSubFilter && matchesTool && matchesSearch;
       })

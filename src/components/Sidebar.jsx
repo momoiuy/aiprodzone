@@ -1,5 +1,5 @@
 import { Menu, X, Home, Wrench, Flame, Sparkles, DollarSign, FileText, Newspaper, Bookmark, Award, Plus, Shield } from 'lucide-react';
-import { TOP_DROPDOWN_DATA } from '../data/courses';
+import { TOP_DROPDOWN_DATA } from '../data/courses-summary';
 import { useLibrary } from '../context/LibraryContext';
 import Logo from './Logo';
 import Button from './Button';

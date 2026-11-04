@@ -1,5 +1,5 @@
 import { Award, Play } from 'lucide-react';
-import { HERO_LUXURY_BG } from '../data/courses';
+import { HERO_LUXURY_BG } from '../data/courses-summary';
 import { handleThumbnailError } from '../lib/youtube';
 import Card from './Card';
 import Chip from './Chip';

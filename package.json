@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node --no-warnings scripts/generate-llms.mjs",
+    "prebuild": "node --no-warnings scripts/generate-courses-summary.mjs && node --no-warnings scripts/generate-llms.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

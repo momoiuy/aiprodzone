@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { ExternalLink, Table as TableIcon, LayoutGrid, Terminal, Star, Sparkles } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { ExternalLink, Table as TableIcon, LayoutGrid, Terminal, Star, Sparkles, Search, X } from 'lucide-react';
 import { CURATED_AI_TOOLS } from '../data/tools';
+import { matchesSmartSearch } from '../lib/search';
 import Card from '../components/Card';
 import Chip from '../components/Chip';
 import Button from '../components/Button';
@@ -10,6 +11,23 @@ import Button from '../components/Button';
 // Props: { onSelectCategory: (cat: string) => void }
 export default function Tools({ onSelectCategory }) {
   const [displayView, setDisplayView] = useState('table'); // 'table' | 'cards'
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredTools = useMemo(() => {
+    if (!searchQuery.trim()) return CURATED_AI_TOOLS;
+    return CURATED_AI_TOOLS.filter((tool) => {
+      const text = [
+        tool.name,
+        tool.category,
+        tool.pricing,
+        tool.command,
+        tool.description
+      ]
+        .filter(Boolean)
+        .join(' ');
+      return matchesSmartSearch(text, searchQuery);
+    });
+  }, [searchQuery]);
 
   return (
     <div className="space-y-6 animate-smooth" dir="rtl">
@@ -31,6 +49,28 @@ export default function Tools({ onSelectCategory }) {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto shrink-0">
+          {/* حقل البحث السريع في الأدوات مع التطبيع الذكي */}
+          <div className="relative w-40 sm:w-52">
+            <Search className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="ابحث في الأدوات..."
+              className="w-full h-9 text-xs rounded-xl pr-9 pl-8 bg-surface-2 text-text placeholder:text-text-muted border border-border hover:border-accent focus:border-accent focus:outline-none transition-all"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-heading"
+                aria-label="مسح البحث"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            )}
+          </div>
+
           {/* أزرار التبديل بين جدول المقارنة وشبكة البطاقات */}
           <div className="flex items-center p-1 rounded-2xl bg-surface-2 border border-border">
             <button
@@ -97,7 +137,7 @@ export default function Tools({ onSelectCategory }) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60 bg-surface">
-                {CURATED_AI_TOOLS.map((tool) => (
+                {filteredTools.map((tool) => (
                   <tr
                     key={tool.id}
                     className="hover:bg-accent/5 transition-colors odd:bg-surface even:bg-surface-2/40"
@@ -171,7 +211,7 @@ export default function Tools({ onSelectCategory }) {
       ) : (
         /* 3. شبكة بطاقات الأدوات المنسقة */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {CURATED_AI_TOOLS.map((t) => (
+          {filteredTools.map((t) => (
             <Card
               key={t.id}
               interactive

@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { BIMO_CATEGORIES } from '../data/bimo-catalog';
 import { EBOOK_GUIDES } from '../data/ebooks';
+import { matchesSmartSearch } from '../lib/search';
 
 const ITEMS_PER_PAGE = 24;
 
@@ -54,14 +55,20 @@ export default function BooksExplorer({ initialBooks = EBOOK_GUIDES }: { initial
         if (book.category !== selectedCategory) return false;
       }
 
-      // فلتر البحث
+      // فلتر البحث مع التطبيع الذكي للعربية
       if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase().trim();
-        const matchTitle = (book.title || '').toLowerCase().includes(q);
-        const matchCategory = (book.categoryName || book.category || '').toLowerCase().includes(q);
-        const matchProvider = (book.provider || '').toLowerCase().includes(q);
-        const matchDesc = (book.description || '').toLowerCase().includes(q);
-        if (!matchTitle && !matchCategory && !matchProvider && !matchDesc) {
+        const searchableText = [
+          book.title,
+          book.categoryName,
+          book.category,
+          book.provider,
+          book.description,
+          ...(Array.isArray(book.topics) ? book.topics : [])
+        ]
+          .filter(Boolean)
+          .join(' ');
+
+        if (!matchesSmartSearch(searchableText, searchQuery)) {
           return false;
         }
       }

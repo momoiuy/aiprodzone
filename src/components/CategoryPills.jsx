@@ -14,7 +14,7 @@ import {
   X,
   Sparkles
 } from 'lucide-react';
-import { TOP_DROPDOWN_DATA } from '../data/courses';
+import { TOP_DROPDOWN_DATA } from '../data/courses-summary';
 import { useLibrary } from '../context/LibraryContext';
 import Button from './Button';
 

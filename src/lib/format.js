@@ -18,3 +18,6 @@ export function getOverallScore(scores) {
   const { depth = 0, practical = 0, freshness = 0, production = 0 } = scores;
   return Number(((depth + practical + freshness + production) / 4).toFixed(1));
 }
+
+export { normalizeArabicSearch, matchesSmartSearch } from './search.js';
+

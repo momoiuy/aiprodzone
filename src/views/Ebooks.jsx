@@ -23,6 +23,7 @@ import {
   ChevronLeft
 } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
+import { matchesSmartSearch } from '../lib/search';
 import { EBOOK_GUIDES } from '../data/ebooks';
 import { BIMO_CATEGORIES } from '../data/bimo-catalog';
 import Card from '../components/Card';
@@ -170,20 +171,23 @@ export default function Ebooks({ activeEbook, setActiveEbook, onSelectCategory }
         if (item.subcategory !== selectedSubcategory) return false;
       }
 
-      // 3. فلتر البحث اللحظي
+      // 3. فلتر البحث اللحظي مع التطبيع الذكي للعربية
       if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase().trim();
-        const matchTitle = (item.title || '').toLowerCase().includes(q);
-        const matchExcerpt = (item.excerpt || '').toLowerCase().includes(q);
-        const matchCat =
-          (item.categoryName || '').toLowerCase().includes(q) ||
-          (item.categoryNameEn || '').toLowerCase().includes(q);
-        const matchSub =
-          (item.subcategoryName || '').toLowerCase().includes(q) ||
-          (item.subcategoryNameAr || '').toLowerCase().includes(q);
-        const matchProvider = (item.provider || '').toLowerCase().includes(q);
+        const searchableText = [
+          item.title,
+          item.excerpt,
+          item.description,
+          item.categoryName,
+          item.categoryNameEn,
+          item.subcategoryName,
+          item.subcategoryNameAr,
+          item.provider,
+          ...(Array.isArray(item.topics) ? item.topics : [])
+        ]
+          .filter(Boolean)
+          .join(' ');
 
-        if (!matchTitle && !matchExcerpt && !matchCat && !matchSub && !matchProvider) {
+        if (!matchesSmartSearch(searchableText, searchQuery)) {
           return false;
         }
       }

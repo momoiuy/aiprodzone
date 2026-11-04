@@ -1,6 +1,7 @@
 // هيكل ومخطط بيانات الدليل الأكاديمي الشامل لعام 2026 (Academic Tracks & Courses Schema)
 import { SEED_CATEGORIES } from './categories.js';
 import { REAL_YOUTUBE_PLAYLISTS } from './real-playlists.js';
+export { INITIAL_COURSES_SUMMARY } from './courses-summary.js';
 
 export const HERO_LUXURY_BG = '/hero-bg.webp';
 

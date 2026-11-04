@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import {
   ExternalLink,
@@ -11,13 +11,33 @@ import {
   Sparkles,
   CheckCircle2,
   Copy,
-  Check
+  Check,
+  Search,
+  X
 } from 'lucide-react';
 import { CURATED_AI_TOOLS } from '../data/tools';
+import { matchesSmartSearch } from '../lib/search';
 
 export default function ToolsExplorer({ initialTools = CURATED_AI_TOOLS }: { initialTools?: typeof CURATED_AI_TOOLS }) {
   const [displayView, setDisplayView] = useState<'table' | 'cards'>('table');
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  const filteredTools = useMemo(() => {
+    if (!searchQuery.trim()) return initialTools;
+    return initialTools.filter((tool) => {
+      const text = [
+        tool.name,
+        tool.category,
+        tool.pricing,
+        tool.command,
+        tool.description
+      ]
+        .filter(Boolean)
+        .join(' ');
+      return matchesSmartSearch(text, searchQuery);
+    });
+  }, [initialTools, searchQuery]);
 
   const handleCopyCommand = (id: string, cmd: string) => {
     if (typeof window !== 'undefined' && navigator.clipboard) {
@@ -30,9 +50,9 @@ export default function ToolsExplorer({ initialTools = CURATED_AI_TOOLS }: { ini
 
   return (
     <div className="space-y-6" dir="rtl">
-      {/* شريط أدوات التبديل بين الجدول والبطاقات */}
+      {/* شريط أدوات التبديل بين الجدول والبطاقات والبحث السريع */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-surface p-4 rounded-2xl border border-border/80">
-        <div className="flex items-center gap-2 text-xs font-bold text-text-muted">
+        <div className="flex flex-wrap items-center gap-3 text-xs font-bold text-text-muted">
           <span>طريقة العرض:</span>
           <div className="flex items-center p-1 rounded-xl bg-surface-2 border border-border">
             <button
@@ -59,6 +79,28 @@ export default function ToolsExplorer({ initialTools = CURATED_AI_TOOLS }: { ini
               <LayoutGrid className="w-3.5 h-3.5" />
               <span>شبكة البطاقات</span>
             </button>
+          </div>
+
+          {/* حقل البحث السريع في الأدوات */}
+          <div className="relative w-44 sm:w-56">
+            <Search className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="ابحث في الأدوات والمهام..."
+              className="w-full h-8.5 text-xs rounded-xl pr-9 pl-7 bg-surface-2 text-text placeholder:text-text-muted border border-border hover:border-accent focus:border-accent focus:outline-none transition-all"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-heading"
+                aria-label="مسح البحث"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            )}
           </div>
         </div>
 
@@ -93,7 +135,7 @@ export default function ToolsExplorer({ initialTools = CURATED_AI_TOOLS }: { ini
               </tr>
             </thead>
             <tbody className="divide-y divide-border/60">
-              {initialTools.map((tool) => (
+              {filteredTools.map((tool) => (
                 <tr key={tool.id} className="hover:bg-surface-2/40 transition-colors">
                   <td className="p-4 font-black text-text-heading whitespace-nowrap">
                     {tool.name}
@@ -158,7 +200,7 @@ export default function ToolsExplorer({ initialTools = CURATED_AI_TOOLS }: { ini
       ) : (
         /* عرض شبكة البطاقات */
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {initialTools.map((tool) => (
+          {filteredTools.map((tool) => (
             <article
               key={tool.id}
               className="rounded-3xl bg-surface border border-border p-5 space-y-4 flex flex-col justify-between hover:border-accent hover:shadow-md transition-all duration-300"

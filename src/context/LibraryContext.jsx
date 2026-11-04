@@ -5,12 +5,6 @@ import { SEED_CATEGORIES } from '../data/categories';
 import { getOverallScore } from '../lib/format';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useTheme } from '../hooks/useTheme';
-import {
-  createBackupPayload,
-  downloadBackupFile,
-  restoreBackup,
-  validateAndSanitizeBackup
-} from '../lib/backup';
 
 const LibraryContext = createContext(null);
 
@@ -525,10 +519,22 @@ export function LibraryProvider({
       updateArticle,
       deleteArticle,
       resetToSeedData,
-      exportBackup: downloadBackupFile,
-      getBackupPayload: createBackupPayload,
-      restoreBackup,
-      validateBackup: validateAndSanitizeBackup
+      exportBackup: async (...args) => {
+        const m = await import('../lib/backup');
+        return m.downloadBackupFile(...args);
+      },
+      getBackupPayload: async (...args) => {
+        const m = await import('../lib/backup');
+        return m.createBackupPayload(...args);
+      },
+      restoreBackup: async (...args) => {
+        const m = await import('../lib/backup');
+        return m.restoreBackup(...args);
+      },
+      validateBackup: async (...args) => {
+        const m = await import('../lib/backup');
+        return m.validateAndSanitizeBackup(...args);
+      }
     }),
     [
       theme,

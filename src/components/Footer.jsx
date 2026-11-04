@@ -18,8 +18,15 @@ import {
 } from 'lucide-react';
 import Logo from './Logo';
 import { ACADEMIC_DOMAINS } from '../data/categories';
-import { LEGAL_PAGES_LIST } from '../data/legal-pages';
 import { useLibrary } from '../context/LibraryContext';
+
+const LEGAL_NAV_ITEMS = [
+  { id: 'about', title: 'من نحن ومنهجية التقييم' },
+  { id: 'privacy', title: 'سياسة الخصوصية وحماية البيانات' },
+  { id: 'terms', title: 'شروط وأحكام الاستخدام' },
+  { id: 'copyright', title: 'حقوق الملكية الفكرية وسياسة DMCA' },
+  { id: 'contact', title: 'اتصل بنا والأسئلة الشائعة (FAQ)' }
+];
 
 const STATIC_COURSES_COUNT = 73;
 const STATIC_EBOOKS_COUNT = 114;
@@ -252,7 +259,7 @@ export default function Footer({ onNavigate = null, onOpenLegal = null, onSelect
               الشؤون القانونية والتواصل
             </h3>
             <ul className="space-y-2 text-xs font-bold text-text-muted">
-              {LEGAL_PAGES_LIST.map((page) => (
+              {LEGAL_NAV_ITEMS.map((page) => (
                 <li key={page.id}>
                   <Link
                     href={`/governance/${page.id}`}
