@@ -19,25 +19,25 @@ export default async function Image() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '60px 80px',
-          background: 'radial-gradient(circle at 85% 15%, #134e4a 0%, #090d16 65%, #050811 100%)',
+          background: 'linear-gradient(135deg, #090d16 0%, #0f172a 50%, #042f2e 100%)',
           color: '#ffffff',
           fontFamily: 'sans-serif'
         }}
       >
-        {/* شريط الهوية العلوي */}
+        {/* Header brand */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div
               style={{
-                width: 48,
-                height: 48,
-                borderRadius: 14,
-                background: 'linear-gradient(135deg, #0f172a 0%, #042f2e 100%)',
+                width: '48px',
+                height: '48px',
+                borderRadius: '12px',
+                background: '#042f2e',
                 border: '2px solid #14b8a6',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 26,
+                fontSize: '26px',
                 fontWeight: 900,
                 color: '#ffffff'
               }}
@@ -46,11 +46,11 @@ export default async function Image() {
               <span style={{ color: '#14b8a6' }}>+</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: 28, fontWeight: 900, letterSpacing: '-0.5px' }}>
+              <span style={{ fontSize: '28px', fontWeight: 900 }}>
                 AIProd<span style={{ color: '#14b8a6' }}>Zone</span>
               </span>
-              <span style={{ fontSize: 13, color: '#94a3b8', fontWeight: 600 }}>
-                الدليل الأكاديمي العربي 2026
+              <span style={{ fontSize: '13px', color: '#94a3b8', fontWeight: 600 }}>
+                Academic Platform 2026
               </span>
             </div>
           </div>
@@ -60,52 +60,48 @@ export default async function Image() {
               display: 'flex',
               alignItems: 'center',
               padding: '8px 20px',
-              borderRadius: 30,
-              background: 'rgba(20, 184, 166, 0.12)',
-              border: '1px solid rgba(20, 184, 166, 0.3)',
+              borderRadius: '20px',
+              background: 'rgba(20, 184, 166, 0.15)',
+              border: '1px solid rgba(20, 184, 166, 0.4)',
               color: '#2dd4bf',
-              fontSize: 14,
+              fontSize: '14px',
               fontWeight: 700
             }}
           >
-            مجاني 100% • محتوى أكاديمي معتمد
+            100% Free • Open Academic Directory
           </div>
         </div>
 
-        {/* العنوان والوصف الرئيسي */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 980 }} dir="rtl">
-          <h1
+        {/* Heading & Subtitle */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div
             style={{
-              fontSize: 52,
+              fontSize: '48px',
               fontWeight: 900,
-              lineHeight: 1.25,
-              color: '#f8fafc',
-              margin: 0,
-              letterSpacing: '-1px'
+              color: '#ffffff',
+              lineHeight: 1.2
             }}
           >
             AIProdZone — الدليل الأكاديمي العربي
-          </h1>
-          <p
+          </div>
+          <div
             style={{
-              fontSize: 24,
-              lineHeight: 1.5,
+              fontSize: '22px',
               color: '#94a3b8',
-              margin: 0,
-              fontWeight: 500
+              lineHeight: 1.4
             }}
           >
-            المرجع التقني الشامل لمسارات علوم الحاسوب، أدوات الذكاء الاصطناعي، وهندسة البرمجيات.
-          </p>
+            المرجع التقني لمسارات علوم الحاسوب، أدوات الذكاء الاصطناعي، وهندسة البرمجيات
+          </div>
         </div>
 
-        {/* بطاقات الإحصائيات الأربعة الفاخرة */}
-        <div style={{ display: 'flex', gap: 20 }}>
+        {/* Stats Grid */}
+        <div style={{ display: 'flex', gap: '20px' }}>
           {[
             { count: '73', label: 'مساراً أكاديمياً', sub: 'متعدد المحاضرين' },
             { count: '114', label: 'كتاباً ودليلاً', sub: 'سحابي مجاني' },
             { count: '18', label: 'مقالاً مرجعياً', sub: 'هندسي معمق' },
-            { count: '0', label: 'إعلانات تجارية', sub: 'مفتوح 100%' }
+            { count: '0', label: 'إعلانات', sub: 'مفتوح 100%' }
           ].map((item, idx) => (
             <div
               key={idx}
@@ -114,40 +110,38 @@ export default async function Image() {
                 display: 'flex',
                 flexDirection: 'column',
                 padding: '16px 20px',
-                borderRadius: 18,
-                background: 'rgba(15, 23, 42, 0.75)',
-                border: '1px solid rgba(20, 184, 166, 0.25)',
-                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)'
+                borderRadius: '16px',
+                background: 'rgba(15, 23, 42, 0.85)',
+                border: '1px solid rgba(20, 184, 166, 0.3)'
               }}
             >
-              <span style={{ fontSize: 32, fontWeight: 900, color: '#14b8a6', lineHeight: 1 }}>
+              <div style={{ fontSize: '32px', fontWeight: 900, color: '#14b8a6', lineHeight: 1 }}>
                 {item.count}
-              </span>
-              <span style={{ fontSize: 15, fontWeight: 800, color: '#f1f5f9', marginTop: 6 }}>
+              </div>
+              <div style={{ fontSize: '15px', fontWeight: 800, color: '#f1f5f9', marginTop: '6px' }}>
                 {item.label}
-              </span>
-              <span style={{ fontSize: 11, color: '#64748b', fontWeight: 600, marginTop: 2 }}>
+              </div>
+              <div style={{ fontSize: '12px', color: '#64748b', marginTop: '2px' }}>
                 {item.sub}
-              </span>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* التذييل والنطاق */}
+        {/* Footer */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderTop: '1px solid rgba(148, 163, 184, 0.15)',
-            paddingTop: 18,
-            fontSize: 14,
-            color: '#64748b',
-            fontWeight: 600
+            borderTop: '1px solid rgba(148, 163, 184, 0.2)',
+            paddingTop: '16px',
+            fontSize: '14px',
+            color: '#64748b'
           }}
         >
           <span>منصة تعليمية مفتوحة وغير هادفة للربح</span>
-          <span style={{ color: '#14b8a6', fontWeight: 800, letterSpacing: '0.5px' }}>
+          <span style={{ color: '#14b8a6', fontWeight: 800 }}>
             https://aiprodzone.com
           </span>
         </div>
