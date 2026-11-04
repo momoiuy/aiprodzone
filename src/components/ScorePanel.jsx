@@ -1,3 +1,4 @@
+import React from 'react';
 import { Star } from 'lucide-react';
 import { getOverallScore } from '../lib/format';
 import { useLibrary } from '../context/LibraryContext';

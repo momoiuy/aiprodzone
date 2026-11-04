@@ -11,6 +11,7 @@ const BASE_URL = 'https://aiprodzone.com';
 /**
  * مولد خريطة الموقع الثابتة بالكامل لمنصة AIProdZone
  * مبني للعمل 100% Static أثناء next build ليتوافق مع معايير Technical SEO و GEO
+ * يستخدم الروابط النظيفة الثابتة SSG لكافة المقالات الـ 18 والمسارات الـ 73
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const currentDate = new Date('2026-11-03T00:00:00.000Z');
@@ -24,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0
     },
     {
-      url: `${BASE_URL}/?view=articles`,
+      url: `${BASE_URL}/articles`,
       lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 0.95
@@ -51,7 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75
   }));
 
-  // 3. المقالات التقنية المرجعية المعمقة (18 Articles)
+  // 3. المقالات التقنية المرجعية المعمقة عبر المسار الثابت النظيف (/articles/[id])
   const articleRoutes: MetadataRoute.Sitemap = (INITIAL_ARTICLES as any[]).map((article) => {
     let lastModifiedDate = currentDate;
     if (article.publishedAt) {
@@ -62,16 +63,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
 
     return {
-      url: `${BASE_URL}/?view=articles&slug=${article.slug}`,
+      url: `${BASE_URL}/articles/${article.id}`,
       lastModified: lastModifiedDate,
       changeFrequency: 'monthly',
       priority: article.featured ? 0.95 : 0.9
     };
   });
 
-  // 4. المسارات الأكاديمية الشاملة (73 Courses)
+  // 4. المسارات الأكاديمية الشاملة عبر المسار الثابت النظيف (/tracks/[id])
   const courseRoutes: MetadataRoute.Sitemap = (INITIAL_COURSES as any[]).map((course) => ({
-    url: `${BASE_URL}/?view=watch&course=${course.id}`,
+    url: `${BASE_URL}/tracks/${course.id}`,
     lastModified: currentDate,
     changeFrequency: 'weekly',
     priority: course.featured ? 0.85 : 0.8

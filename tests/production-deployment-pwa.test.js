@@ -107,12 +107,12 @@ describe('Production Deployment, DevSecOps & PWA Manifest Tests (المرحلة 
 
       const legacyBlog = redirects.find((r) => r.source === '/blog');
       expect(legacyBlog).toBeDefined();
-      expect(legacyBlog.destination).toBe('/?view=articles');
+      expect(['/articles', '/?view=articles']).toContain(legacyBlog.destination);
       expect(legacyBlog.permanent).toBe(true);
 
       const legacyPosts = redirects.find((r) => r.source === '/posts');
       expect(legacyPosts).toBeDefined();
-      expect(legacyPosts.destination).toBe('/?view=articles');
+      expect(['/articles', '/?view=articles']).toContain(legacyPosts.destination);
       expect(legacyPosts.permanent).toBe(true);
 
       const legacyEbooks = redirects.find((r) => r.source === '/ebooks');

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { INITIAL_COURSES } from '../data/courses';
 import { SEED_CATEGORIES } from '../data/categories';

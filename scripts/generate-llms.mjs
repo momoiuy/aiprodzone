@@ -45,7 +45,7 @@ export function generateStandardLlmsText() {
   // Main Links
   lines.push('## الأقسام الرئيسية في المنصة');
   lines.push(`- المسارات الأكاديمية والدورات الشاملة (73 مساراً): ${BASE_URL}/`);
-  lines.push(`- مجلة المقالات المرجعية والتحليلات الهندسية (18 مقالاً): ${BASE_URL}/?view=articles`);
+  lines.push(`- مجلة المقالات المرجعية والتحليلات الهندسية (18 مقالاً): ${BASE_URL}/articles`);
   lines.push(`- مكتبة الكتب والأدلة الرقمية (114 دليلاً تخصصياً): ${BASE_URL}/?view=ebooks`);
   lines.push(`- مقارنة الأدوات البرمجية ومنصات الإنتاجية: ${BASE_URL}/?view=tools`);
   lines.push(`- الموسوعة الشاملة والتوثيق الموسع للذكاء الاصطناعي: ${BASE_URL}/llms-full.txt`);
@@ -75,9 +75,10 @@ export function generateStandardLlmsText() {
 
   INITIAL_ARTICLES.forEach((article, index) => {
     const resolved = resolveArticleGeoSeo(article);
-    const articleUrl = `${BASE_URL}/?view=articles&slug=${article.slug}`;
+    const articleUrl = `${BASE_URL}/articles/${article.id}`;
     lines.push(`### ${index + 1}. ${article.title}`);
     lines.push(`- **الرابط الدائم**: ${articleUrl}`);
+    lines.push(`- **المعرّف الأكاديمي والمسار (Slug)**: \`${article.slug}\``);
     lines.push(`- **التصنيف**: ${article.category} | **الكاتب**: ${article.author} (${article.authorRole}) | **وقت القراءة**: ${article.readTime}`);
     lines.push(`- **الملخص التعريفي الدقيق (Definition Lead)**: ${resolved.definitionLead}`);
     lines.push(`- **نبذة شاملة**: ${article.summary}`);
@@ -143,7 +144,7 @@ export function generateFullLlmsText() {
   // Main Links
   lines.push('## الأقسام الرئيسية في المنصة');
   lines.push(`- المسارات الأكاديمية والدورات الشاملة (73 مساراً): ${BASE_URL}/`);
-  lines.push(`- مجلة المقالات المرجعية والتحليلات الهندسية (18 مقالاً): ${BASE_URL}/?view=articles`);
+  lines.push(`- مجلة المقالات المرجعية والتحليلات الهندسية (18 مقالاً): ${BASE_URL}/articles`);
   lines.push(`- مكتبة الكتب والأدلة الرقمية (114 دليلاً تخصصياً): ${BASE_URL}/?view=ebooks`);
   lines.push(`- مقارنة الأدوات البرمجية ومنصات الإنتاجية: ${BASE_URL}/?view=tools`);
   lines.push(`- النسخة القياسية المركزة: ${BASE_URL}/llms.txt`);
@@ -173,9 +174,10 @@ export function generateFullLlmsText() {
 
   INITIAL_ARTICLES.forEach((article, index) => {
     const resolved = resolveArticleGeoSeo(article);
-    const articleUrl = `${BASE_URL}/?view=articles&slug=${article.slug}`;
+    const articleUrl = `${BASE_URL}/articles/${article.id}`;
     lines.push(`### ${index + 1}. ${article.title}`);
     lines.push(`- **الرابط الدائم**: ${articleUrl}`);
+    lines.push(`- **المعرّف الأكاديمي والمسار (Slug)**: \`${article.slug}\``);
     lines.push(`- **التصنيف**: ${article.category} | **الكاتب**: ${article.author} (${article.authorRole}) | **وقت القراءة**: ${article.readTime}`);
     lines.push(`- **الملخص التعريفي الدقيق (Definition Lead)**: ${resolved.definitionLead}`);
     lines.push(`- **نبذة شاملة**: ${article.summary}`);
@@ -194,7 +196,7 @@ export function generateFullLlmsText() {
   lines.push('');
 
   INITIAL_COURSES.forEach((course, index) => {
-    const courseUrl = `${BASE_URL}/?view=watch&course=${course.id}`;
+    const courseUrl = `${BASE_URL}/tracks/${course.id}`;
     const levelText = course.level ? `[${course.level}]` : '';
     const instructorText = course.instructor ? `بإشراف ${course.instructor}` : '';
     const verdict = course.oneLineVerdict || course.synopsis || '';

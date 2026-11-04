@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { BookOpen, Sparkles, Check, X, Copy, MessageSquare, Send } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
 import Card from './Card';

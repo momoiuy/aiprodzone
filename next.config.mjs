@@ -63,12 +63,11 @@ const nextConfig = {
       { source: '/offers', destination: '/', permanent: true },
       { source: '/offers/:path*', destination: '/', permanent: true },
 
-      // 2. تحويل روابط المدونة والمقالات القديمة إلى قسم المقالات المعتمد (301)
-      { source: '/blog', destination: '/?view=articles', permanent: true },
-      { source: '/blog/:path*', destination: '/?view=articles', permanent: true },
-      { source: '/posts', destination: '/?view=articles', permanent: true },
-      { source: '/posts/:path*', destination: '/?view=articles', permanent: true },
-      { source: '/articles', destination: '/?view=articles', permanent: true },
+      // 2. تحويل روابط المدونة والمقالات القديمة إلى مسار المقالات الثابت المعتمد (301)
+      { source: '/blog', destination: '/articles', permanent: true },
+      { source: '/blog/:path*', destination: '/articles', permanent: true },
+      { source: '/posts', destination: '/articles', permanent: true },
+      { source: '/posts/:path*', destination: '/articles', permanent: true },
 
       // 3. تحويل روابط الكتب القديمة إلى قسم الكتب المعتمد (301)
       { source: '/ebooks', destination: '/?view=ebooks', permanent: true },

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Play, ExternalLink, CheckCircle2, ArrowRight, RotateCcw, Maximize2, Minimize2 } from 'lucide-react';
 import { handleThumbnailError, handleThumbnailLoad, getCleanYouTubeEmbedUrl } from '../lib/youtube';
 import Card from './Card';

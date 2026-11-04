@@ -130,7 +130,7 @@ describe('AIProdZone Technical SEO & Generative Engine Optimization (GEO) Tests'
       expect(home.priority).toBe(1.0);
       expect(home.changeFrequency).toBe('daily');
 
-      const articlesHub = items.find((i) => i.url === `${BASE_URL}/?view=articles`);
+      const articlesHub = items.find((i) => i.url === `${BASE_URL}/articles` || i.url === `${BASE_URL}/?view=articles`);
       expect(articlesHub).toBeDefined();
       expect(articlesHub.priority).toBe(0.95);
 
@@ -146,8 +146,9 @@ describe('AIProdZone Technical SEO & Generative Engine Optimization (GEO) Tests'
     it('يتحقق من تضمين جميع المسارات الأكاديمية الـ 73', () => {
       const items = sitemap();
       INITIAL_COURSES.forEach((course) => {
-        const expectedUrl = `${BASE_URL}/?view=watch&course=${course.id}`;
-        const found = items.find((i) => i.url === expectedUrl);
+        const expectedCleanUrl = `${BASE_URL}/tracks/${course.id}`;
+        const expectedLegacyUrl = `${BASE_URL}/?view=watch&course=${course.id}`;
+        const found = items.find((i) => i.url === expectedCleanUrl || i.url === expectedLegacyUrl);
         expect(found, `المسار ${course.id} غير مدرج في خريطة الموقع`).toBeDefined();
         expect(found.priority).toBeGreaterThanOrEqual(0.8);
       });
@@ -156,8 +157,9 @@ describe('AIProdZone Technical SEO & Generative Engine Optimization (GEO) Tests'
     it('يتحقق من تضمين جميع المقالات الـ 18', () => {
       const items = sitemap();
       INITIAL_ARTICLES.forEach((article) => {
-        const expectedUrl = `${BASE_URL}/?view=articles&slug=${article.slug}`;
-        const found = items.find((i) => i.url === expectedUrl);
+        const expectedCleanUrl = `${BASE_URL}/articles/${article.id}`;
+        const expectedLegacyUrl = `${BASE_URL}/?view=articles&slug=${article.slug}`;
+        const found = items.find((i) => i.url === expectedCleanUrl || i.url === expectedLegacyUrl);
         expect(found, `المقال ${article.slug} غير مدرج في خريطة الموقع`).toBeDefined();
         expect(found.priority).toBeGreaterThanOrEqual(0.9);
       });

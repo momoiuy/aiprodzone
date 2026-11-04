@@ -24,7 +24,7 @@ import { EBOOK_GUIDES } from '../data/ebooks';
 import { useLibrary } from '../context/LibraryContext';
 
 // Props: { onNavigate?: (view: string, options?: any) => void, onOpenLegal?: (tab: string) => void, onSelectCategory?: (cat: string) => void }
-export default function Footer({ onNavigate, onOpenLegal, onSelectCategory }) {
+export default function Footer({ onNavigate = null, onOpenLegal = null, onSelectCategory = null } = {}) {
   let coursesCount = INITIAL_COURSES.length;
   let ebooksCount = EBOOK_GUIDES.length;
   let articlesCount = INITIAL_ARTICLES.length;
@@ -51,6 +51,10 @@ export default function Footer({ onNavigate, onOpenLegal, onSelectCategory }) {
   const handleQuickNav = (viewName, options = {}) => {
     if (onNavigate) {
       onNavigate(viewName, options);
+    } else if (typeof window !== 'undefined') {
+      if (viewName === 'courses') window.location.href = '/';
+      else if (viewName === 'articles') window.location.href = '/articles';
+      else window.location.href = `/?view=${viewName}`;
     }
   };
 
@@ -59,6 +63,8 @@ export default function Footer({ onNavigate, onOpenLegal, onSelectCategory }) {
       onOpenLegal(tabId);
     } else if (onNavigate) {
       onNavigate('legal', { legalPage: tabId });
+    } else if (typeof window !== 'undefined') {
+      window.location.href = `/?view=legal&tab=${tabId}`;
     }
   };
 
@@ -67,6 +73,8 @@ export default function Footer({ onNavigate, onOpenLegal, onSelectCategory }) {
       onSelectCategory(categoryName);
     } else if (onNavigate) {
       onNavigate('courses', { cat: categoryName });
+    } else if (typeof window !== 'undefined') {
+      window.location.href = `/?cat=${encodeURIComponent(categoryName)}`;
     }
   };
 

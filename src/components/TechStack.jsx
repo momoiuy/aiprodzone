@@ -1,3 +1,4 @@
+import React from 'react';
 import { Cpu } from 'lucide-react';
 import { getOverallScore } from '../lib/format';
 import { handleThumbnailError } from '../lib/youtube';
