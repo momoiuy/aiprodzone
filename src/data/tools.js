@@ -19,7 +19,8 @@ export const CURATED_AI_TOOLS = [
     pricing: "نقاط مجانية يومية / اشتراك",
     rating: 9.8,
     url: "https://klingai.com/",
-    description: "أقوى محركات توليد الفيديو السينمائي ثلاثي الأبعاد مع تحكم فائق بحركة الكاميرا والفيزياء الواقعية."
+    description: "أقوى محركات توليد الفيديو السينمائي ثلاثي الأبعاد مع تحكم فائق بحركة الكاميرا والفيزياء الواقعية.",
+    command: 'kling --prompt "hyperrealistic 8k cinematic shot" --camera pan'
   },
   {
     id: "tool-claude",
@@ -28,7 +29,8 @@ export const CURATED_AI_TOOLS = [
     pricing: "مجاني / Pro",
     rating: 9.9,
     url: "https://claude.ai/",
-    description: "النماذج الرائدة عالمياً في التفكير المنطقي، هندسة السياق المعقد، والبرمجة بالذكاء الاصطناعي."
+    description: "النماذج الرائدة عالمياً في التفكير المنطقي، هندسة السياق المعقد، والبرمجة بالذكاء الاصطناعي.",
+    command: 'curl https://api.anthropic.com/v1/messages -H "x-api-key: $KEY"'
   },
   {
     id: "tool-flux",
@@ -37,7 +39,8 @@ export const CURATED_AI_TOOLS = [
     pricing: "مفتوح المصدر / مجاني",
     rating: 9.9,
     url: "https://blackforestlabs.ai/",
-    description: "ثورة توليد الصور الواقعية برسم فائق الدقة للأيدي والملامح والنصوص الإنجليزية داخل الصور."
+    description: "ثورة توليد الصور الواقعية برسم فائق الدقة للأيدي والملامح والنصوص الإنجليزية داخل الصور.",
+    command: 'git clone https://github.com/comfyanonymous/ComfyUI.git'
   },
   {
     id: "tool-elevenlabs",
@@ -46,7 +49,8 @@ export const CURATED_AI_TOOLS = [
     pricing: "خطة مجانية / اشتراك",
     rating: 9.8,
     url: "https://elevenlabs.io/",
-    description: "المعيار الذهبي لاستنساخ الصوت البشري ونقل المشاعر وبناء الأفاتار الرقمي المتحدث بمزامنة شفاة دقيقة."
+    description: "المعيار الذهبي لاستنساخ الصوت البشري ونقل المشاعر وبناء الأفاتار الرقمي المتحدث بمزامنة شفاة دقيقة.",
+    command: 'pip install elevenlabs && python voice_clone.py'
   },
   {
     id: "tool-suno",
@@ -55,7 +59,8 @@ export const CURATED_AI_TOOLS = [
     pricing: "حصة مجانية يومية",
     rating: 9.7,
     url: "https://suno.com/",
-    description: "توليد مقطوعات موسيقية وأغانٍ كاملة بالكلمات والآلات الموسيقية بجودة استوديو احترافية."
+    description: "توليد مقطوعات موسيقية وأغانٍ كاملة بالكلمات والآلات الموسيقية بجودة استوديو احترافية.",
+    command: 'suno generate --prompt "arabic lofi chill beats" --instrumental'
   },
   {
     id: "tool-n8n",
@@ -64,7 +69,8 @@ export const CURATED_AI_TOOLS = [
     pricing: "مفتوح المصدر مجاني ذاتي الاستضافة",
     rating: 9.9,
     url: "https://n8n.io/",
-    description: "أقوى منصة مفتوحة المصدر لبناء وكلاء أذكياء مستقلين يربطون أكثر من 500 تطبيق وقاعدة بيانات بدون كود."
+    description: "أقوى منصة مفتوحة المصدر لبناء وكلاء أذكياء مستقلين يربطون أكثر من 500 تطبيق وقاعدة بيانات بدون كود.",
+    command: 'npx n8n start --tunnel'
   },
   {
     id: "tool-vercel",
@@ -73,7 +79,8 @@ export const CURATED_AI_TOOLS = [
     pricing: "مجاني للبدء (Hobby)",
     rating: 9.9,
     url: "https://vercel.com/",
-    description: "البيئة الأسرع والأكثر استقراراً في العالم لنشر تطبيقات الويب الحديثة والمشاريع المبرمجة بالذكاء الاصطناعي."
+    description: "البيئة الأسرع والأكثر استقراراً في العالم لنشر تطبيقات الويب الحديثة والمشاريع المبرمجة بالذكاء الاصطناعي.",
+    command: 'npx create-next-app@latest aiprodzone-app --typescript'
   },
   {
     id: "tool-ollama",
@@ -82,6 +89,7 @@ export const CURATED_AI_TOOLS = [
     pricing: "مجاني بالكامل ومفتوح المصدر",
     rating: 9.8,
     url: "https://ollama.com/",
-    description: "تشغيل النماذج اللغوية محلياً على جهازك بأمان وخصوصية 100% مع ربط قواعد المعرفة الذكية RAG."
+    description: "تشغيل النماذج اللغوية محلياً على جهازك بأمان وخصوصية 100% مع ربط قواعد المعرفة الذكية RAG.",
+    command: 'ollama run llama3.2:latest'
   }
 ];

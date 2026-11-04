@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { BookOpen, Sparkles, Check, X, Copy, MessageSquare, Send } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
@@ -11,6 +13,20 @@ export default function ReviewBlock({ course }) {
 
   const [copyStatus, setCopyStatus] = useState('idle');
   const [newComment, setNewComment] = useState('');
+
+  // معالجة دفاعية مرنة لحقول المراجعة والتحليل لتجنب أي أخطاء runtime
+  const review = course?.review || {
+    verdictBox: course?.methodologyNote || course?.oneLineVerdict || course?.title || 'مسار تعليمي متكامل معتمد.',
+    strengths: 'تغطية تفاعلية ممتازة، تنظيم أكاديمي متسلسل، وتطبيقات عملية تواكب أحدث المعايير التقنية.',
+    limitations: 'يُنصح بتطبيق التمارين خطوة بخطوة بعد كل درس ومراجعة المفاهيم لترسيخ التعلم.',
+    deepAnalysis: course?.synopsis || course?.methodologyNote || course?.title || 'شرح ممنهج يبدأ من المفاهيم الأساسية حتى التطبيق العملي الكامل.'
+  };
+
+  const promptBlueprint =
+    course?.promptBlueprint ||
+    `خطة تطبيق عملية لدراسة مسار: ${course?.title || ''}\n1. متابعة الدرس وتدوين الملاحظات البرمجية والعملية.\n2. تنفيذ التحدي العملي ومحاكاة المعامل والتأكد من صحة النتائج.\n3. الانتقال للدرس التالي وتثبيت المفاهيم المكتسبة.`;
+
+  const comments = Array.isArray(course?.comments) ? course.comments : [];
 
   const handleCopyPrompt = async (text) => {
     let copied = false;
@@ -50,7 +66,7 @@ export default function ReviewBlock({ course }) {
 
   const handleAddComment = (e) => {
     e.preventDefault();
-    if (addComment(course.id, newComment)) {
+    if (course?.id && addComment(course.id, newComment)) {
       setNewComment('');
     }
   };
@@ -69,7 +85,7 @@ export default function ReviewBlock({ course }) {
         </div>
 
         <p className="text-sm sm:text-base font-medium leading-relaxed text-text">
-          {course.review.verdictBox}
+          {review.verdictBox}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -77,13 +93,13 @@ export default function ReviewBlock({ course }) {
             <div className="text-xs font-extrabold text-text-heading">
               ✓ أبرز نقاط القوة في الشرح
             </div>
-            <p className="text-xs leading-relaxed text-text-muted">{course.review.strengths}</p>
+            <p className="text-xs leading-relaxed text-text-muted">{review.strengths}</p>
           </div>
           <div className="p-4 rounded-xl border border-border bg-surface-2 space-y-1.5">
             <div className="text-xs font-extrabold text-text-heading">
               △ متطلبات وملاحظات قبل البدء
             </div>
-            <p className="text-xs leading-relaxed text-text-muted">{course.review.limitations}</p>
+            <p className="text-xs leading-relaxed text-text-muted">{review.limitations}</p>
           </div>
         </div>
 
@@ -92,7 +108,7 @@ export default function ReviewBlock({ course }) {
             الخلاصة العميقة وخطة التطبيق
           </h3>
           <p className="text-xs sm:text-sm leading-relaxed text-text-muted">
-            {course.review.deepAnalysis}
+            {review.deepAnalysis}
           </p>
         </div>
 
@@ -105,7 +121,7 @@ export default function ReviewBlock({ course }) {
             <Button
               variant="secondary"
               onClick={() => {
-                void handleCopyPrompt(course.promptBlueprint);
+                void handleCopyPrompt(promptBlueprint);
               }}
               className="px-2.5 py-1"
             >
@@ -129,9 +145,9 @@ export default function ReviewBlock({ course }) {
           </div>
           <p
             dir="auto"
-            className="text-xs font-mono leading-relaxed p-2.5 rounded-lg border border-border bg-surface text-text"
+            className="text-xs font-mono leading-relaxed p-2.5 rounded-lg border border-border bg-surface text-text whitespace-pre-line"
           >
-            {course.promptBlueprint}
+            {promptBlueprint}
           </p>
         </div>
       </Card>
@@ -139,7 +155,7 @@ export default function ReviewBlock({ course }) {
       <Card className="p-5 sm:p-6 space-y-4">
         <h3 className="text-base font-extrabold flex items-center gap-2 text-text-heading">
           <MessageSquare className="w-4 h-4 text-text-muted" />
-          <span>أسئلة وملاحظات المتعلمين ({course.comments.length})</span>
+          <span>أسئلة وملاحظات المتعلمين ({comments.length})</span>
         </h3>
 
         <form onSubmit={handleAddComment} className="flex gap-2">
@@ -157,12 +173,12 @@ export default function ReviewBlock({ course }) {
         </form>
 
         <div className="space-y-3 pt-2">
-          {course.comments.length === 0 ? (
+          {comments.length === 0 ? (
             <p className="text-xs text-text-muted">
               كن أول من يشارك تطبيقه العملي أو ملاحظاته حول هذا الدرس.
             </p>
           ) : (
-            course.comments.map((c) => (
+            comments.map((c) => (
               <div key={c.id} className="p-3.5 rounded-xl border border-border bg-surface-2 space-y-1.5">
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">

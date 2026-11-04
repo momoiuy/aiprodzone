@@ -12,14 +12,20 @@ import Home from './views/Home';
 import Watch from './views/Watch';
 import Ebooks from './views/Ebooks';
 import Tools from './views/Tools';
+import Articles from './views/Articles';
+import LegalView from './views/LegalView';
+import Footer from './components/Footer';
 
 // Props: {} (تخطيط وتنقل المنصة الداخلي مع مزامنة الروابط وزر الرجوع)
 function AppShell() {
   const { courses, selectedCategory, setSelectedCategory } = useLibrary();
 
   const [view, setView] = useState('courses');
+  const [legalTab, setLegalTab] = useState('about');
   const [displayMode, setDisplayMode] = useState('grid');
-  const [activeCourseId, setActiveCourseId] = useState(INITIAL_COURSES[0].id);
+  const [activeCourseId, setActiveCourseId] = useState(INITIAL_COURSES[0]?.id || null);
+  const [activeInstructorId, setActiveInstructorId] = useState(null);
+  const [activeArticleSlug, setActiveArticleSlug] = useState(null);
   const [activeEbook, setActiveEbook] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -27,7 +33,7 @@ function AppShell() {
   const [brandModalOpen, setBrandModalOpen] = useState(false);
 
   const activeCourse = useMemo(
-    () => courses.find((c) => c.id === activeCourseId) || courses[0],
+    () => courses.find((c) => c.id === activeCourseId) || courses[0] || null,
     [courses, activeCourseId]
   );
 
@@ -35,9 +41,11 @@ function AppShell() {
   const navigateView = useCallback(
     (newView, options = {}) => {
       setView(newView);
-      const { courseId, cat, replace = false } = options;
+      const { courseId, instructorId, cat, legalPage, replace = false } = options;
       if (courseId) setActiveCourseId(courseId);
+      if (instructorId) setActiveInstructorId(instructorId);
       if (cat) setSelectedCategory(cat);
+      if (legalPage) setLegalTab(legalPage);
 
       if (typeof window !== 'undefined') {
         const url = new URL(window.location.href);
@@ -47,26 +55,36 @@ function AppShell() {
           url.searchParams.set('view', newView);
           if (newView === 'watch' && (courseId || activeCourseId)) {
             url.searchParams.set('course', courseId || activeCourseId);
+            if (instructorId || activeInstructorId) {
+              url.searchParams.set('inst', instructorId || activeInstructorId);
+            }
           } else {
             url.searchParams.delete('course');
+            url.searchParams.delete('inst');
           }
           if (cat && cat !== 'الكل') {
             url.searchParams.set('cat', cat);
           } else if (!cat && newView === 'courses') {
             url.searchParams.delete('cat');
           }
+          if (newView === 'legal') {
+            const pageToSet = legalPage || legalTab || 'about';
+            url.searchParams.set('tab', pageToSet);
+          } else {
+            url.searchParams.delete('tab');
+          }
         }
         if (replace) {
-          window.history.replaceState({ view: newView, courseId, cat }, '', url.toString());
+          window.history.replaceState({ view: newView, courseId, instructorId, cat, legalPage }, '', url.toString());
         } else {
-          window.history.pushState({ view: newView, courseId, cat }, '', url.toString());
+          window.history.pushState({ view: newView, courseId, instructorId, cat, legalPage }, '', url.toString());
         }
         if (!options.noScroll) {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }
     },
-    [activeCourseId, setSelectedCategory]
+    [activeCourseId, activeInstructorId, legalTab, setSelectedCategory]
   );
 
   // قراءة المعاملات الأولية من الرابط والاستماع لأزرار الرجوع/التقدم في المتصفح
@@ -77,9 +95,17 @@ function AppShell() {
     const initialView = params.get('view');
     const initialCourseId = params.get('course');
     const initialCat = params.get('cat');
+    const initialTab = params.get('tab');
+    const initialSlug = params.get('slug') || params.get('article');
 
-    if (initialView && ['courses', 'watch', 'ebooks', 'tools', 'watchlist'].includes(initialView)) {
+    if (initialSlug) {
+      setView('articles');
+      setActiveArticleSlug(initialSlug);
+    } else if (initialView && ['courses', 'watch', 'ebooks', 'tools', 'watchlist', 'articles', 'legal'].includes(initialView)) {
       setView(initialView);
+    }
+    if (initialTab && ['about', 'privacy', 'terms', 'copyright', 'contact'].includes(initialTab)) {
+      setLegalTab(initialTab);
     }
     if (initialCourseId) {
       setActiveCourseId(initialCourseId);
@@ -93,9 +119,13 @@ function AppShell() {
       const pv = p.get('view') || 'courses';
       const pcId = p.get('course');
       const pcat = p.get('cat') || 'الكل';
+      const ptab = p.get('tab') || 'about';
+      const pSlug = p.get('slug') || p.get('article');
       setView(pv);
       if (pcId) setActiveCourseId(pcId);
+      if (pSlug) setActiveArticleSlug(pSlug);
       setSelectedCategory(pcat);
+      setLegalTab(ptab);
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -107,8 +137,9 @@ function AppShell() {
     setSidebarOpen(false);
   };
 
-  const openCourseWatch = (courseId) => {
-    navigateView('watch', { courseId });
+  const openCourseWatch = (courseId, instructorId = null) => {
+    if (instructorId) setActiveInstructorId(instructorId);
+    navigateView('watch', { courseId, instructorId });
   };
 
   const handleResetHome = () => {
@@ -121,7 +152,7 @@ function AppShell() {
   return (
     <div
       dir="ltr"
-      className="min-h-screen w-full overflow-x-clip bg-bg text-text font-arabic antialiased transition-colors duration-300 flex flex-col pb-[calc(7rem+env(safe-area-inset-bottom,0px))] md:pb-8 selection:bg-accent selection:text-accent-ink"
+      className="min-h-screen w-full max-w-full overflow-x-hidden bg-bg text-text font-arabic antialiased transition-colors duration-300 flex flex-col pb-[calc(7rem+env(safe-area-inset-bottom,0px))] md:pb-8 selection:bg-accent selection:text-accent-ink"
     >
       <Sidebar
         isOpen={sidebarOpen}
@@ -131,6 +162,10 @@ function AppShell() {
         selectedCategory={selectedCategory}
         onSelectFilter={handleSelectFilter}
         onOpenBrandModal={() => setBrandModalOpen(true)}
+        onOpenLegal={(pageId) => {
+          setLegalTab(pageId || 'about');
+          navigateView('legal', { legalPage: pageId || 'about' });
+        }}
         onOpenSubmitModal={() => setSubmitModalOpen(true)}
         onOpenEbooks={() => {
           navigateView('ebooks');
@@ -156,6 +191,7 @@ function AppShell() {
             view={view}
             setView={(v) => navigateView(v)}
             displayMode={displayMode}
+            setDisplayMode={setDisplayMode}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             onWatchCourse={openCourseWatch}
@@ -165,6 +201,7 @@ function AppShell() {
         {view === 'watch' && activeCourse && (
           <Watch
             course={activeCourse}
+            initialInstructorId={activeInstructorId}
             onBack={() => navigateView('courses')}
             onWatchCourse={openCourseWatch}
           />
@@ -178,8 +215,36 @@ function AppShell() {
           />
         )}
 
+        {view === 'articles' && (
+          <Articles
+            onWatchCourse={openCourseWatch}
+            initialArticleSlug={activeArticleSlug}
+          />
+        )}
+
         {view === 'tools' && <Tools onSelectCategory={handleSelectFilter} />}
+
+        {view === 'legal' && (
+          <LegalView
+            initialTab={legalTab}
+            onTabChange={(tab) => {
+              setLegalTab(tab);
+              navigateView('legal', { legalPage: tab, keepSearch: true, replace: true, noScroll: true });
+            }}
+            onBackToCourses={() => navigateView('courses')}
+            onSelectCategory={handleSelectFilter}
+          />
+        )}
       </main>
+
+      <Footer
+        onNavigate={(v, opts) => navigateView(v, opts)}
+        onOpenLegal={(pageId) => {
+          setLegalTab(pageId || 'about');
+          navigateView('legal', { legalPage: pageId || 'about' });
+        }}
+        onSelectCategory={handleSelectFilter}
+      />
 
       <SubmitModal
         isOpen={submitModalOpen}

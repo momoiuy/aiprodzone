@@ -1,0 +1,2994 @@
+{
+  "fileTree": {
+    "app": [
+      "app/admin/",
+      "app/admin/actions.ts",
+      "app/admin/page.tsx",
+      "app/api/",
+      "app/api/revalidate/",
+      "app/api/revalidate/route.ts",
+      "app/api/youtube/",
+      "app/api/youtube/metadata/",
+      "app/api/youtube/metadata/route.ts",
+      "app/api/youtube/playlist/",
+      "app/api/youtube/playlist/route.ts",
+      "app/globals.css",
+      "app/layout.tsx",
+      "app/page.tsx"
+    ],
+    "src": [
+      "src/App.jsx",
+      "src/components/",
+      "src/components/BottomNav.jsx",
+      "src/components/BrandModal.jsx",
+      "src/components/Button.jsx",
+      "src/components/Card.jsx",
+      "src/components/CategoryPills.jsx",
+      "src/components/Chip.jsx",
+      "src/components/CourseCard.jsx",
+      "src/components/FilterBar.jsx",
+      "src/components/Header.jsx",
+      "src/components/Hero.jsx",
+      "src/components/Logo.jsx",
+      "src/components/Player.jsx",
+      "src/components/ReviewBlock.jsx",
+      "src/components/RoadmapPath.jsx",
+      "src/components/ScorePanel.jsx",
+      "src/components/Sidebar.jsx",
+      "src/components/SubmitModal.jsx",
+      "src/components/TechStack.jsx",
+      "src/components/YouTubePlayer.jsx",
+      "src/context/",
+      "src/context/LibraryContext.jsx",
+      "src/data/",
+      "src/data/bimo-catalog.js",
+      "src/data/bimo-catalog.json",
+      "src/data/categories.js",
+      "src/data/courses.js",
+      "src/data/ebooks.js",
+      "src/data/real-playlists.js",
+      "src/data/seed-status.json",
+      "src/data/tools.js",
+      "src/data/youtube-cache.json",
+      "src/hooks/",
+      "src/hooks/useLocalStorage.js",
+      "src/hooks/useTheme.js",
+      "src/lib/",
+      "src/lib/format.js",
+      "src/lib/storage.js",
+      "src/lib/youtube-scraper.js",
+      "src/lib/youtube.js",
+      "src/views/",
+      "src/views/Ebooks.jsx",
+      "src/views/Home.jsx",
+      "src/views/Tools.jsx",
+      "src/views/Watch.jsx"
+    ],
+    "tests": [
+      "tests/academic-structure.test.js",
+      "tests/admin-dashboard.test.js",
+      "tests/course-ui-player.test.js",
+      "tests/ebooks.test.js",
+      "tests/lib.test.js",
+      "tests/youtube-engine.test.js"
+    ],
+    "scripts": [
+      "scripts/audit-collector.mjs",
+      "scripts/build-stage4-courses.mjs",
+      "scripts/build-stage5-courses.mjs",
+      "scripts/build-stage6-courses.mjs",
+      "scripts/enrich-catalog.mjs",
+      "scripts/find-stage5-playlists.mjs",
+      "scripts/find-stage6-playlists.mjs",
+      "scripts/merge-all-73-courses.mjs",
+      "scripts/polish-courses.mjs",
+      "scripts/seed.mjs",
+      "scripts/stage6-populated-tracks.json",
+      "scripts/sync-youtube-playlists.mjs",
+      "scripts/verify-local-http.mjs"
+    ],
+    "public": [
+      "public/brand-banner.png",
+      "public/favicon.ico",
+      "public/hero-bg.webp",
+      "public/robots.txt"
+    ]
+  },
+  "domainsCount": 8,
+  "domains": [
+    {
+      "id": "web-programming",
+      "name": "الويب والبرمجة"
+    },
+    {
+      "id": "languages-apps",
+      "name": "لغات وتطبيقات وألعاب"
+    },
+    {
+      "id": "computer-science",
+      "name": "علوم الحاسوب"
+    },
+    {
+      "id": "databases-backend",
+      "name": "قواعد البيانات والخلفية"
+    },
+    {
+      "id": "devops-cloud",
+      "name": "DevOps والسحابة والهندسة"
+    },
+    {
+      "id": "ai-data-science",
+      "name": "الذكاء الاصطناعي وعلم البيانات"
+    },
+    {
+      "id": "networking-cybersecurity",
+      "name": "الشبكات والأمن السيبراني"
+    },
+    {
+      "id": "business-languages",
+      "name": "الأعمال واللغات"
+    }
+  ],
+  "coursesCount": 73,
+  "duplicateCourseIds": [],
+  "totalInstructorsCount": 159,
+  "uniqueInstructorNamesCount": 103,
+  "coursesWithValidPlaylistsAndLessons": 73,
+  "oldDemoCoursesCount": 0,
+  "ebooks": {
+    "totalGuides": 114,
+    "trackGuidesCount": 10,
+    "bimoCatalogCount": 104
+  },
+  "storageKeysFound": "Not parsed cleanly",
+  "seedStatus": {
+    "seededAt": "2026-11-03T16:26:58.727Z",
+    "storageKey": "aiprodzone_courses_v7",
+    "categoriesStorageKey": "aiprodzone_categories_v3",
+    "ebooksStorageKey": "aiprodzone_ebooks_v6",
+    "categoriesCount": 8,
+    "coursesCount": 73,
+    "ebooksCount": 114,
+    "categories": [
+      {
+        "orderIndex": 1,
+        "id": "web-programming",
+        "name": "الويب والبرمجة",
+        "lessonsCount": 21
+      },
+      {
+        "orderIndex": 2,
+        "id": "languages-apps",
+        "name": "لغات وتطبيقات وألعاب",
+        "lessonsCount": 8
+      },
+      {
+        "orderIndex": 3,
+        "id": "computer-science",
+        "name": "علوم الحاسوب",
+        "lessonsCount": 8
+      },
+      {
+        "orderIndex": 4,
+        "id": "databases-backend",
+        "name": "قواعد البيانات والخلفية",
+        "lessonsCount": 6
+      },
+      {
+        "orderIndex": 5,
+        "id": "devops-cloud",
+        "name": "DevOps والسحابة والهندسة",
+        "lessonsCount": 11
+      },
+      {
+        "orderIndex": 6,
+        "id": "ai-data-science",
+        "name": "الذكاء الاصطناعي وعلم البيانات",
+        "lessonsCount": 7
+      },
+      {
+        "orderIndex": 7,
+        "id": "networking-cybersecurity",
+        "name": "الشبكات والأمن السيبراني",
+        "lessonsCount": 6
+      },
+      {
+        "orderIndex": 8,
+        "id": "business-languages",
+        "name": "الأعمال واللغات",
+        "lessonsCount": 6
+      }
+    ]
+  },
+  "sampleTracks": [
+    {
+      "id": "python-masterclass",
+      "title": "دورة بايثون الشاملة من الصفر حتى الاحتراف الكامل",
+      "domainId": "web-programming",
+      "domainTitle": "الويب والبرمجة",
+      "badge": "المرتبة #1",
+      "methodologyNote": "يُنصح بدراسة المسار الأساسي (152 درساً) مع كتابة الأكواد والتطبيق على التمارين العملية.",
+      "instructors": [
+        {
+          "id": "inst-osama-elzero",
+          "name": "أسامة محمد (الزيرو - Elzero Web School)",
+          "role": "أساسي",
+          "language": "AR",
+          "verified": true,
+          "lessonsCount": 152,
+          "durationText": "26 ساعة تدريبية",
+          "note": "دورة بايثون المعتمدة والشاملة من الصفر مع التطبيقات والمشاريع (152 درسًا ✔)",
+          "playlistId": "PLDoPjvoNmBAyE_gei5d18qkfIe-Z8mocs",
+          "channelUrl": "https://youtube.com/@ElzeroWebSchool",
+          "lessons": [
+            {
+              "index": 1,
+              "videoId": "mvZHDpCHphk",
+              "title": "تعلم لغة Python درس 001# - مقدمة عن الدورة وما هي لغة Python",
+              "duration": "11:54"
+            },
+            {
+              "index": 2,
+              "videoId": "02a5T6ktx8M",
+              "title": "تعلم لغة Python درس 002# - ماذا تحتاج لتبدأ التعلم بشكل سليم ؟",
+              "duration": "7:20"
+            },
+            {
+              "index": 3,
+              "videoId": "xiMHoMVWdI4",
+              "title": "تعلم لغة Python درس 003# - بنية الكود وكتابة أول تطبيق بسيط لك",
+              "duration": "9:18"
+            },
+            {
+              "index": 4,
+              "videoId": "YsENRLNaYug",
+              "title": "تعلم لغة Python درس 004# - نظام التعليقات",
+              "duration": "7:04"
+            },
+            {
+              "index": 5,
+              "videoId": "zlkIcCHj3Dg",
+              "title": "تعلم لغة Python درس 005# - كيفية التعامل مع البيانات في لغة Python",
+              "duration": "4:11"
+            },
+            {
+              "index": 6,
+              "videoId": "43lT7k0Zws0",
+              "title": "تعلم لغة Python درس 006# - نظرة عامة على بعض أنواع البيانات",
+              "duration": "6:33"
+            },
+            {
+              "index": 7,
+              "videoId": "hQnZxqp3Q0Y",
+              "title": "تعلم لغة Python درس 007# - المتغيرات الجزء الأول",
+              "duration": "7:33"
+            },
+            {
+              "index": 8,
+              "videoId": "U0307lBCiDk",
+              "title": "تعلم لغة Python درس 008# - المتغيرات الجزء الثاني",
+              "duration": "6:47"
+            },
+            {
+              "index": 9,
+              "videoId": "cr2Nk2E0f5A",
+              "title": "تعلم لغة Python درس 009# - أحرف ال Escaping وكيفية التعامل معها",
+              "duration": "10:16"
+            },
+            {
+              "index": 10,
+              "videoId": "7I_fUo5mO-U",
+              "title": "تعلم لغة Python درس 010# - ربط النصوص Concatenation وبعض التمارين",
+              "duration": "5:49"
+            },
+            {
+              "index": 11,
+              "videoId": "j0Wktr70Cgw",
+              "title": "تعلم لغة Python درس 011# - كل ما يخص ال Strings",
+              "duration": "6:37"
+            },
+            {
+              "index": 12,
+              "videoId": "PEp4oqzthnw",
+              "title": "تعلم لغة Python درس 012# - تعلم كيفية أخذ شريحة والتعامل مع ال Index في ال Strings",
+              "duration": "9:52"
+            },
+            {
+              "index": 13,
+              "videoId": "HmDLsnLgt0M",
+              "title": "تعلم لغة Python درس 013# - ال Methods الخاصة بال Strings الجزء الأول",
+              "duration": "10:35"
+            },
+            {
+              "index": 14,
+              "videoId": "doDJDkUOEJQ",
+              "title": "تعلم لغة Python درس 014# - ال Methods الخاصة بال Strings الجزء الثاني",
+              "duration": "14:22"
+            },
+            {
+              "index": 15,
+              "videoId": "kgb96E9ogUw",
+              "title": "تعلم لغة Python درس 015# - ال Methods الخاصة بال Strings الجزء الثالث",
+              "duration": "13:28"
+            },
+            {
+              "index": 16,
+              "videoId": "jbV9d9H-udY",
+              "title": "تعلم لغة Python درس 016# - ال Methods الخاصة بال Strings الجزء الرابع",
+              "duration": "3:31"
+            },
+            {
+              "index": 17,
+              "videoId": "m_OUIywn_XE",
+              "title": "تعلم لغة Python درس 017# - تنسيق النصوص بالطريقة القديمة Strings Formatting",
+              "duration": "10:15"
+            },
+            {
+              "index": 18,
+              "videoId": "nn4qN90A7X4",
+              "title": "تعلم لغة Python درس 018# - تنسيق النصوص بالطرق الجديدة Strings Formatting",
+              "duration": "15:19"
+            },
+            {
+              "index": 19,
+              "videoId": "x7fFnKVAzDI",
+              "title": "تعلم لغة Python درس 019# - الأرقام Numbers",
+              "duration": "6:00"
+            },
+            {
+              "index": 20,
+              "videoId": "prv7cVm2dxE",
+              "title": "تعلم لغة Python درس 020# - مشغلات العمليات الحسابية Arithmetic Operators",
+              "duration": "8:50"
+            },
+            {
+              "index": 21,
+              "videoId": "EpZH9JozUzA",
+              "title": "تعلم لغة Python درس 021# - القوائم Lists",
+              "duration": "11:05"
+            },
+            {
+              "index": 22,
+              "videoId": "b5cFjJ278Vk",
+              "title": "تعلم لغة Python درس 022# - ال Methods الخاصة بالقوائم Lists الجزء الأول",
+              "duration": "8:10"
+            },
+            {
+              "index": 23,
+              "videoId": "pP0QJbJalik",
+              "title": "تعلم لغة Python درس 023# - ال Methods الخاصة بالقوائم Lists الجزء الثاني",
+              "duration": "7:36"
+            },
+            {
+              "index": 24,
+              "videoId": "gwKxpFG_h_8",
+              "title": "تعلم لغة Python درس 024# - الصفوف Tuples وال Methods الخاصة بها الجزء الأول",
+              "duration": "6:35"
+            },
+            {
+              "index": 25,
+              "videoId": "MDR7c5ozo7I",
+              "title": "تعلم لغة Python درس 025# - الصفوف Tuples وال Methods الخاصة بها الجزء الثاني",
+              "duration": "7:52"
+            },
+            {
+              "index": 26,
+              "videoId": "PSc6QX4Py7k",
+              "title": "تعلم لغة Python درس 026# - تعلم ال Set",
+              "duration": "5:58"
+            },
+            {
+              "index": 27,
+              "videoId": "N06_D5wWobg",
+              "title": "تعلم لغة Python درس 027# - تعلم ال Methods الخاصة بال Set الجزء الأول",
+              "duration": "7:42"
+            },
+            {
+              "index": 28,
+              "videoId": "o8pr--y5vuU",
+              "title": "تعلم لغة Python درس 028# - تعلم ال Methods الخاصة بال Set الجزء الثاني",
+              "duration": "10:25"
+            },
+            {
+              "index": 29,
+              "videoId": "rs9eebZpcaE",
+              "title": "تعلم لغة Python درس 029# - تعلم ال Methods الخاصة بال Set الجزء الثالث",
+              "duration": "4:21"
+            },
+            {
+              "index": 30,
+              "videoId": "BQ7jFrysbQU",
+              "title": "تعلم لغة Python درس 030# - شرح القاموس Dictionary",
+              "duration": "11:05"
+            },
+            {
+              "index": 31,
+              "videoId": "oNLaNJrU8r8",
+              "title": "تعلم لغة Python درس 031# - شرح ال Methods الخاص بال Dictionary الجزء الأول",
+              "duration": "4:02"
+            },
+            {
+              "index": 32,
+              "videoId": "rgOdxQa830Q",
+              "title": "تعلم لغة Python درس 032# - شرح ال Methods الخاص بال Dictionary الجزء الثاني",
+              "duration": "5:40"
+            },
+            {
+              "index": 33,
+              "videoId": "eDmGoHk1Y8k",
+              "title": "تعلم لغة Python درس 033# - نوع البيانات Boolean",
+              "duration": "6:24"
+            },
+            {
+              "index": 34,
+              "videoId": "zN6ZYGSBKbM",
+              "title": "تعلم لغة Python درس 034# - شرح ال Operators الخاصة بال Boolean",
+              "duration": "5:50"
+            },
+            {
+              "index": 35,
+              "videoId": "mvyEHxIX_lE",
+              "title": "تعلم لغة Python درس 035# - شرح ال Assignments Operators",
+              "duration": "5:40"
+            },
+            {
+              "index": 36,
+              "videoId": "bBxO141Jq6I",
+              "title": "تعلم لغة Python درس 036# - شرح ال Comparison Operators",
+              "duration": "6:31"
+            },
+            {
+              "index": 37,
+              "videoId": "j26DuY69HYA",
+              "title": "تعلم لغة Python درس 037# - شرح تحويل أنواع البيانات Type Conversion",
+              "duration": "9:49"
+            },
+            {
+              "index": 38,
+              "videoId": "2EY1CCnByK4",
+              "title": "تعلم لغة Python درس 038# - مدخلات المستخدم User Input",
+              "duration": "7:32"
+            },
+            {
+              "index": 39,
+              "videoId": "jQVMF7kEzvI",
+              "title": "تعلم لغة Python درس 039# - تدريبات عملية - إستخراج مقاطع الأيميل Email Slice",
+              "duration": "9:33"
+            },
+            {
+              "index": 40,
+              "videoId": "S6dhvob-4DM",
+              "title": "تعلم لغة Python درس 040# - تدريبات عملية - عمرك الكامل بالتفصيل Your Age Full Details",
+              "duration": "7:26"
+            },
+            {
+              "index": 41,
+              "videoId": "v8ZehXS3XF0",
+              "title": "تعلم لغة Python درس 041# - التحكم بال Flow تعلم If, Elif, Else",
+              "duration": "9:02"
+            },
+            {
+              "index": 42,
+              "videoId": "W6KsrqVvg2E",
+              "title": "تعلم لغة Python درس 042# - التحكم بال Flow تعلم If داخل If وتمارين على Nested If",
+              "duration": "6:30"
+            },
+            {
+              "index": 43,
+              "videoId": "1E7z7r61b2s",
+              "title": "تعلم لغة Python درس 043# - التحكم بال Flow تعلم If المختصرة Ternary If",
+              "duration": "7:18"
+            },
+            {
+              "index": 44,
+              "videoId": "MpO84gVARdE",
+              "title": "تعلم لغة Python درس 044# - تطبيق حساب العمر النسخة المتقدمة مع التمارين",
+              "duration": "8:34"
+            },
+            {
+              "index": 45,
+              "videoId": "FGnMK1y9TkE",
+              "title": "تعلم لغة Python درس 045# - شرح ال Membership Operators",
+              "duration": "7:43"
+            },
+            {
+              "index": 46,
+              "videoId": "r9MaqQ0Iis0",
+              "title": "تعلم لغة Python درس 046# - تطبيق عملي للتحكم في العضويات",
+              "duration": "14:42"
+            },
+            {
+              "index": 47,
+              "videoId": "A0oBGPSUbeI",
+              "title": "تعلم لغة Python درس 047# - التكرار Loop بواسطة While + Else",
+              "duration": "5:55"
+            },
+            {
+              "index": 48,
+              "videoId": "9rU2fImqSR4",
+              "title": "تعلم لغة Python درس 048# - التكرار Loop بواسطة While تمرينات",
+              "duration": "11:03"
+            },
+            {
+              "index": 49,
+              "videoId": "jRGJjckgSlA",
+              "title": "تعلم لغة Python درس 049# - التكرار Loop بواسطة While تمرينات لعمل Bookmark Manager",
+              "duration": "9:40"
+            },
+            {
+              "index": 50,
+              "videoId": "7NIcsmfHIrg",
+              "title": "تعلم لغة Python درس 050# - التكرار Loop بواسطة While تمرينات لعمل Password Guess",
+              "duration": "7:55"
+            },
+            {
+              "index": 51,
+              "videoId": "4YolrVX6f1Q",
+              "title": "تعلم لغة Python درس 051# - التكرار Loop and Else",
+              "duration": "5:34"
+            },
+            {
+              "index": 52,
+              "videoId": "9JJDDKj_tGA",
+              "title": "تعلم لغة Python درس 052# - التكرار Loop وتمارين عليه",
+              "duration": "5:42"
+            },
+            {
+              "index": 53,
+              "videoId": "x_GyjV2Nb6k",
+              "title": "تعلم لغة Python درس 053# - التكرار Loop وشرح وضع تكرار داخل تكرار",
+              "duration": "10:08"
+            },
+            {
+              "index": 54,
+              "videoId": "KtjJxOr5sp0",
+              "title": "تعلم لغة Python درس 054# - شرح Break و Continue و Pass",
+              "duration": "5:18"
+            },
+            {
+              "index": 55,
+              "videoId": "zTLmupb3cKg",
+              "title": "تعلم لغة Python درس 055# - شرح عمل Loop ل Advanced Dictionary",
+              "duration": "6:27"
+            },
+            {
+              "index": 56,
+              "videoId": "Izwd_n-Ufqo",
+              "title": "تعلم لغة Python درس 056# - شرح ال Function + Return",
+              "duration": "6:27"
+            },
+            {
+              "index": 57,
+              "videoId": "CCMKMBGUxkc",
+              "title": "تعلم لغة Python درس 057# - شرح ال Function Parameters + Arguments",
+              "duration": "11:00"
+            },
+            {
+              "index": 58,
+              "videoId": "61i7VvPLVns",
+              "title": "تعلم لغة Python درس 058# - شرح عمل Pack و Unpack لل Function Arguments",
+              "duration": "9:35"
+            },
+            {
+              "index": 59,
+              "videoId": "BNXasw_j4sY",
+              "title": "تعلم لغة Python درس 059# - شرح ال Parameters الإفتراضية لل Function",
+              "duration": "5:05"
+            },
+            {
+              "index": 60,
+              "videoId": "pMeKs94OrxQ",
+              "title": "تعلم لغة Python درس 060# - شرح ال Packing و Unpacking لل Function Arguments",
+              "duration": "5:04"
+            },
+            {
+              "index": 61,
+              "videoId": "7o58LMti2po",
+              "title": "تعلم لغة Python درس 061# - تمارين على ال Packing و Unpacking لل Function Arguments",
+              "duration": "6:32"
+            },
+            {
+              "index": 62,
+              "videoId": "VQHLn1wuDBw",
+              "title": "تعلم لغة Python درس 062# - شرح ال Function Scope",
+              "duration": "6:44"
+            },
+            {
+              "index": 63,
+              "videoId": "zFVdMyr6CIo",
+              "title": "تعلم لغة Python درس 063# - شرح ال Function Recursion",
+              "duration": "17:02"
+            },
+            {
+              "index": 64,
+              "videoId": "oNp5wwu9S7c",
+              "title": "تعلم لغة Python درس 064# - شرح ال Lambda Function",
+              "duration": "5:29"
+            },
+            {
+              "index": 65,
+              "videoId": "6TFJs9uzEjI",
+              "title": "تعلم لغة Python درس 065# - التعامل مع الملفات الجزء الأول - مقدمة",
+              "duration": "11:08"
+            },
+            {
+              "index": 66,
+              "videoId": "9ZU9FQQbOYE",
+              "title": "تعلم لغة Python درس 066# - التعامل مع الملفات الجزء الثاني - قراءة الملفات",
+              "duration": "5:21"
+            },
+            {
+              "index": 67,
+              "videoId": "FBcElrNaiZQ",
+              "title": "تعلم لغة Python درس 067# - التعامل مع الملفات الجزء الثالث - الكتابة والإضافة على الملفات",
+              "duration": "6:54"
+            },
+            {
+              "index": 68,
+              "videoId": "wwe40Ngpp3A",
+              "title": "تعلم لغة Python درس 068# - التعامل مع الملفات الجزء الرابع - معلومات مهمة",
+              "duration": "4:27"
+            },
+            {
+              "index": 69,
+              "videoId": "-PfCcZ2Q_MI",
+              "title": "تعلم لغة Python درس 069# - شرح ال Built In Function الجزء الأول",
+              "duration": "5:32"
+            },
+            {
+              "index": 70,
+              "videoId": "2ed3aomFliA",
+              "title": "تعلم لغة Python درس 070# - شرح ال Built In Function الجزء الثاني",
+              "duration": "10:53"
+            },
+            {
+              "index": 71,
+              "videoId": "XRw7mArOyok",
+              "title": "تعلم لغة Python درس 071# - شرح ال Built In Function الجزء الثالث",
+              "duration": "8:38"
+            },
+            {
+              "index": 72,
+              "videoId": "JvbLI0z8t8c",
+              "title": "تعلم لغة Python درس 072# - شرح ال Built In Functions الجزء الرابع شرح Map",
+              "duration": "6:19"
+            },
+            {
+              "index": 73,
+              "videoId": "0Zmdu7OgVl0",
+              "title": "تعلم لغة Python درس 073# - شرح ال Built In Functions الجزء الخامس شرح Filter",
+              "duration": "9:47"
+            },
+            {
+              "index": 74,
+              "videoId": "bgV0RHfRhB4",
+              "title": "تعلم لغة Python درس 074# - شرح ال Built In Functions الجزء السادس شرح Reduce",
+              "duration": "6:05"
+            },
+            {
+              "index": 75,
+              "videoId": "nS-uled9biI",
+              "title": "تعلم لغة Python درس 075# - شرح ال Built In Functions الجزء السابع",
+              "duration": "5:33"
+            },
+            {
+              "index": 76,
+              "videoId": "z7g9gCYYLiU",
+              "title": "تعلم لغة Python درس 076# - الجزء الأول مقدمة والتعرف على Built In Modules",
+              "duration": "7:32"
+            },
+            {
+              "index": 77,
+              "videoId": "tyOULB29Hs8",
+              "title": "تعلم لغة Python درس 077# - الجزء الثاني إنشاء Module",
+              "duration": "6:20"
+            },
+            {
+              "index": 78,
+              "videoId": "aA96q7oBdVk",
+              "title": "تعلم لغة Python درس 078# - الجزء الثالث - عمل Install ل External Packages",
+              "duration": "8:57"
+            },
+            {
+              "index": 79,
+              "videoId": "NH7Qd1_IGqM",
+              "title": "تعلم لغة Python درس 079# - التاريخ والوقت - مقدمة",
+              "duration": "10:04"
+            },
+            {
+              "index": 80,
+              "videoId": "Qa6p-eQ7k0U",
+              "title": "تعلم لغة Python درس 080# - التاريخ والوقت - تنسيق التاريخ",
+              "duration": "4:35"
+            },
+            {
+              "index": 81,
+              "videoId": "MwBk42xwjjA",
+              "title": "تعلم لغة Python درس 081# - الفرق بين ال Iterable وال Iterator",
+              "duration": "6:35"
+            },
+            {
+              "index": 82,
+              "videoId": "QNN3w7Na7HA",
+              "title": "تعلم لغة Python درس 082# - تعلم ال Generators",
+              "duration": "6:07"
+            },
+            {
+              "index": 83,
+              "videoId": "BnBJVh1DBGw",
+              "title": "تعلم لغة Python درس 083# - مقدمة عن ال Decorators",
+              "duration": "4:55"
+            },
+            {
+              "index": 84,
+              "videoId": "ZVCPwfyAcBE",
+              "title": "تعلم لغة Python درس 084# - ال Decorators عمل Function With Parameters",
+              "duration": "6:10"
+            },
+            {
+              "index": 85,
+              "videoId": "WQk_j8KMExY",
+              "title": "تعلم لغة Python درس 085# - ال Decorators تدريب عملي على ال Speed Test",
+              "duration": "5:10"
+            },
+            {
+              "index": 86,
+              "videoId": "Z1gwFze9e94",
+              "title": "تعلم لغة Python درس 086# - تدريب على عمل Loop لأكثر من Iteration بإستخدام zip",
+              "duration": "7:40"
+            },
+            {
+              "index": 87,
+              "videoId": "mwmyhIzfkl4",
+              "title": "تعلم لغة Python درس 087# - تدريب على التلاعب بالصور بواسطة Pillow",
+              "duration": "7:49"
+            },
+            {
+              "index": 88,
+              "videoId": "6skfWbMu9MY",
+              "title": "تعلم لغة Python درس 088# - ال DocStrings والفرق بين ال Commenting وال Documenting",
+              "duration": "5:27"
+            },
+            {
+              "index": 89,
+              "videoId": "YvqKqam_3zY",
+              "title": "تعلم لغة Python درس 089# - تنصيب ال PyLint لفحص ال Code وكتابة Code سليم",
+              "duration": "5:11"
+            },
+            {
+              "index": 90,
+              "videoId": "5umR9zAidoc",
+              "title": "تعلم لغة Python درس 090# - التعامل مع Errors ورفع ال Exceptions",
+              "duration": "6:40"
+            },
+            {
+              "index": 91,
+              "videoId": "LBf_8txij3I",
+              "title": "تعلم لغة Python درس 091# - التعامل مع ال Exceptions وشرح Try, Except, Else, Finally",
+              "duration": "9:24"
+            },
+            {
+              "index": 92,
+              "videoId": "RjkKwZ-p7YU",
+              "title": "تعلم لغة Python درس 092# - التعامل مع ال Exceptions وعمل مثال متقدم",
+              "duration": "10:24"
+            },
+            {
+              "index": 93,
+              "videoId": "U2ePyJsiVdw",
+              "title": "تعلم لغة Python درس 093# - كيفية عمل Debugging لل Code",
+              "duration": "5:02"
+            },
+            {
+              "index": 94,
+              "videoId": "J_e-r7NcwPU",
+              "title": "تعلم لغة Python درس 094# - شرح ال Type Hinting",
+              "duration": "3:04"
+            },
+            {
+              "index": 95,
+              "videoId": "QrYB2S1IZKo",
+              "title": "تعلم لغة Python درس 095# - تعلم Regular Expressions الجزء الأول - مقدمة",
+              "duration": "6:56"
+            },
+            {
+              "index": 96,
+              "videoId": "3B8qYBBml68",
+              "title": "تعلم لغة Python درس 096# - تعلم Regular Expressions الجزء الثاني - ال Quantifiers",
+              "duration": "9:49"
+            },
+            {
+              "index": 97,
+              "videoId": "MnIPbqYoOaI",
+              "title": "تعلم لغة Python درس 097# - تعلم Regular Expressions الجزء الثالث - تمرينات على Characters Classes",
+              "duration": "6:24"
+            },
+            {
+              "index": 98,
+              "videoId": "bxssGTLjktA",
+              "title": "تعلم لغة Python درس 098# - تعلم Regular Expressions نمط ال Email وال Assertions",
+              "duration": "11:18"
+            },
+            {
+              "index": 99,
+              "videoId": "CD8HsbCG-T8",
+              "title": "تعلم لغة Python درس 099# - تعلم Regular Expressions تعلم Logical Or وال Escaping",
+              "duration": "7:25"
+            },
+            {
+              "index": 100,
+              "videoId": "UKA-3O7XwPs",
+              "title": "تعلم لغة Python درس 100# - تعلم Regular Expressions موديول Re والبحث",
+              "duration": "12:05"
+            },
+            {
+              "index": 101,
+              "videoId": "ZGizsqwe4ps",
+              "title": "تعلم لغة Python درس 101# - تعلم Regular Expressions موديول Re وإستعمال Split و Sub",
+              "duration": "8:47"
+            },
+            {
+              "index": 102,
+              "videoId": "MLb7pPOEJlg",
+              "title": "تعلم لغة Python درس 102# - تعلم Regular Expressions تمرينات على ال Groups وال Flags",
+              "duration": "10:44"
+            },
+            {
+              "index": 103,
+              "videoId": "V7WP_402HE0",
+              "title": "تعلم لغة Python درس 103# - ال OOP الجزء 1 - مقدمة",
+              "duration": "6:48"
+            },
+            {
+              "index": 104,
+              "videoId": "Sphiyp42cp0",
+              "title": "تعلم لغة Python درس 104# - ال OOP الجزء 2 - ال Syntax الخاص بال Class ومعلومات مهمة",
+              "duration": "8:54"
+            },
+            {
+              "index": 105,
+              "videoId": "YNm5Go1NM9M",
+              "title": "تعلم لغة Python درس 105# - ال OOP الجزء 3 - ال Instance Attributes + Methods الجزء الأول",
+              "duration": "7:27"
+            },
+            {
+              "index": 106,
+              "videoId": "ImXpb95dXGc",
+              "title": "تعلم لغة Python درس 106# - ال OOP الجزء 4 - ال Instance Attributes + Methods الجزء الثاني",
+              "duration": "9:46"
+            },
+            {
+              "index": 107,
+              "videoId": "48OyTbNlveE",
+              "title": "تعلم لغة Python درس 107# - ال OOP الجزء 5 - ال Class Attributes",
+              "duration": "8:36"
+            },
+            {
+              "index": 108,
+              "videoId": "GQVGcJblo6U",
+              "title": "تعلم لغة Python درس 108# - ال OOP الجزء 6 - ال Class Methods And Static Methods",
+              "duration": "8:28"
+            },
+            {
+              "index": 109,
+              "videoId": "dz78-WPduag",
+              "title": "تعلم لغة Python درس 109# - ال OOP الجزء 7 - ال Magic Methods",
+              "duration": "11:30"
+            },
+            {
+              "index": 110,
+              "videoId": "f3Dg6gxkL-0",
+              "title": "تعلم لغة Python درس 110# - ال OOP الجزء 8 - نظام الوراثة Inheritance",
+              "duration": "13:12"
+            },
+            {
+              "index": 111,
+              "videoId": "OwfiogOFIF4",
+              "title": "تعلم لغة Python درس 111# - ال OOP الجزء 9 - نظام الوراثة Inheritance المتعدد و Method Override",
+              "duration": "5:58"
+            },
+            {
+              "index": 112,
+              "videoId": "eaGhE6EpmBI",
+              "title": "تعلم لغة Python درس 112# - ال OOP الجزء 10 - نظام تعدد الأوجه Polymorphism",
+              "duration": "6:22"
+            },
+            {
+              "index": 113,
+              "videoId": "_zJ1nQto7Mw",
+              "title": "تعلم لغة Python درس 113# - ال OOP الجزء 11 - نظام التغليف Encapsulation",
+              "duration": "9:27"
+            },
+            {
+              "index": 114,
+              "videoId": "vsOcbPE_Ih4",
+              "title": "تعلم لغة Python درس 114# - ال OOP الجزء 12 - ال Getters + Setters",
+              "duration": "4:55"
+            },
+            {
+              "index": 115,
+              "videoId": "UgpyNxNiPRg",
+              "title": "تعلم لغة Python درس 115# - ال OOP الجزء 13 - ال Property Decorator",
+              "duration": "4:33"
+            },
+            {
+              "index": 116,
+              "videoId": "bRHRoB28sxk",
+              "title": "تعلم لغة Python درس 116# - ال OOP الجزء 14 - التجريد Abstract Base Class",
+              "duration": "10:15"
+            },
+            {
+              "index": 117,
+              "videoId": "7F_4DYQG6LM",
+              "title": "تعلم لغة Python درس 117# - قواعد البيانات - مقدمة عن قواعد البيانات",
+              "duration": "3:01"
+            },
+            {
+              "index": 118,
+              "videoId": "UokVrMqeu4o",
+              "title": "تعلم لغة Python درس 118# - قواعد البيانات - إنشاء قواعد البيانات والإتصال بها",
+              "duration": "7:18"
+            },
+            {
+              "index": 119,
+              "videoId": "JCjGtiKCYO4",
+              "title": "تعلم لغة Python درس 119# - قواعد البيانات - إدخال البيانات في قاعدة البيانات",
+              "duration": "10:22"
+            },
+            {
+              "index": 120,
+              "videoId": "vYkNQmwGTpQ",
+              "title": "تعلم لغة Python درس 120# - قواعد البيانات SQLite - جلب البيانات من قاعدة البيانات",
+              "duration": "4:47"
+            },
+            {
+              "index": 121,
+              "videoId": "4dhxFHgsLyY",
+              "title": "تعلم لغة Python درس 121# - قواعد البيانات SQLite - تدريبات على كل ما سبق",
+              "duration": "8:17"
+            },
+            {
+              "index": 122,
+              "videoId": "8B9EZt-4980",
+              "title": "تعلم لغة Python درس 122# - قواعد البيانات SQLite - تحديث وحذف البيانات من قاعدة البيانات",
+              "duration": "6:20"
+            },
+            {
+              "index": 123,
+              "videoId": "vcy5y04okBA",
+              "title": "تعلم لغة Python درس 123# - قواعد البيانات - SQLite إنشاء تطبيق للمهارات الجزء الأول",
+              "duration": "10:27"
+            },
+            {
+              "index": 124,
+              "videoId": "hJjY4vzrduE",
+              "title": "تعلم لغة Python درس 124# - قواعد البيانات - SQLite إنشاء تطبيق للمهارات الجزء الثاني",
+              "duration": "16:08"
+            },
+            {
+              "index": 125,
+              "videoId": "Bi5BMs9fc80",
+              "title": "تعلم لغة Python درس 125# - قواعد البيانات - SQLite إنشاء تطبيق للمهارات الجزء الثالث",
+              "duration": "8:03"
+            },
+            {
+              "index": 126,
+              "videoId": "4yI-WVndsuY",
+              "title": "تعلم لغة Python درس 126# - قواعد البيانات - SQLite إنشاء تطبيق للمهارات الجزء الرابع",
+              "duration": "11:47"
+            },
+            {
+              "index": 127,
+              "videoId": "DgaGUpb7ttQ",
+              "title": "تعلم لغة Python درس 127# - قواعد البيانات - SQLite معلومات هامة جدا",
+              "duration": "10:08"
+            },
+            {
+              "index": 128,
+              "videoId": "lnMZZ4Ql-FU",
+              "title": "تعلم لغة Python درس 128# - دروس متقدمة - تعرف على __name__ و \"__main__\"",
+              "duration": "10:52"
+            },
+            {
+              "index": 129,
+              "videoId": "4tKWqrBiLjo",
+              "title": "تعلم لغة Python درس 129# - دروس متقدمة - معرفة وقت تنفيذ ال Code بواسطة Timeit",
+              "duration": "8:42"
+            },
+            {
+              "index": 130,
+              "videoId": "VwDzQKfYs_k",
+              "title": "تعلم لغة Python درس 130# - دروس متقدمة - إضافة ال Logging لل Code ألخاص بك",
+              "duration": "13:45"
+            },
+            {
+              "index": 131,
+              "videoId": "7qDuqwRYEhI",
+              "title": "تعلم لغة Python درس 131# - دروس متقدمة - إختبار الواحدات بواسطة Unittest",
+              "duration": "13:37"
+            },
+            {
+              "index": 132,
+              "videoId": "GW78NkdM7bU",
+              "title": "تعلم لغة Python درس 132# - دروس متقدمة - تطبيق عملي لإنشاء Random Serial Numbers",
+              "duration": "11:03"
+            },
+            {
+              "index": 133,
+              "videoId": "Ze_lPWFQmXI",
+              "title": "تعلم لغة Python درس 133# - Flask - مقدمة عن Flask وإنشاء صفحتك الأولى",
+              "duration": "6:57"
+            },
+            {
+              "index": 134,
+              "videoId": "07qgoQngK2Q",
+              "title": "تعلم لغة Python درس 134# - Flask - إنشاء ملفات ال HTML",
+              "duration": "4:56"
+            },
+            {
+              "index": 135,
+              "videoId": "LeQaQde-RZc",
+              "title": "تعلم لغة Python درس 135# - Flask - إنشاء وإستخدام ال Templates الخاصة بال HTML",
+              "duration": "5:53"
+            },
+            {
+              "index": 136,
+              "videoId": "VdANhdo9pTo",
+              "title": "تعلم لغة Python درس 136# - Flask - تعلم Jinja Template",
+              "duration": "5:34"
+            },
+            {
+              "index": 137,
+              "videoId": "CP8gG1gDbAw",
+              "title": "تعلم لغة Python درس 137# - Flask - عمل Advanced CSS Task بواسطة Jinja Template",
+              "duration": "8:17"
+            },
+            {
+              "index": 138,
+              "videoId": "7lFHUe-yQpI",
+              "title": "تعلم لغة Python درس 138# - Flask - عمل قائمة المهارات من List",
+              "duration": "4:58"
+            },
+            {
+              "index": 139,
+              "videoId": "mciHTWGhh4w",
+              "title": "تعلم لغة Python درس 139# - Flask - تنسيق التطبيق كاملا بلغة CSS",
+              "duration": "9:15"
+            },
+            {
+              "index": 140,
+              "videoId": "KdctidbJBtQ",
+              "title": "تعلم لغة Python درس 140# - Flask - إضافة ملفات ال JavaScript",
+              "duration": "8:13"
+            },
+            {
+              "index": 141,
+              "videoId": "rovYCAv8_tU",
+              "title": "تعلم لغة Python درس 141# - تعلم Web Scraping وكيف تتحكم في المتصفح بواسطة Selenium",
+              "duration": "13:28"
+            },
+            {
+              "index": 142,
+              "videoId": "AFIaWjcUgW8",
+              "title": "تعلم لغة Python درس 142# - Numpy - مقدمة عن ال Numpy",
+              "duration": "5:05"
+            },
+            {
+              "index": 143,
+              "videoId": "vGJxavinB9M",
+              "title": "تعلم لغة Python درس 143# - Numpy - إنشاء المصفوفات",
+              "duration": "9:56"
+            },
+            {
+              "index": 144,
+              "videoId": "5rkKhsdJ0UU",
+              "title": "تعلم لغة Python درس 144# - Numpy - مقارنة مكان البيانات ونوعها",
+              "duration": "5:56"
+            },
+            {
+              "index": 145,
+              "videoId": "koMDndoAvCc",
+              "title": "تعلم لغة Python درس 145# - Numpy - مقارنة الأداء وإستخدام الذاكرة",
+              "duration": "9:51"
+            },
+            {
+              "index": 146,
+              "videoId": "EJ_TW1qiFI0",
+              "title": "تعلم لغة Python درس 146# - Numpy - تقطيع المصفوفات",
+              "duration": "7:19"
+            },
+            {
+              "index": 147,
+              "videoId": "630vRn-VzsM",
+              "title": "تعلم لغة Python درس 147# - Numpy - أنواع البيانات والتحكم في المصفوفات",
+              "duration": "9:44"
+            },
+            {
+              "index": 148,
+              "videoId": "QbHFEo-YAPU",
+              "title": "تعلم لغة Python درس 148# - Numpy - ال Arithmetic وبعض العمليات المفيدة",
+              "duration": "9:05"
+            },
+            {
+              "index": 149,
+              "videoId": "6gmakP7c_UQ",
+              "title": "تعلم لغة Python درس 149# - Numpy - ال Shape وال ReShape للمصفوفات",
+              "duration": "11:50"
+            },
+            {
+              "index": 150,
+              "videoId": "RSZEZ3WJn18",
+              "title": "تعلم لغة Python درس 150# - بيئة العمل الإفتراضية Virtual Environment الجزء الأول",
+              "duration": "7:30"
+            },
+            {
+              "index": 151,
+              "videoId": "holkKfN7qhY",
+              "title": "تعلم لغة Python درس 151# - بيئة العمل الإفتراضية Virtual Environment الجزء الثاني",
+              "duration": "6:13"
+            },
+            {
+              "index": 152,
+              "videoId": "OwV5R8Qy1e4",
+              "title": "تعلم لغة Python درس 152# - نهاية الدورة التعليمية والمصادر",
+              "duration": "3:41"
+            }
+          ]
+        },
+        {
+          "id": "inst-islam-codezilla",
+          "name": "إسلام هشام (كودزيلا - Codezilla)",
+          "role": "بديل معتمد",
+          "language": "AR",
+          "verified": true,
+          "lessonsCount": 48,
+          "durationText": "18 ساعة تدريبية",
+          "note": "شرح تطبيقي مبسط وسريع لبايثون مع بناء مشاريع وألعاب كلاسيكية",
+          "playlistId": "PLuXY3ddo_8nzrO74UeZQVZOb5-wIS6krJ",
+          "channelUrl": "https://youtube.com/@Codezilla",
+          "lessons": [
+            {
+              "index": 1,
+              "videoId": "h3VCQjyaLws",
+              "title": "شرح بايثون - تعلم لغة بايثون و اهمية تعلم البرمجة بلغة بايثون؟",
+              "duration": "7:02"
+            },
+            {
+              "index": 2,
+              "videoId": "t-bCLbmgesI",
+              "title": "[ مقدمة كورس تعلم بايثون و اجابة الاسئلة الشائعة - [ تعلم بايثون بالعربي",
+              "duration": "14:24"
+            },
+            {
+              "index": 3,
+              "videoId": "WTRKeSoynKI",
+              "title": "[#00 تثبيت و تنصيب بايثون - [ تعلم بايثون بالعربي",
+              "duration": "8:05"
+            },
+            {
+              "index": 4,
+              "videoId": "SMyzYOPGeD8",
+              "title": "{Install PyCharm} - [#01 تنصيب بايشارم - [ تعلم بايثون بالعربي",
+              "duration": "2:54"
+            },
+            {
+              "index": 5,
+              "videoId": "oMMW_Cx0qW8",
+              "title": "[#02 كتابة اول سطر كود في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "1:37"
+            },
+            {
+              "index": 6,
+              "videoId": "Vl1mHJMrEnk",
+              "title": "[#03 بناء اول برنامج في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "3:01"
+            },
+            {
+              "index": 7,
+              "videoId": "gQxch0k9B0E",
+              "title": "{Python Variables} - [#04 المتغيرات في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "10:30"
+            },
+            {
+              "index": 8,
+              "videoId": "5O_m0IGwQLw",
+              "title": "{Python Strings} - [#05 السلاسل في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "10:33"
+            },
+            {
+              "index": 9,
+              "videoId": "HjfiVp0L3LI",
+              "title": "{Python Numbers} - [#06 الارقام في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "5:35"
+            },
+            {
+              "index": 10,
+              "videoId": "bWE45B_O9Lk",
+              "title": "{Python Inputs} - [#07 المدخلات في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "3:28"
+            },
+            {
+              "index": 11,
+              "videoId": "hYC0ObXfGjs",
+              "title": "{Build Calculator in Python} - [#08 بناء اله حاسبه في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "4:15"
+            },
+            {
+              "index": 12,
+              "videoId": "N57Xvo8ilMw",
+              "title": "{Build MadLibs in Python} - [#09 بناء تطبيق في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "2:54"
+            },
+            {
+              "index": 13,
+              "videoId": "EgwCjNCx_v4",
+              "title": "{Python Lists} - [#10 القوائم في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "6:58"
+            },
+            {
+              "index": 14,
+              "videoId": "SGp9syExKxk",
+              "title": "{Python Lists 2} - [#11 القوائم في بايثون ٢ - [ تعلم بايثون بالعربي",
+              "duration": "10:23"
+            },
+            {
+              "index": 15,
+              "videoId": "PNMSop-0kwM",
+              "title": "{Python Tuples} - [#12 القوائم الثابتة في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "5:40"
+            },
+            {
+              "index": 16,
+              "videoId": "b4AEoHvCD_A",
+              "title": "{Python Functions} - [#13 الدوال في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "7:49"
+            },
+            {
+              "index": 17,
+              "videoId": "HjiAlW4fbRw",
+              "title": "{Python Functions 2} - [#14 الدوال في بايثون ٢ - [ تعلم بايثون بالعربي",
+              "duration": "5:17"
+            },
+            {
+              "index": 18,
+              "videoId": "IT1C46MDoxo",
+              "title": "{Python Conditionals} - [#15 الادوات الشرطية في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "13:46"
+            },
+            {
+              "index": 19,
+              "videoId": "WCN4GDOZitU",
+              "title": "{Python Comparisons} - [#16 المقارنات في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "7:13"
+            },
+            {
+              "index": 20,
+              "videoId": "Vj8zWPW5kKg",
+              "title": "{Build Calculator in Python 2} - [#17 بناء اله حاسبه في بايثون ٢ - [ تعلم بايثون بالعربي",
+              "duration": "4:35"
+            },
+            {
+              "index": 21,
+              "videoId": "mQ4AkeafCds",
+              "title": "{Python Dictionaries} - [#18 القواميس في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "8:46"
+            },
+            {
+              "index": 22,
+              "videoId": "TXQSACBnvZ0",
+              "title": "{Python While Loop} - [#19 الحلقات التكرارية في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "12:15"
+            },
+            {
+              "index": 23,
+              "videoId": "NFqjO5z1jx0",
+              "title": "Build a Snake game with Python | برمجة لعبة الثعبان بلغة بايثون | مشاريع بايثون | تعلم بايثون",
+              "duration": "1:12:57"
+            },
+            {
+              "index": 24,
+              "videoId": "kXKcuqISXYo",
+              "title": "{Python For Loop} - [#20 الحلقات التكرارية في بايثون ٢ - [ تعلم بايثون بالعربي",
+              "duration": "20:25"
+            },
+            {
+              "index": 25,
+              "videoId": "kp-LJqgJPmI",
+              "title": "{Python Sets } - [ المجموعات في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "13:44"
+            },
+            {
+              "index": 26,
+              "videoId": "muBnHp9JufE",
+              "title": "{Python Power()} - [#21 دالة الاس في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "6:59"
+            },
+            {
+              "index": 27,
+              "videoId": "BXsVpjWKr2Q",
+              "title": "{Python 2D Lists & Nested Loops} - [#22 قوائم ثنائية الابعاد في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "10:48"
+            },
+            {
+              "index": 28,
+              "videoId": "_5z9fX2vfDs",
+              "title": "{Python Comments} - [#23 التعليقات في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "4:46"
+            },
+            {
+              "index": 29,
+              "videoId": "jevAO7QlkQQ",
+              "title": "{Python Errors} - [#24 الاخطاء في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "9:04"
+            },
+            {
+              "index": 30,
+              "videoId": "ZCmdm-RuRFA",
+              "title": "{Python Reading Files} - [#25 قراءة الملفات في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "12:35"
+            },
+            {
+              "index": 31,
+              "videoId": "fVgRlbFAoeU",
+              "title": "{Python Writing Files} - [#26 كتابة الملفات في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "11:25"
+            },
+            {
+              "index": 32,
+              "videoId": "Qj58RxZPw7c",
+              "title": "{Python Modules} - [#27 المكتبات في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "9:21"
+            },
+            {
+              "index": 33,
+              "videoId": "cqopVpEWvCc",
+              "title": "{Python Classes & Objects} - [#28 الفئات و الكائنات في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "13:30"
+            },
+            {
+              "index": 34,
+              "videoId": "ZaQgQN2HTGY",
+              "title": "{Python Class Functions} - [#29 دوال الفئات في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "7:12"
+            },
+            {
+              "index": 35,
+              "videoId": "93_JLg55jGM",
+              "title": "{Python Class Inheritance} - [#30 الوراثة في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "8:22"
+            },
+            {
+              "index": 36,
+              "videoId": "xzuguCSizWw",
+              "title": "{Python Pong Game} - [ مشاريع بايثون - [ تعلم بايثون بالعربي",
+              "duration": "1:06:41"
+            },
+            {
+              "index": 37,
+              "videoId": "A9kSngn7254",
+              "title": "Python Object Oriented Programming -  شرح للبرمجة كائنية التوجه في بايثون",
+              "duration": "2:41:26"
+            },
+            {
+              "index": 38,
+              "videoId": "GCYYkOSKj80",
+              "title": "OOP project Python | Build Tic Tac Toe  - مشروع بايثون",
+              "duration": "2:04:30"
+            },
+            {
+              "index": 39,
+              "videoId": "8BCN8gXbBY8",
+              "title": "{Python Special/Dunder Methods} - [ الدوال الخاصة في بايثون - [ تعلم بايثون بالعربي",
+              "duration": "40:21"
+            },
+            {
+              "index": 40,
+              "videoId": "q0ert5YP968",
+              "title": "{Web Scraping with Python Beautiful Soup} - [ مشاريع بايثون - [ تعلم بايثون بالعربي",
+              "duration": "1:15:48"
+            },
+            {
+              "index": 41,
+              "videoId": "OM0qcZRIfSg",
+              "title": "How to Convert a Python File to .EXE - تحويل ملف بايثون الي برنامج كامل",
+              "duration": "8:03"
+            },
+            {
+              "index": 42,
+              "videoId": "qXpjgykUxgM",
+              "title": "{Python *args} - Python args, kwargs & unpacking operators - [ تعلم بايثون بالعربي ]",
+              "duration": "11:16"
+            },
+            {
+              "index": 43,
+              "videoId": "PhnPgml7O30",
+              "title": "{Python **kwargs} - Python args, kwargs & unpacking operators - [ تعلم بايثون بالعربي ]",
+              "duration": "19:42"
+            },
+            {
+              "index": 44,
+              "videoId": "QLJn3fFsy1k",
+              "title": "{Python unpacking operators} - Python args, kwargs & unpacking operators - [ تعلم بايثون بالعربي ]",
+              "duration": "15:16"
+            },
+            {
+              "index": 45,
+              "videoId": "taL3r_JpwBg",
+              "title": "Web Scraping with Python Beautiful Soup - تعلم استخراج البيانات من اي موقع على الانترنت",
+              "duration": "1:07:05"
+            },
+            {
+              "index": 46,
+              "videoId": "XK4PMXb056c",
+              "title": "Python Turtle Crash Course | بايثون - رسم وجه الرجل الحديدي خطوة بخطوة",
+              "duration": "43:03"
+            },
+            {
+              "index": 47,
+              "videoId": "xNm6y8SYcs4",
+              "title": "Build To Do List Application with Python - بناء تطبيق المهام بلغة بايثون",
+              "duration": "2:17:59"
+            },
+            {
+              "index": 48,
+              "videoId": "HJkY_Bbiqcc",
+              "title": "الداتا كلاس في بايثون هيوفر عليك ساعات | {OOP} Python Data Class",
+              "duration": "36:03"
+            },
+            {
+              "index": 49,
+              "videoId": "y_j4TqS-I6A",
+              "title": "Python Pytest - Python Testing Course | كورس اختبار البرمجيات في بايثون",
+              "duration": "56:06"
+            }
+          ]
+        },
+        {
+          "id": "inst-abdelrahman-gamal-python",
+          "name": "عبدالرحمن جمال (Abdelrahman Gamal)",
+          "role": "بديل معتمد",
+          "language": "AR",
+          "verified": true,
+          "lessonsCount": 104,
+          "durationText": "20 ساعة تدريبية",
+          "note": "دورة شاملة ومفصلة من الصفر حتى المفاهيم المتقدمة والتطبيقات",
+          "playlistId": "PLknwEmKsW8OsG8dnisr_-2WGyx7lpgGEE",
+          "channelUrl": "https://youtube.com/@AbdelrahmanGamal",
+          "lessons": [
+            {
+              "index": 1,
+              "videoId": "Lm6irXWjWIo",
+              "title": "ليه لازم تتعلم بايثون ؟",
+              "duration": "3:05"
+            },
+            {
+              "index": 2,
+              "videoId": "mcqmcT8-v0o",
+              "title": "#2 كورس بايثون بالعربي | ماذا تحتاج لكي تتعلم بايثون",
+              "duration": "4:13"
+            },
+            {
+              "index": 3,
+              "videoId": "CFfGVwErnq4",
+              "title": "#3 كورس بايثون بالعربي | كتابة اول كود بايثون",
+              "duration": "2:29"
+            },
+            {
+              "index": 4,
+              "videoId": "u3q-e9vOl8w",
+              "title": "#4 كورس بايثون بالعربي | Python Print() Function",
+              "duration": "1:59"
+            },
+            {
+              "index": 5,
+              "videoId": "cBTU0BRWdG0",
+              "title": "#5 كورس بايثون بالعربي | قاعدة كتابة اكواد البايثون",
+              "duration": "5:27"
+            },
+            {
+              "index": 6,
+              "videoId": "Q7vd1ujtJ38",
+              "title": "#6 كورس بايثون بالعربي | المتغيرات",
+              "duration": "5:43"
+            },
+            {
+              "index": 7,
+              "videoId": "Eu56dMxAqNw",
+              "title": "#7 كورس بايثون بالعربي | التعليقات في لغة البايثون",
+              "duration": "2:58"
+            },
+            {
+              "index": 8,
+              "videoId": "ZOhTcI74Mu0",
+              "title": "#8 كورس بايثون بالعربي | كيفية ربط النصوص concatenation في البايثون",
+              "duration": "3:08"
+            },
+            {
+              "index": 9,
+              "videoId": "yIzPTlBXTSY",
+              "title": "#9 كورس بايثون بالعربي | انواع البيانات",
+              "duration": "6:11"
+            },
+            {
+              "index": 10,
+              "videoId": "_b5D8z_CbOU",
+              "title": "#10 كورس بايثون بالعربي | string النصوص",
+              "duration": "6:52"
+            },
+            {
+              "index": 11,
+              "videoId": "nvU-7cnrP9s",
+              "title": "#11 كورس بايثون بالعربي | string methods النصوص",
+              "duration": "5:00"
+            },
+            {
+              "index": 12,
+              "videoId": "jvHeAhTNAGc",
+              "title": "#12 كورس بايثون بالعربي | string methods النصوص الجزء الثاني",
+              "duration": "4:00"
+            },
+            {
+              "index": 13,
+              "videoId": "LIbaUxoaMWk",
+              "title": "#13 كورس بايثون بالعربي | string methods النصوص الجزء الثالث",
+              "duration": "6:20"
+            },
+            {
+              "index": 14,
+              "videoId": "xBlrboM9HwY",
+              "title": "#14 كورس بايثون بالعربي | string methods النصوص الجزء الرابع",
+              "duration": "5:15"
+            },
+            {
+              "index": 15,
+              "videoId": "yVsTRDf2j04",
+              "title": "#15 كورس بايثون بالعربي | numbers الارقام",
+              "duration": "2:24"
+            },
+            {
+              "index": 16,
+              "videoId": "DLO1bYkWQuU",
+              "title": "#16 كورس بايثون بالعربي | numbers methods الارقام",
+              "duration": "3:55"
+            },
+            {
+              "index": 17,
+              "videoId": "Suxe7Yp8-7U",
+              "title": "#17 كورس بايثون بالعربي | numbers الارقام",
+              "duration": "4:40"
+            },
+            {
+              "index": 18,
+              "videoId": "LAV-i9-WFl4",
+              "title": "#18 كورس بايثون بالعربي | input ادخالص البيانات من قبل المستخدم",
+              "duration": "4:04"
+            },
+            {
+              "index": 19,
+              "videoId": "eiMAMv5E0IU",
+              "title": "#19 كورس بايثون بالعربي | صنع أله حاسبة بسيطة بالبايثون الجزء الاول",
+              "duration": "4:48"
+            },
+            {
+              "index": 20,
+              "videoId": "N3ythFgO4zI",
+              "title": "#20 كورس بايثون بالعربي | input مع النصوص",
+              "duration": "2:45"
+            },
+            {
+              "index": 21,
+              "videoId": "sCV55crjZ6M",
+              "title": "#21 كورس بايثون بالعربي | list القائمة",
+              "duration": "4:38"
+            },
+            {
+              "index": 22,
+              "videoId": "OxJcAu3nbXo",
+              "title": "#22 كورس بايثون بالعربي | list methods القائمة",
+              "duration": "6:39"
+            },
+            {
+              "index": 23,
+              "videoId": "9GZ6MH_hzF0",
+              "title": "#23 كورس بايثون بالعربي | tuples المجموعات",
+              "duration": "2:17"
+            },
+            {
+              "index": 24,
+              "videoId": "R5Nxm0_3qXY",
+              "title": "#24 كورس بايثون بالعربي | dictionary المعاجم",
+              "duration": "4:21"
+            },
+            {
+              "index": 25,
+              "videoId": "Uc0qh0avxao",
+              "title": "#25 كورس بايثون بالعربي | set في البايثون",
+              "duration": "3:06"
+            },
+            {
+              "index": 26,
+              "videoId": "AOmv_gZIi6k",
+              "title": "#26 كورس بايثون بالعربي | set methods في البايثون",
+              "duration": "5:19"
+            },
+            {
+              "index": 27,
+              "videoId": "xB-3-qoTc_c",
+              "title": "#27 كورس بايثون بالعربي | function في البايثون",
+              "duration": "7:17"
+            },
+            {
+              "index": 28,
+              "videoId": "Go7P5Dexkhs",
+              "title": "#28 كورس بايثون بالعربي | function return في البايثون",
+              "duration": "3:10"
+            },
+            {
+              "index": 29,
+              "videoId": "NS4tYrp5XQ4",
+              "title": "#29 كورس بايثون بالعربي | انشاء لعبة احسب عمرك بالايام",
+              "duration": "6:53"
+            },
+            {
+              "index": 30,
+              "videoId": "KZuU_EQkfUo",
+              "title": "#30 كورس بايثون بالعربي | الاداة الشرطية if في لغة اليثون",
+              "duration": "9:37"
+            },
+            {
+              "index": 31,
+              "videoId": "4QaLaHi1-CI",
+              "title": "#31 كورس بايثون بالعربي | انشاء تطبيق احسب نتيجتك باستخدام البايثون",
+              "duration": "3:55"
+            },
+            {
+              "index": 32,
+              "videoId": "qQCwe8EdpEg",
+              "title": "#32 كورس بايثون بالعربي | المقارنات if في لغة اليثون",
+              "duration": "4:16"
+            },
+            {
+              "index": 33,
+              "videoId": "d3-XjT7Kg9k",
+              "title": "#33 كورس بايثون بالعربي | بناء ألة حاسبة الجزء الثاني  باليثون",
+              "duration": "5:34"
+            },
+            {
+              "index": 34,
+              "videoId": "w267SMb5Cio",
+              "title": "#34 كورس بايثون بالعربي | while loop في لغة البايثون",
+              "duration": "4:46"
+            },
+            {
+              "index": 35,
+              "videoId": "pfTANblumX4",
+              "title": "#35 كورس بايثون بالعربي | انشاء لعبة الاسئلة بالبايثون",
+              "duration": "10:51"
+            },
+            {
+              "index": 36,
+              "videoId": "-f1G5DwXxcQ",
+              "title": "#36 كورس بايثون بالعربي | for loop في لغة اليثون",
+              "duration": "2:43"
+            },
+            {
+              "index": 37,
+              "videoId": "In3gnv-7vy0",
+              "title": "#37 كورس بايثون بالعربي | for loop range في لغة اليثون",
+              "duration": "4:39"
+            },
+            {
+              "index": 38,
+              "videoId": "Lis5oURCkWc",
+              "title": "#38 كورس بايثون بالعربي | loop for dictionary في لغة البايثون",
+              "duration": "7:59"
+            },
+            {
+              "index": 39,
+              "videoId": "NiKI7Jo2K0w",
+              "title": "#39 كورس بايثون بالعربي | شرح try except في البايثون",
+              "duration": "6:12"
+            },
+            {
+              "index": 40,
+              "videoId": "sEdymyx60OQ",
+              "title": "#40 كورس بايثون بالعربي | شرح read files في البايثون",
+              "duration": "5:16"
+            },
+            {
+              "index": 41,
+              "videoId": "Hahs-N6G4SY",
+              "title": "#41 كورس بايثون بالعربي | شرح files في البايثون",
+              "duration": "6:44"
+            },
+            {
+              "index": 42,
+              "videoId": "WRzsvhHeTt4",
+              "title": "#42 كورس بايثون بالعربي | شرح formating 1 في البايثون",
+              "duration": "7:48"
+            },
+            {
+              "index": 43,
+              "videoId": "9IHYyLuM7jM",
+              "title": "#43 كورس بايثون بالعربي | شرح formating 2 في البايثون",
+              "duration": "3:34"
+            },
+            {
+              "index": 44,
+              "videoId": "roUDQ5XpGYk",
+              "title": "#44 كورس بايثون بالعربي | شرح formating 3 في البايثون",
+              "duration": "2:46"
+            },
+            {
+              "index": 45,
+              "videoId": "mhMGJwNXznE",
+              "title": "#45 كورس بايثون بالعربي | شرح formating 4 في البايثون",
+              "duration": "2:05"
+            },
+            {
+              "index": 46,
+              "videoId": "367jMVXhBvE",
+              "title": "#46 كورس بايثون بالعربي | شرح MODULES 1 في البايثون",
+              "duration": "6:31"
+            },
+            {
+              "index": 47,
+              "videoId": "SX9wkVvvuBY",
+              "title": "#47 كورس بايثون بالعربي | شرح MODULES 2 في البايثون",
+              "duration": "6:11"
+            },
+            {
+              "index": 48,
+              "videoId": "2iQ5snTVbyQ",
+              "title": "شرح OOP ما هي البرمجة الكائنية و ما هو ال object",
+              "duration": "3:29"
+            },
+            {
+              "index": 49,
+              "videoId": "20dqg24auNo",
+              "title": "شرح OOP ما هي البرمجة الكائنية و ما هو ال class",
+              "duration": "2:27"
+            },
+            {
+              "index": 50,
+              "videoId": "GtR1SZ2Z6x4",
+              "title": "كورس بايثون بالعربي | شرح oop 3 في البايثون",
+              "duration": "8:03"
+            },
+            {
+              "index": 51,
+              "videoId": "NDnDEsFvbHQ",
+              "title": "كورس بايثون بالعربي | شرح oop 4 في البايثون",
+              "duration": "5:06"
+            },
+            {
+              "index": 52,
+              "videoId": "h42cWaRApoo",
+              "title": "كورس بايثون بالعربي | شرح oop 5 في البايثون",
+              "duration": "5:46"
+            },
+            {
+              "index": 53,
+              "videoId": "Ckqdk728Ip0",
+              "title": "كورس بايثون بالعربي | شرح oop 6 في البايثون",
+              "duration": "6:45"
+            }
+          ]
+        }
+      ],
+      "category": "الويب والبرمجة",
+      "instructor": "أسامة محمد (الزيرو - Elzero Web School)",
+      "verified": true,
+      "youtubeId": "mvZHDpCHphk",
+      "youtubeVideoId": "mvZHDpCHphk",
+      "runtime": "26 ساعة تدريبية",
+      "viewsCount": 1420000,
+      "level": "مسار تأسيسي وشامل",
+      "qualityBadge": "المرتبة #1",
+      "rankOrder": 1,
+      "orderIndex": 1,
+      "featured": true,
+      "trending": true,
+      "isNewCourse": true,
+      "isToolGuide": false,
+      "isMonetization": false,
+      "thumbnail": "https://i.ytimg.com/vi/mvZHDpCHphk/hqdefault.jpg",
+      "scores": {
+        "depth": 9.8,
+        "practical": 9.7,
+        "freshness": 9.6,
+        "production": 9.6
+      },
+      "techStack": [
+        "Python",
+        "OOP",
+        "Data Structures",
+        "Scripting",
+        "Automation"
+      ],
+      "oneLineVerdict": "يُنصح بدراسة المسار الأساسي (152 درساً) مع كتابة الأكواد والتطبيق على التمارين العملية.",
+      "synopsis": "يُنصح بدراسة المسار الأساسي (152 درساً) مع كتابة الأكواد والتطبيق على التمارين العملية.",
+      "timestamps": [],
+      "toolsSummary": "Python 3.12, OOP, Algorithms, Data Structures, Automation",
+      "primaryTool": "الويب والبرمجة",
+      "review": {
+        "verdictBox": "يُنصح بدراسة المسار الأساسي (152 درساً) مع كتابة الأكواد والتطبيق على التمارين العملية.",
+        "strengths": "تغطية تفاعلية ممتازة، تنظيم أكاديمي متسلسل، وتطبيقات عملية تواكب أحدث المعايير التقنية.",
+        "limitations": "يُنصح بتطبيق التمارين خطوة بخطوة بعد كل درس ومراجعة المفاهيم لترسيخ التعلم.",
+        "deepAnalysis": "يُنصح بدراسة المسار الأساسي (152 درساً) مع كتابة الأكواد والتطبيق على التمارين العملية."
+      },
+      "promptBlueprint": "خطة تطبيق عملية لدراسة مسار: دورة بايثون الشاملة من الصفر حتى الاحتراف الكامل\n1. متابعة الدرس وتدوين الملاحظات البرمجية والعملية.\n2. تنفيذ التحدي العملي ومحاكاة المعامل والتأكد من صحة النتائج.\n3. الانتقال للدرس التالي وتثبيت المفاهيم المكتسبة.",
+      "comments": []
+    },
+    {
+      "id": "algorithms-masterclass",
+      "title": "الخوارزميات وحل المسائل البرمجية (Algorithms & Problem Solving)",
+      "domainId": "computer-science",
+      "domainTitle": "علوم الحاسوب",
+      "badge": "المرتبة #1 خوارزميات",
+      "methodologyNote": "المسار التأسيسي لفهم منطق الخوارزميات، تحليل التعقيد الزمني والمكاني Big-O، وحل مسائل المقابلات التقنية.",
+      "instructors": [
+        {
+          "id": "inst-hardcode-algo",
+          "name": "محمود سامي (Hard-Code)",
+          "role": "أساسي",
+          "language": "AR",
+          "verified": true,
+          "lessonsCount": 15,
+          "durationText": "8 ساعات تدريبية",
+          "note": "شرح مبسط وتطبيقي لأهم خوارزميات الترتيب والبحث والتعقيد الزمني (15 درساً مرتباً ✔)",
+          "playlistId": "PLwCMLs3sjOY6KH-8c9F-lMWn-r02hyoV_",
+          "channelUrl": "https://youtube.com/@hard-code",
+          "lessons": [
+            {
+              "index": 1,
+              "videoId": "McifeJjrvpI",
+              "title": "#1- Introduction to Algorithms - مقدمة فالخوارزميات",
+              "duration": "10:00"
+            },
+            {
+              "index": 2,
+              "videoId": "8QDFAK8Y5Ts",
+              "title": "#2- Algorithm Time Complexity - مقدمه",
+              "duration": "10:26"
+            },
+            {
+              "index": 3,
+              "videoId": "Day3_mw1F-Y",
+              "title": "#2.1- Time Complexity Analysis: Frequency Count | بالعربي",
+              "duration": "15:32"
+            },
+            {
+              "index": 4,
+              "videoId": "w7gYfHx8Z1Q",
+              "title": "#2.2- Time Complexity Analysis: Example [ Log2(n) ] | بالعربي",
+              "duration": "10:41"
+            },
+            {
+              "index": 5,
+              "videoId": "oV6YzMr1PBY",
+              "title": "#2.3- Asymptotic Notation | بالعربي",
+              "duration": "11:07"
+            },
+            {
+              "index": 6,
+              "videoId": "nrSVRPYy76c",
+              "title": "#2.4- شرح مفهوم الـ Big O - Notation",
+              "duration": "17:24"
+            },
+            {
+              "index": 7,
+              "videoId": "yG1l1NiJhhc",
+              "title": "#2.5- اثبات | Big O Proof",
+              "duration": "5:30"
+            },
+            {
+              "index": 8,
+              "videoId": "kleyhFIsU5E",
+              "title": "#3- شرح مفهوم الـ Binary Search بكل تفاصيله",
+              "duration": "22:02"
+            },
+            {
+              "index": 9,
+              "videoId": "Pj7WS96RzRM",
+              "title": "#4- شرح الـ Swap",
+              "duration": "4:18"
+            },
+            {
+              "index": 10,
+              "videoId": "0Y32bFZXVMI",
+              "title": "#5- البحث عن اصغر/اكبر عنصر فالمصفوفة - Find Min/Max Element",
+              "duration": "4:59"
+            },
+            {
+              "index": 11,
+              "videoId": "hSAGzbUKz04",
+              "title": "#6- شرح مفهوم الـ Selection Sort بكل تفاصيله",
+              "duration": "18:44"
+            },
+            {
+              "index": 12,
+              "videoId": "LyWZmJ-d8Os",
+              "title": "#7- شرح الـ Bubble Sort",
+              "duration": "8:16"
+            },
+            {
+              "index": 13,
+              "videoId": "Gqn6hmm9HEw",
+              "title": "#8- شرح مفهوم الـ Recursion",
+              "duration": "22:02"
+            },
+            {
+              "index": 14,
+              "videoId": "bb1__43twpE",
+              "title": "#8.1- Recursion Time Complexity Analysis | بالعربي",
+              "duration": "11:58"
+            },
+            {
+              "index": 15,
+              "videoId": "Lp0FzLhh2VY",
+              "title": "#8.2-  احذر من الـ Recursion بمثال مع الـ Fibonacci Series",
+              "duration": "9:25"
+            }
+          ]
+        },
+        {
+          "id": "inst-adel-nasim-algo",
+          "name": "عادل نسيم (Adel Nasim)",
+          "role": "بديل معتمد",
+          "language": "AR",
+          "verified": true,
+          "lessonsCount": 37,
+          "durationText": "16 ساعة تدريبية",
+          "note": "دورة شاملة ومفصلة في تحليل الخوارزميات وتراكيب البيانات المتقدمة مع تمارين C++ العملية",
+          "playlistId": "PLCInYL3l2AajqOUW_2SwjWeMwf4vL4RSp",
+          "channelUrl": "https://youtube.com/@AdelNasim",
+          "lessons": [
+            {
+              "index": 1,
+              "videoId": "owCqVRbZlbg",
+              "title": "#00 [Data Structures] - Introduction",
+              "duration": "10:10"
+            },
+            {
+              "index": 2,
+              "videoId": "sHhVsGQz9MI",
+              "title": "#01 [Data Structures] - Complexity",
+              "duration": "18:03"
+            },
+            {
+              "index": 3,
+              "videoId": "vdPNQzgBu_I",
+              "title": "#02 [Data Structures] - Introduction To Stack",
+              "duration": "7:05"
+            },
+            {
+              "index": 4,
+              "videoId": "N4o69Gqarhc",
+              "title": "#03 [Data Structures] - Stack Implementation",
+              "duration": "18:51"
+            },
+            {
+              "index": 5,
+              "videoId": "9BZlgbZFR_c",
+              "title": "#04 [Data Structures] - Stack Using Linked List(Linked Stack)-Part 1",
+              "duration": "7:55"
+            },
+            {
+              "index": 6,
+              "videoId": "XSm6MivqBrM",
+              "title": "#05 [Data Structures] - Stack Using Linked List Implementation",
+              "duration": "14:26"
+            },
+            {
+              "index": 7,
+              "videoId": "PLvD3pHaWHQ",
+              "title": "#06 [Data Structures] - Balanced Parentheses Using Stack {([ ])}",
+              "duration": "10:28"
+            },
+            {
+              "index": 8,
+              "videoId": "Q4X7pZ5pyA4",
+              "title": "#07 [Data Structures] - Expression Evaluation Using Stack",
+              "duration": "11:53"
+            },
+            {
+              "index": 9,
+              "videoId": "xhcChs9jijM",
+              "title": "#08 [Data Structures] - Infix To Postfix Using Stack",
+              "duration": "11:58"
+            },
+            {
+              "index": 10,
+              "videoId": "8t_tzT52br8",
+              "title": "#09 [Data Structures] - Queue Introduction(Simple Queue vs Circular Queue Using Array)",
+              "duration": "28:01"
+            },
+            {
+              "index": 11,
+              "videoId": "bsk-mNsHhzA",
+              "title": "#010 [Data Structures] - Queue Implementation Using Circular Array",
+              "duration": "32:02"
+            },
+            {
+              "index": 12,
+              "videoId": "VhRKjM759W8",
+              "title": "#011 [Data Structures] - Queue Using Linked List With Implementation",
+              "duration": "31:01"
+            },
+            {
+              "index": 13,
+              "videoId": "GRIwvS93hNM",
+              "title": "#012 [Data Structures] - Array Based List With Implementation",
+              "duration": "22:29"
+            },
+            {
+              "index": 14,
+              "videoId": "t7WnaypBoNw",
+              "title": "#013 [Data Structures] - Introduction To Linked List",
+              "duration": "9:26"
+            },
+            {
+              "index": 15,
+              "videoId": "t7iviFyL3K4",
+              "title": "#014 [Data Structures] - Linked List Insert-First Insert-Last Insert-At-Position With Implementation",
+              "duration": "23:32"
+            },
+            {
+              "index": 16,
+              "videoId": "_v8lL7zMlFc",
+              "title": "#015 [Data Structures] - Linked List Remove-First Remove-Last Remove-Key With Implementation",
+              "duration": "16:05"
+            },
+            {
+              "index": 17,
+              "videoId": "8kvQ-O10h4k",
+              "title": "#016 [Data Structures] - Linked List Reverse,Search",
+              "duration": "10:21"
+            },
+            {
+              "index": 18,
+              "videoId": "9xtRgr2V2mY",
+              "title": "#017 [Data Structures] - Doubly Linked List Insert(First-Last-At),Remove(First-Last-At)",
+              "duration": "30:09"
+            },
+            {
+              "index": 19,
+              "videoId": "XDDZNL-yG2U",
+              "title": "#018 [Data Structures] - Introduction To Trees",
+              "duration": "15:15"
+            },
+            {
+              "index": 20,
+              "videoId": "abaxG_-P9Ug",
+              "title": "#019 [Data Structures] - Binary Tree,Types Of Binary Tree:Full,Complete,Perfect,Balanced,Adegenerate",
+              "duration": "16:36"
+            },
+            {
+              "index": 21,
+              "videoId": "tFsfKTTJD6I",
+              "title": "#020 [Data Structures] - Binary Tree Traversal(Pre-In-Post-Level Order) With Implementation",
+              "duration": "23:44"
+            },
+            {
+              "index": 22,
+              "videoId": "MikbKCPVsBY",
+              "title": "#021 [Data Structures] - Binary Search Tree(Insert-Delete-Search),Find:Successor-Predecessor-Max-Min",
+              "duration": "22:16"
+            },
+            {
+              "index": 23,
+              "videoId": "br-1squJfkA",
+              "title": "#022 [Data Structures] - AVL Trees (Hieght Balanced Tree): Insertion , Rotation(LL,RR,LR,RL)",
+              "duration": "22:48"
+            },
+            {
+              "index": 24,
+              "videoId": "xzB7WOtWmkc",
+              "title": "#023 [Data Structures] - Huffman Coding Algorithm",
+              "duration": "12:04"
+            },
+            {
+              "index": 25,
+              "videoId": "EnodMqJuQEo",
+              "title": "#024 [Data Structures] - Selection Sort Algorithm With Implementation",
+              "duration": "15:03"
+            },
+            {
+              "index": 26,
+              "videoId": "pIEGHDZHOCk",
+              "title": "#025 [Data Structures] - Bubble Sort Algorithm With Implementation",
+              "duration": "11:10"
+            },
+            {
+              "index": 27,
+              "videoId": "JecAk1FAOck",
+              "title": "#026 [Data Structures] - Insertion Sort Algorithm With Implementation",
+              "duration": "12:04"
+            },
+            {
+              "index": 28,
+              "videoId": "3P43wofKYOM",
+              "title": "#027 [Data Structures] - Merge Sort Algorithm With Implementation",
+              "duration": "19:04"
+            },
+            {
+              "index": 29,
+              "videoId": "lOB2TIwBiX8",
+              "title": "#028 [Data Structures] - Quick Sort Algorithm With Implementation",
+              "duration": "23:19"
+            },
+            {
+              "index": 30,
+              "videoId": "REOsj0nYWKE",
+              "title": "#029 [Data Structures] - Heap Sort Algorithm(Heapify,Build heap,Max-Min heap) With Implementation",
+              "duration": "22:36"
+            },
+            {
+              "index": 31,
+              "videoId": "U1wy9kZzOGI",
+              "title": "#030 [Data Structures] - Linear Search (Sequential Search) With Implementation",
+              "duration": "7:17"
+            },
+            {
+              "index": 32,
+              "videoId": "qxhfkoDGGZc",
+              "title": "#031 [Data Structures] - Binary Search Algorithm With Implementation",
+              "duration": "15:11"
+            },
+            {
+              "index": 33,
+              "videoId": "mZFuZHOESEY",
+              "title": "#032 [Data Structures] - Hashing (Hash Table)",
+              "duration": "13:48"
+            },
+            {
+              "index": 34,
+              "videoId": "R74DnYySxv0",
+              "title": "#033 [Data Structures] - Introduction To Graph,Types Of Graph and Representation",
+              "duration": "22:32"
+            },
+            {
+              "index": 35,
+              "videoId": "pNWCCHFw7og",
+              "title": "#034 [Data Structures] - Breadth First Search Algorithm (BFS)",
+              "duration": "21:22"
+            },
+            {
+              "index": 36,
+              "videoId": "vAvPkrLbczg",
+              "title": "#035 [Data Structures] - Depth First Search Algorithm (DFS)",
+              "duration": "18:55"
+            },
+            {
+              "index": 37,
+              "videoId": "rUkj_Wiurdc",
+              "title": "#036 [Data Structures] - Dijkstra's(Shortest Path Algorithm)",
+              "duration": "16:40"
+            }
+          ]
+        },
+        {
+          "id": "inst-desouki-algo",
+          "name": "د. محمد الدسوقي (Mohamed El Desouki)",
+          "role": "بديل معتمد",
+          "language": "AR",
+          "verified": true,
+          "lessonsCount": 14,
+          "durationText": "10 ساعات تدريبية",
+          "note": "المنهج الأكاديمي الجامعي لشرح خوارزميات البيانات والبحث والترتيب بأسلوب عميق ومتقن",
+          "playlistId": "PL1DUmTEdeA6JlommmGP5wicYLxX5PVCQt",
+          "channelUrl": "https://youtube.com/@MohamedElDesouki",
+          "lessons": [
+            {
+              "index": 1,
+              "videoId": "jGP19W5IObA",
+              "title": "01 - | C++ Data Structures | -  | why Data Structures ? | - | تراكيب البيانات |",
+              "duration": "17:46"
+            },
+            {
+              "index": 2,
+              "videoId": "OlY_Fwfyk6s",
+              "title": "02 - | C++ Data Structures | -  | Static & Dynamic memory Allocation - Part 1| - | تراكيب البيانات |",
+              "duration": "18:07"
+            },
+            {
+              "index": 3,
+              "videoId": "XxniWLQEMMo",
+              "title": "03 - | C++ Data Structures | -  | Static & Dynamic memory Allocation - Part 2| - | تراكيب البيانات |",
+              "duration": "11:40"
+            },
+            {
+              "index": 4,
+              "videoId": "Ozm_OHViErY",
+              "title": "04 - | C++ Data Structures | -  | Basic Data Structures - Classifications | - | تراكيب البيانات |",
+              "duration": "23:16"
+            },
+            {
+              "index": 5,
+              "videoId": "pASx8xQtIYY",
+              "title": "05 - | C++ Data Structures | -  | Array as a Data Structure - Part 1 | - | تراكيب البيانات |",
+              "duration": "36:16"
+            },
+            {
+              "index": 6,
+              "videoId": "TU2S9P5CRUE",
+              "title": "06 - | C++ Data Structures | -  | Array as a Data Structure - Part 2 | - | تراكيب البيانات |",
+              "duration": "1:09:02"
+            },
+            {
+              "index": 7,
+              "videoId": "cQ-HCe_IAos",
+              "title": "07 - | C++ Data Structures | -  | Linked Lists - Part 1 | - | تراكيب البيانات |",
+              "duration": "15:19"
+            },
+            {
+              "index": 8,
+              "videoId": "80pnhhHGpWc",
+              "title": "08 - | C++ Data Structures | -  | Linked Lists - Part 2 | - | تراكيب البيانات |",
+              "duration": "50:35"
+            },
+            {
+              "index": 9,
+              "videoId": "nyIF45QKX4k",
+              "title": "09 - | C++ Data Structures | -  | Linked Lists - Part 3 | - | تراكيب البيانات |",
+              "duration": "56:55"
+            },
+            {
+              "index": 10,
+              "videoId": "i_Q_YZwdoMg",
+              "title": "10 - | C++ Data Structures | -  | Stack Using Linked Lists | - | تراكيب البيانات |",
+              "duration": "53:14"
+            },
+            {
+              "index": 11,
+              "videoId": "ykfeLmXogw8",
+              "title": "11 - | C++ Data Structures | -  | Queue Using Linked Lists | - | تراكيب البيانات |",
+              "duration": "47:45"
+            },
+            {
+              "index": 12,
+              "videoId": "quMfajPvW24",
+              "title": "12 - | C++ Data Structures | -  | Binary Search Tree - Part 1 | - | تراكيب البيانات |",
+              "duration": "29:00"
+            },
+            {
+              "index": 13,
+              "videoId": "dqgZd8qvXoY",
+              "title": "13 - | C++ Data Structures | -  | Binary Search Tree - Part 2 | - | تراكيب البيانات |",
+              "duration": "50:34"
+            },
+            {
+              "index": 14,
+              "videoId": "tEVTakjxS-Q",
+              "title": "14 - | C++ Data Structures | -  | Binary Search Tree - Part 3 | - | تراكيب البيانات |",
+              "duration": "46:29"
+            }
+          ]
+        }
+      ],
+      "category": "علوم الحاسوب",
+      "instructor": "محمود سامي (Hard-Code)",
+      "verified": true,
+      "youtubeId": "McifeJjrvpI",
+      "youtubeVideoId": "McifeJjrvpI",
+      "runtime": "8 ساعات تدريبية",
+      "viewsCount": 520000,
+      "level": "مسار تأسيسي وشامل",
+      "qualityBadge": "المرتبة #1 خوارزميات",
+      "rankOrder": 1,
+      "orderIndex": 30,
+      "featured": true,
+      "trending": true,
+      "isNewCourse": true,
+      "isToolGuide": false,
+      "isMonetization": false,
+      "thumbnail": "https://i.ytimg.com/vi/McifeJjrvpI/hqdefault.jpg",
+      "scores": {
+        "depth": 9.8,
+        "practical": 9.7,
+        "freshness": 9.6,
+        "production": 9.6
+      },
+      "techStack": [
+        "Algorithms",
+        "Data Structures",
+        "Problem Solving",
+        "Big-O",
+        "LeetCode"
+      ],
+      "oneLineVerdict": "المسار التأسيسي لفهم منطق الخوارزميات، تحليل التعقيد الزمني والمكاني Big-O، وحل مسائل المقابلات التقنية.",
+      "synopsis": "المسار التأسيسي لفهم منطق الخوارزميات، تحليل التعقيد الزمني والمكاني Big-O، وحل مسائل المقابلات التقنية.",
+      "timestamps": [],
+      "toolsSummary": "Algorithms, Big-O, Sorting, Searching, Recursion, Dynamic Programming",
+      "primaryTool": "علوم الحاسوب",
+      "review": {
+        "verdictBox": "المسار التأسيسي لفهم منطق الخوارزميات، تحليل التعقيد الزمني والمكاني Big-O، وحل مسائل المقابلات التقنية.",
+        "strengths": "تغطية تفاعلية ممتازة، تنظيم أكاديمي متسلسل، وتطبيقات عملية تواكب أحدث المعايير التقنية.",
+        "limitations": "يُنصح بتطبيق التمارين خطوة بخطوة بعد كل درس ومراجعة المفاهيم لترسيخ التعلم.",
+        "deepAnalysis": "المسار التأسيسي لفهم منطق الخوارزميات، تحليل التعقيد الزمني والمكاني Big-O، وحل مسائل المقابلات التقنية."
+      },
+      "promptBlueprint": "خطة تطبيق عملية لدراسة مسار: الخوارزميات وحل المسائل البرمجية (Algorithms & Problem Solving)\n1. متابعة الدرس وتدوين الملاحظات البرمجية والعملية.\n2. تنفيذ التحدي العملي ومحاكاة المعامل والتأكد من صحة النتائج.\n3. الانتقال للدرس التالي وتثبيت المفاهيم المكتسبة.",
+      "comments": []
+    },
+    {
+      "id": "cisco-ccna-200-301",
+      "title": "شهادة سيسكو الرسمية لإدارة الشبكات Cisco CCNA 200-301",
+      "domainId": "networking-cybersecurity",
+      "domainTitle": "الشبكات والأمن السيبراني",
+      "badge": "شهادة دولية",
+      "examCode": "CCNA 200-301",
+      "methodologyNote": "التطبيق العملي على برامج المحاكاة Cisco Packet Tracer و GNS3 وبناء الشبكات الافتراضية.",
+      "instructors": [
+        {
+          "id": "inst--",
+          "name": "م. أحمد حسن",
+          "role": "أساسي",
+          "language": "AR",
+          "verified": true,
+          "lessonsCount": 50,
+          "durationText": "20 ساعة",
+          "note": "شرح معتمد وموثق بقائمة تشغيل مرتبة من قناة Information Technology",
+          "playlistId": "PLLlr6jKKdyK2cNjQnBcSfGab2k9KNsUmg",
+          "channelUrl": "",
+          "lessons": [
+            {
+              "index": 1,
+              "videoId": "JaLlJ2hUXC8",
+              "title": "01-#CCNA 200-301 (Introduction) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 2,
+              "videoId": "R_DQKj07cok",
+              "title": "02-CCNA 200-301 (Network Fundamentals Part 1) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 3,
+              "videoId": "11yJoDQw4e0",
+              "title": "03-CCNA 200-301 (Network Fundamentals Part 2) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 4,
+              "videoId": "oYo-RV0AqbY",
+              "title": "04-CCNA 200-301 (Network Fundamentals Part 3) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 5,
+              "videoId": "7ChaY6QBupE",
+              "title": "05-CCNA 200-301 (Network Fundamentals Part 4) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 6,
+              "videoId": "QV_7l449jZg",
+              "title": "06-CCNA 200-301 (Network Fundamentals Part 5 (IP Address Part 1)) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 7,
+              "videoId": "I1Bg8u5dQMs",
+              "title": "07-CCNA 200-301 (Network Fundamentals Part 6 (IP Address Part 2)) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 8,
+              "videoId": "u4MwjUAdlUw",
+              "title": "08-CCNA 200-301 (Network Fundamentals Part 7 (IP Address Part 3)) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 9,
+              "videoId": "22Qb3yvxJfs",
+              "title": "09-CCNA 200-301 (First Lab) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 10,
+              "videoId": "3bz4CNJS0cQ",
+              "title": "10-CCNA 200-301 (Subnetting Part 1) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 11,
+              "videoId": "QBd7H-h6KHk",
+              "title": "11-CCNA 200-301 (Subnetting Part 2) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 12,
+              "videoId": "dHk9TjVSU38",
+              "title": "12-CCNA 200-301 (Subnetting Part 3) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 13,
+              "videoId": "YYxO96COdnU",
+              "title": "13-CCNA 200-301 (VLSM) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 14,
+              "videoId": "P28E8QG9-kE",
+              "title": "14-CCNA 200-301 (Router Basics) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 15,
+              "videoId": "dwUO_qLt0Vo",
+              "title": "15-CCNA 200-301 (Router Basic Configuration) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 16,
+              "videoId": "4Jh0FYEXNr8",
+              "title": "16-CCNA 200-301 (DHCP Configuration) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 17,
+              "videoId": "Nlko6oUUqlo",
+              "title": "17-CCNA 200-301 (Static Route) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 18,
+              "videoId": "jsyOeOjOOFI",
+              "title": "18-CCNA 200-301 (Routing RIP) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 19,
+              "videoId": "tqXeiLLLJGI",
+              "title": "19-CCNA 200-301 (Routing - EIGRP) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 20,
+              "videoId": "Ye0wfjsgmi8",
+              "title": "20-CCNA 200-301 (Routing - OSPF Part 1) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 21,
+              "videoId": "vEh5P7x8qfc",
+              "title": "21-CCNA 200-301 (Routing - OSPF Part 2) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 22,
+              "videoId": "sQiyQKG-P2Y",
+              "title": "22-CCNA 200-301 (Redundancy Protocols) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 23,
+              "videoId": "vEAIMDTsThA",
+              "title": "23-CCNA 200-301 (Access Control List) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 24,
+              "videoId": "p7-4N0UqwKk",
+              "title": "24-CCNA 200-301 (Extended Access List) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 25,
+              "videoId": "mxlOOJW1AxE",
+              "title": "25-CCNA 200-301 (NAT ) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 26,
+              "videoId": "GXxiF_KeFXA",
+              "title": "26-CCNA 200-301 (Static NAT) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 27,
+              "videoId": "5nx7JneNmc0",
+              "title": "27-CCNA 200-301 (Dynamic NAT) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 28,
+              "videoId": "eWs27u7DxYc",
+              "title": "28-CCNA 200-301 (Network Time Protocol (NTP)) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 29,
+              "videoId": "sOvvlcw57Bk",
+              "title": "29-CCNA 200-301 (Securing Routers) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 30,
+              "videoId": "J8j1f5DBr9M",
+              "title": "30-CCNA 200-301 (Backup & Restore) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 31,
+              "videoId": "aE0jOQSxH5g",
+              "title": "31-CCNA 200-301 (VLAN) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 32,
+              "videoId": "KFS9xRuQheA",
+              "title": "32-CCNA 200-301 (VTP) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 33,
+              "videoId": "5KVS1K2Xfyg",
+              "title": "33-CCNA 200-301 (VLAN Types) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 34,
+              "videoId": "geDlum4Lx4Q",
+              "title": "34-CCNA 200-301 (Inter-VLAN Routing) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 35,
+              "videoId": "NRHVQOOBdok",
+              "title": "35-CCNA 200-301 (Inter-VLAN Routing Using Layer 3 Switch) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 36,
+              "videoId": "tRsOEKcmcYE",
+              "title": "36-CCNA 200-301 (Port Security) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 37,
+              "videoId": "EhGCi2WY0lM",
+              "title": "37-CCNA 200-301 (Spanning Tree Protocol (STP) Part 1) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 38,
+              "videoId": "-bMfPDcB3Ds",
+              "title": "38-CCNA 200-301 (Spanning Tree Protocol (STP) Part 2) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 39,
+              "videoId": "nFeM3HYnm6E",
+              "title": "39-CCNA 200-301 (IPv6 ) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 40,
+              "videoId": "uBVxDLyXIJM",
+              "title": "40-CCNA 200-301 (IPv6 Routing) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 41,
+              "videoId": "1SFv9Z_qarQ",
+              "title": "41-CCNA 200-301 (Wireless Network) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 42,
+              "videoId": "nWRi9vwv3uA",
+              "title": "42-CCNA 200-301 (EtherChannel) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 43,
+              "videoId": "8gXChAXaN8Y",
+              "title": "43-CCNA 200-301 (DHCP Spoofing) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 44,
+              "videoId": "gTh4q5qtROk",
+              "title": "44-CCNA 200-301 (CDP & LLDP) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 45,
+              "videoId": "gKDuFVX5_0Q",
+              "title": "45-CCNA 200-301 (SNMP & Syslog) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 46,
+              "videoId": "MVFZzJJl0DU",
+              "title": "46-CCNA 200-301 (Wan Technology) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 47,
+              "videoId": "uBtcY_wJAUA",
+              "title": "47-CCNA 200-301 (OSI Layers) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 48,
+              "videoId": "ZIZz6yqfuHQ",
+              "title": "48-CCNA 200-301 (Quality Of Service (QOS)) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 49,
+              "videoId": "IrnX-yqkw1g",
+              "title": "49-CCNA 200-301 (Virtualization) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            },
+            {
+              "index": 50,
+              "videoId": "TiBvLj9iE6I",
+              "title": "50-CCNA 200-301 (Software-Defined Networking (SDN)) By Eng-Walid Saad Eldin | Arabic",
+              "duration": "15:00"
+            }
+          ]
+        },
+        {
+          "id": "inst-jeremy-s-it-lab",
+          "name": "Jeremy's IT Lab",
+          "role": "بديل معتمد",
+          "language": "EN",
+          "verified": true,
+          "lessonsCount": 50,
+          "durationText": "20 ساعة",
+          "note": "شرح معتمد وموثق بقائمة تشغيل مرتبة من قناة Jeremy's IT Lab",
+          "playlistId": "PLxbwE86jKRgMpuZuLBivzlM8s2Dk5lXBQ",
+          "channelUrl": "",
+          "lessons": [
+            {
+              "index": 1,
+              "videoId": "H8W9oMNSuwo",
+              "title": "Free CCNA | Network Devices | Day 1 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 2,
+              "videoId": "6Atw8oMtVTA",
+              "title": "Free CCNA | Anki Flashcards | Day 1 Extra | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 3,
+              "videoId": "a1Im6GYaSno",
+              "title": "Free CCNA | Packet Tracer Introduction | Day 1 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 4,
+              "videoId": "ieTH5lVhNaY",
+              "title": "Free CCNA | Interfaces and Cables | Day 2 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 5,
+              "videoId": "K6Qt23sY68Y",
+              "title": "Free CCNA | Connecting Devices | Day 2 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 6,
+              "videoId": "yM-XNq9ADlI",
+              "title": "How the TCP/IP Model Actually Works | CCNA Day 3",
+              "duration": "15:00"
+            },
+            {
+              "index": 7,
+              "videoId": "7nmYoL0t2tU",
+              "title": "Free CCNA | OSI Model | Day 3 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 8,
+              "videoId": "IYbtai7Nu2g",
+              "title": "Free CCNA | Intro to the CLI | Day 4 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 9,
+              "videoId": "SDocmq1c05s",
+              "title": "Free CCNA | Basic Device Security | Day 4 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 10,
+              "videoId": "u2n762WG0Vo",
+              "title": "Free CCNA | Ethernet LAN Switching (Part 1) | Day 5 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 11,
+              "videoId": "5q1pqdmdPjo",
+              "title": "Free CCNA | Ethernet LAN Switching (Part 2) | Day 6 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 12,
+              "videoId": "Ig0dSaOQDI8",
+              "title": "Free CCNA | Analyzing Ethernet Switching | Day 6 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 13,
+              "videoId": "3ROdsfEUuhs",
+              "title": "Free CCNA | IPv4 Addressing (Part 1) | Day 7 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 14,
+              "videoId": "FiAatRd84XI",
+              "title": "Free CCNA | IPv4 Addressing (Part 2) | Day 8 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 15,
+              "videoId": "e1jbvyMeS5I",
+              "title": "Free CCNA | Configuring IP Addresses | Day 8 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 16,
+              "videoId": "cCqluocfQe0",
+              "title": "Free CCNA | Switch Interfaces | Day 9 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 17,
+              "videoId": "rzDb5DoBKRk",
+              "title": "Free CCNA | Configuring Interfaces | Day 9 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 18,
+              "videoId": "aQB22y4liXA",
+              "title": "Free CCNA | IPv4 Header | Day 10 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 19,
+              "videoId": "aHwAm8GYbn8",
+              "title": "Free CCNA | Routing Fundamentals | Day 11 (part 1) | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 20,
+              "videoId": "YCv4-_sMvYE",
+              "title": "Free CCNA | Static Routing | Day 11 (part 2) | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 21,
+              "videoId": "XHxOtIav2k8",
+              "title": "Free CCNA | Configuring Static Routes | Day 11 Lab 1 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 22,
+              "videoId": "3z8YGEVFTiA",
+              "title": "Free CCNA | Troubleshooting Static Routes | Day 11 Lab 2 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 23,
+              "videoId": "4YrYV2io3as",
+              "title": "Free CCNA | The Life of a Packet | Day 12 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 24,
+              "videoId": "bfsEqDeHbpI",
+              "title": "Free CCNA | Life of a Packet | Day 12 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 25,
+              "videoId": "bQ8sdpGQu8c",
+              "title": "Free CCNA | Subnetting (Part 1) | Day 13 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 26,
+              "videoId": "IGhd-0di0Qo",
+              "title": "Free CCNA | Subnetting (Part 2) | Day 14 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 27,
+              "videoId": "z-JqCedc9EI",
+              "title": "Free CCNA | Subnetting (Part 3 - VLSM) | Day 15 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 28,
+              "videoId": "Rn_E1Qv8--I",
+              "title": "Free CCNA | Subnetting (VLSM) | Day 15 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 29,
+              "videoId": "cjFzOnm6u1g",
+              "title": "Free CCNA | VLANs (Part 1) | Day 16 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 30,
+              "videoId": "-tq7f3xtyLQ",
+              "title": "Free CCNA | VLANs (Part 1) | Day 16 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 31,
+              "videoId": "Jl9OOzNaBDU",
+              "title": "Free CCNA | VLANs (Part 2) | Day 17 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 32,
+              "videoId": "iRkFE_lpYgc",
+              "title": "Free CCNA | VLANs (Part 2) | Day 17 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 33,
+              "videoId": "OkPB028l2eE",
+              "title": "Free CCNA | VLANs (Part 3) | Day 18 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 34,
+              "videoId": "MQcCr3QW1vE",
+              "title": "Free CCNA | VLANs (Part 3) | Day 18 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 35,
+              "videoId": "JtQV_0Sjszg",
+              "title": "Free CCNA | DTP/VTP | Day 19 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 36,
+              "videoId": "ngTns2vF_44",
+              "title": "Free CCNA | DTP/VTP | Day 19 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 37,
+              "videoId": "j-bK-EFt9cY",
+              "title": "Free CCNA | Spanning Tree Protocol (Part 1) | Day 20 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 38,
+              "videoId": "Ev9gy7B5hx0",
+              "title": "Free CCNA | Analyzing STP | Day 20 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 39,
+              "videoId": "nWpldCc8msY",
+              "title": "Free CCNA | Spanning Tree Protocol (Part 2) | Day 21 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 40,
+              "videoId": "zqzppl4LOwk",
+              "title": "PortFast (STP Toolkit) | CCNA 200-301 Day 21 (part 1)",
+              "duration": "15:00"
+            },
+            {
+              "index": 41,
+              "videoId": "jfC_AeJnuhY",
+              "title": "BPDU Guard & BPDU Filter (STP Toolkit) | CCNA 200-301 Day 21 (part 2)",
+              "duration": "15:00"
+            },
+            {
+              "index": 42,
+              "videoId": "2XE_PgkvSic",
+              "title": "Root Guard (STP Toolkit) | CCNA 200-301 Day 21 (part 3)",
+              "duration": "15:00"
+            },
+            {
+              "index": 43,
+              "videoId": "uJ5_Klha0ig",
+              "title": "Loop Guard (STP Toolkit) | CCNA 200-301 Day 21 (part 4)",
+              "duration": "15:00"
+            },
+            {
+              "index": 44,
+              "videoId": "5rpaeJNig2o",
+              "title": "Free CCNA | Configuring STP (PVST+) | Day 21 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 45,
+              "videoId": "EpazNsLlPps",
+              "title": "Free CCNA | Rapid Spanning Tree Protocol | Day 22 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 46,
+              "videoId": "YG7r4XHy2JU",
+              "title": "Free CCNA | Rapid STP | Day 22 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 47,
+              "videoId": "xuo69Joy_Nc",
+              "title": "Free CCNA | EtherChannel | Day 23 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 48,
+              "videoId": "8gKF2fMMjA8",
+              "title": "Free CCNA | Configuring EtherChannel | Day 23 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 49,
+              "videoId": "xSTgb8JLkvs",
+              "title": "Free CCNA | Dynamic Routing | Day 24 | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            },
+            {
+              "index": 50,
+              "videoId": "KuKC0G3LZc8",
+              "title": "Free CCNA | Floating Static Routes | Day 24 Lab | CCNA 200-301 Complete Course",
+              "duration": "15:00"
+            }
+          ]
+        }
+      ],
+      "category": "الشبكات والأمن السيبراني",
+      "instructor": "م. أحمد حسن",
+      "verified": true,
+      "youtubeId": "JaLlJ2hUXC8",
+      "youtubeVideoId": "JaLlJ2hUXC8",
+      "runtime": "20 ساعة",
+      "viewsCount": 610000,
+      "level": "مسار تأسيسي وشامل",
+      "qualityBadge": "شهادة دولية",
+      "rankOrder": 1,
+      "orderIndex": 62,
+      "featured": false,
+      "trending": false,
+      "isNewCourse": true,
+      "isToolGuide": false,
+      "isMonetization": false,
+      "thumbnail": "https://i.ytimg.com/vi/JaLlJ2hUXC8/hqdefault.jpg",
+      "scores": {
+        "depth": 9.8,
+        "practical": 9.7,
+        "freshness": 9.6,
+        "production": 9.6
+      },
+      "techStack": [
+        "Cisco",
+        "CCNA"
+      ],
+      "oneLineVerdict": "التطبيق العملي على برامج المحاكاة Cisco Packet Tracer و GNS3 وبناء الشبكات الافتراضية.",
+      "synopsis": "التطبيق العملي على برامج المحاكاة Cisco Packet Tracer و GNS3 وبناء الشبكات الافتراضية.",
+      "timestamps": [],
+      "toolsSummary": "شهادة, سيسكو, الرسمية, لإدارة",
+      "primaryTool": "الشبكات والأمن السيبراني",
+      "review": {
+        "verdictBox": "التطبيق العملي على برامج المحاكاة Cisco Packet Tracer و GNS3 وبناء الشبكات الافتراضية.",
+        "strengths": "تغطية تفاعلية ممتازة، تنظيم أكاديمي متسلسل، وتطبيقات عملية تواكب أحدث المعايير التقنية.",
+        "limitations": "يُنصح بتطبيق التمارين خطوة بخطوة بعد كل درس ومراجعة المفاهيم لترسيخ التعلم.",
+        "deepAnalysis": "التطبيق العملي على برامج المحاكاة Cisco Packet Tracer و GNS3 وبناء الشبكات الافتراضية."
+      },
+      "promptBlueprint": "خطة تطبيق عملية لدراسة مسار: شهادة سيسكو الرسمية لإدارة الشبكات Cisco CCNA 200-301\n1. متابعة الدرس وتدوين الملاحظات البرمجية والعملية.\n2. تنفيذ التحدي العملي ومحاكاة المعامل والتأكد من صحة النتائج.\n3. الانتقال للدرس التالي وتثبيت المفاهيم المكتسبة.",
+      "comments": []
+    }
+  ]
+}

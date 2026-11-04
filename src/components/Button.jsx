@@ -1,3 +1,5 @@
+import React from 'react';
+
 // Props: { variant?: 'primary' | 'secondary' | 'ghost', type?: 'button' | 'submit' | 'reset', className?: string, children: React.ReactNode }
 export default function Button({
   variant = 'secondary',

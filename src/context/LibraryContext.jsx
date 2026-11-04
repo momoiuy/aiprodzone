@@ -1,10 +1,17 @@
-import { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { INITIAL_COURSES } from '../data/courses';
 import { SEED_CATEGORIES } from '../data/categories';
 import { EBOOK_GUIDES } from '../data/ebooks';
+import { INITIAL_ARTICLES } from '../data/articles';
 import { getOverallScore } from '../lib/format';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useTheme } from '../hooks/useTheme';
+import {
+  createBackupPayload,
+  downloadBackupFile,
+  restoreBackup,
+  validateAndSanitizeBackup
+} from '../lib/backup';
 
 const LibraryContext = createContext(null);
 
@@ -23,6 +30,9 @@ const isCategoryArray = (val) =>
 const isEbookArray = (val) =>
   Array.isArray(val) && val.every((item) => Boolean(item) && typeof item.id === 'string');
 
+const isArticleArray = (val) =>
+  Array.isArray(val) && val.every((item) => Boolean(item) && typeof item.id === 'string');
+
 // استدعاء مسار إعادة التحقق السحابي في الخلفية (Revalidation)
 const triggerRevalidate = async () => {
   try {
@@ -34,31 +44,44 @@ const triggerRevalidate = async () => {
 
 // Props: { children: import('react').ReactNode }
 export function LibraryProvider({ children }) {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, mounted } = useTheme();
   const [selectedCategory, setSelectedCategory] = useState('الكل');
 
   const [watchlistIds, setWatchlistIds] = useLocalStorage('aiprodzone_watchlist', [], isStringArray);
   const [completedIds, setCompletedIds] = useLocalStorage('aiprodzone_completed', [], isStringArray);
+  const [completedLessons, setCompletedLessons] = useLocalStorage('aiprodzone_completed_lessons_v1', {}, isObjectMap);
   const [userRatings, setUserRatings] = useLocalStorage('aiprodzone_user_ratings', {}, isObjectMap);
   const [customComments, setCustomComments] = useLocalStorage('aiprodzone_custom_comments', {}, isObjectMap);
 
   // تخزين الأقسام والدروس والكتب مع إمكانية التعديل والترتيب من لوحة التحكم /admin
   const [categoriesList, setCategoriesList] = useLocalStorage(
-    'aiprodzone_categories_v2',
+    'aiprodzone_categories_v3',
     SEED_CATEGORIES,
     isCategoryArray
   );
 
   const [coursesList, setCoursesList] = useLocalStorage(
-    'aiprodzone_courses_v2',
+    'aiprodzone_courses_v8',
     INITIAL_COURSES,
     isCourseArray
   );
 
   const [ebooksList, setEbooksList] = useLocalStorage(
-    'aiprodzone_ebooks_v3',
+    'aiprodzone_ebooks_v6',
     EBOOK_GUIDES,
     isEbookArray
+  );
+
+  const [articlesList, setArticlesList] = useLocalStorage(
+    'aiprodzone_articles_v1',
+    INITIAL_ARTICLES,
+    isArticleArray
+  );
+
+  const [bookmarkedArticleIds, setBookmarkedArticleIds] = useLocalStorage(
+    'aiprodzone_bookmarked_articles',
+    [],
+    isStringArray
   );
 
   // دمج التعليقات المخصصة مع الدروس
@@ -88,7 +111,7 @@ export function LibraryProvider({ children }) {
     [setWatchlistIds]
   );
 
-  // وضع علامة "مكتمل"
+  // وضع علامة "مكتمل" للمسار بالكامل
   const toggleCompleted = useCallback(
     (courseId) => {
       setCompletedIds((prev) =>
@@ -96,6 +119,39 @@ export function LibraryProvider({ children }) {
       );
     },
     [setCompletedIds]
+  );
+
+  // إدارة إكمال الدروس الفردية لكل محاضر
+  const toggleLessonCompleted = useCallback(
+    (courseId, instructorId, lessonIndex) => {
+      const key = `${courseId}_${instructorId}_${lessonIndex}`;
+      setCompletedLessons((prev) => {
+        const next = { ...prev };
+        if (next[key]) {
+          delete next[key];
+        } else {
+          next[key] = true;
+        }
+        return next;
+      });
+    },
+    [setCompletedLessons]
+  );
+
+  const isLessonCompleted = useCallback(
+    (courseId, instructorId, lessonIndex) => {
+      const key = `${courseId}_${instructorId}_${lessonIndex}`;
+      return Boolean(completedLessons[key]);
+    },
+    [completedLessons]
+  );
+
+  const getInstructorCompletedLessonsCount = useCallback(
+    (courseId, instructorId) => {
+      const prefix = `${courseId}_${instructorId}_`;
+      return Object.keys(completedLessons).filter((k) => k.startsWith(prefix) && completedLessons[k]).length;
+    },
+    [completedLessons]
   );
 
   // حفظ تقييم المستخدم
@@ -351,28 +407,89 @@ export function LibraryProvider({ children }) {
     [setEbooksList]
   );
 
+  // ==================== عمليات إدارة المقالات التقنية (Articles Operations) ====================
+  const toggleBookmarkArticle = useCallback(
+    (e, articleId) => {
+      if (e && typeof e.stopPropagation === 'function') {
+        e.stopPropagation();
+      }
+      setBookmarkedArticleIds((prev) =>
+        prev.includes(articleId) ? prev.filter((id) => id !== articleId) : [...prev, articleId]
+      );
+    },
+    [setBookmarkedArticleIds]
+  );
+
+  const addArticle = useCallback(
+    (newArticle) => {
+      let created = null;
+      setArticlesList((prev) => {
+        created = {
+          ...newArticle,
+          id: newArticle.id || `article-${Date.now()}`,
+          publishedAt: newArticle.publishedAt || new Date().toISOString().split('T')[0],
+          readTime: newArticle.readTime || '6 دقائق قراءة',
+          sections: Array.isArray(newArticle.sections) ? newArticle.sections : [],
+          tags: Array.isArray(newArticle.tags) ? newArticle.tags : [],
+          keyTakeaways: Array.isArray(newArticle.keyTakeaways) ? newArticle.keyTakeaways : [],
+          relatedCourseIds: Array.isArray(newArticle.relatedCourseIds) ? newArticle.relatedCourseIds : []
+        };
+        return [created, ...prev];
+      });
+      triggerRevalidate();
+      return created;
+    },
+    [setArticlesList]
+  );
+
+  const updateArticle = useCallback(
+    (articleId, fields) => {
+      setArticlesList((prev) =>
+        prev.map((art) => (art.id === articleId ? { ...art, ...fields } : art))
+      );
+      triggerRevalidate();
+    },
+    [setArticlesList]
+  );
+
+  const deleteArticle = useCallback(
+    (articleId) => {
+      setArticlesList((prev) => prev.filter((art) => art.id !== articleId));
+      triggerRevalidate();
+    },
+    [setArticlesList]
+  );
+
   // إعادة التعيين إلى البيانات الأولية المغذاة (Seed Data)
   const resetToSeedData = useCallback(() => {
     setCategoriesList(SEED_CATEGORIES);
     setCoursesList(INITIAL_COURSES);
     setEbooksList(EBOOK_GUIDES);
+    setArticlesList(INITIAL_ARTICLES);
     triggerRevalidate();
-  }, [setCategoriesList, setCoursesList, setEbooksList]);
+  }, [setCategoriesList, setCoursesList, setEbooksList, setArticlesList]);
 
   const value = useMemo(
     () => ({
       theme,
       toggleTheme,
+      mounted,
       courses,
       categories: categoriesList,
       ebooks: ebooksList,
+      articles: articlesList,
+      bookmarkedArticleIds,
       selectedCategory,
       setSelectedCategory,
       watchlistIds,
       completedIds,
+      completedLessons,
       userRatings,
       toggleWatchlist,
       toggleCompleted,
+      toggleLessonCompleted,
+      isLessonCompleted,
+      getInstructorCompletedLessonsCount,
       submitUserRating,
       addComment,
       addCourse,
@@ -387,20 +504,35 @@ export function LibraryProvider({ children }) {
       updateEbook,
       deleteEbook,
       reorderEbook,
-      resetToSeedData
+      toggleBookmarkArticle,
+      addArticle,
+      updateArticle,
+      deleteArticle,
+      resetToSeedData,
+      exportBackup: downloadBackupFile,
+      getBackupPayload: createBackupPayload,
+      restoreBackup,
+      validateBackup: validateAndSanitizeBackup
     }),
     [
       theme,
       toggleTheme,
+      mounted,
       courses,
       categoriesList,
       ebooksList,
+      articlesList,
+      bookmarkedArticleIds,
       selectedCategory,
       watchlistIds,
       completedIds,
+      completedLessons,
       userRatings,
       toggleWatchlist,
       toggleCompleted,
+      toggleLessonCompleted,
+      isLessonCompleted,
+      getInstructorCompletedLessonsCount,
       submitUserRating,
       addComment,
       addCourse,
@@ -415,6 +547,10 @@ export function LibraryProvider({ children }) {
       updateEbook,
       deleteEbook,
       reorderEbook,
+      toggleBookmarkArticle,
+      addArticle,
+      updateArticle,
+      deleteArticle,
       resetToSeedData
     ]
   );

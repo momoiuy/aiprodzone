@@ -136,7 +136,7 @@ export default function SubmitModal({ isOpen, onClose, onCourseCreated }) {
     >
       <Card
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-lg max-h-[90vh] overflow-y-auto no-scrollbar p-4 sm:p-6 space-y-4"
+        className="w-[calc(100vw-1.5rem)] sm:w-full sm:max-w-lg max-h-[90vh] overflow-y-auto no-scrollbar p-4 sm:p-6 space-y-4"
       >
         <div className="flex items-center justify-between border-b border-border pb-3">
           <div>
@@ -208,7 +208,7 @@ export default function SubmitModal({ isOpen, onClose, onCourseCreated }) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs font-bold text-text-heading">القسم التعليمي (من الأقسام الـ 10)</label>
+              <label className="text-xs font-bold text-text-heading">المجال الأكاديمي (من الأقسام الـ 8)</label>
               <select value={newCourseCategory} onChange={(e) => setNewCourseCategory(e.target.value)} className={fieldClass}>
                 {(categories || []).map((cat) => (
                   <option key={cat.id || cat.name} value={cat.name} className="bg-surface text-text">

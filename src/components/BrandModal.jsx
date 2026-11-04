@@ -13,7 +13,7 @@ export default function BrandModal({ isOpen, onClose }) {
     >
       <Card
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md p-5 space-y-4"
+        className="w-[calc(100vw-1.5rem)] sm:w-full sm:max-w-md max-h-[90vh] overflow-y-auto no-scrollbar p-5 space-y-4"
       >
         <div className="flex items-center justify-between border-b border-border pb-3">
           <h3 className="text-base font-extrabold text-text-heading">هوية منصة AIProdZone الرسمية</h3>

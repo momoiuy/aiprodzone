@@ -21,23 +21,29 @@ import {
   Video,
   ArrowRight,
   Sun,
-  Moon
+  Moon,
+  Newspaper,
+  Search
 } from 'lucide-react';
 import { LibraryProvider, useLibrary } from '@/src/context/LibraryContext';
 import { parseYouTubeUrl, handleThumbnailError } from '@/src/lib/youtube';
+import { ARTICLE_CATEGORIES } from '@/src/data/articles';
 import Card from '@/src/components/Card';
 import Chip from '@/src/components/Chip';
 import Button from '@/src/components/Button';
 import Logo from '@/src/components/Logo';
+import BackupRestoreSection from '@/src/components/BackupRestoreSection';
 
 function AdminDashboardContent() {
   const libraryContext = useLibrary() as any;
   const {
     theme,
     toggleTheme,
+    mounted,
     categories = [],
     courses = [],
     ebooks = [],
+    articles = [],
     addCourse,
     updateCourse,
     deleteCourse,
@@ -50,10 +56,92 @@ function AdminDashboardContent() {
     updateEbook,
     deleteEbook,
     reorderEbook,
+    addArticle,
+    updateArticle,
+    deleteArticle,
     resetToSeedData
   } = libraryContext;
 
-  const [activeTab, setActiveTab] = useState<'lessons' | 'sections' | 'ebooks'>('lessons');
+  const [activeTab, setActiveTab] = useState<'lessons' | 'sections' | 'ebooks' | 'articles'>('lessons');
+  const [articleSearchQuery, setArticleSearchQuery] = useState('');
+  const totalArticles = articles.length;
+
+  // حالة تحرير وإضافة المقالات التقنية
+  const [showAddArticleModal, setShowAddArticleModal] = useState(false);
+  const [editingArticle, setEditingArticle] = useState<any>(null);
+  const [articleForm, setArticleForm] = useState({
+    title: '',
+    subtitle: '',
+    category: ARTICLE_CATEGORIES[1] || 'الويب والبرمجة',
+    author: 'م. سيف الرحمن الهاشمي',
+    authorRole: 'كبير مهندسي البرمجيات والذكاء الاصطناعي',
+    readTime: '8 دقائق قراءة',
+    featured: false,
+    summary: '',
+    keyTakeawaysText: '',
+    tagsText: '',
+    relatedCourseIdsText: '',
+    sectionsText: ''
+  });
+
+  const handleSaveArticle = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!articleForm.title.trim()) return;
+
+    const tags = articleForm.tagsText
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+
+    const keyTakeaways = articleForm.keyTakeawaysText
+      .split('\n')
+      .map((k) => k.trim())
+      .filter(Boolean);
+
+    const relatedCourseIds = articleForm.relatedCourseIdsText
+      .split(',')
+      .map((id) => id.trim())
+      .filter(Boolean);
+
+    const rawSections = articleForm.sectionsText.trim();
+    const sections = rawSections
+      ? rawSections.split('\n\n').map((secBlock, idx) => {
+          const lines = secBlock.split('\n');
+          const heading = lines[0].startsWith('#') ? lines[0].replace(/^#+\s*/, '') : `الفصل ${idx + 1}`;
+          const body = lines.slice(lines[0].startsWith('#') ? 1 : 0).join('\n').trim();
+          return { heading, body: body || heading };
+        })
+      : editingArticle?.sections || [
+          { heading: '1. مقدمة المحور', body: articleForm.summary }
+        ];
+
+    const articlePayload = {
+      title: articleForm.title.trim(),
+      subtitle: articleForm.subtitle.trim(),
+      category: articleForm.category,
+      author: articleForm.author.trim(),
+      authorRole: articleForm.authorRole.trim(),
+      readTime: articleForm.readTime.trim(),
+      featured: articleForm.featured,
+      summary: articleForm.summary.trim(),
+      tags,
+      keyTakeaways,
+      relatedCourseIds,
+      sections
+    };
+
+    if (editingArticle) {
+      updateArticle(editingArticle.id, articlePayload);
+    } else {
+      addArticle({
+        ...articlePayload,
+        slug: articleForm.title.trim().toLowerCase().replace(/\s+/g, '-')
+      });
+    }
+
+    setShowAddArticleModal(false);
+    setEditingArticle(null);
+  };
   const [selectedSectionFilter, setSelectedSectionFilter] = useState('الكل');
 
   // حالة إضافة درس جديد مع الجلب التلقائي من يوتيوب
@@ -230,7 +318,7 @@ function AdminDashboardContent() {
   });
 
   return (
-    <div dir="ltr" className="min-h-screen bg-bg text-text font-arabic antialiased pb-12 transition-colors duration-300">
+    <div dir="ltr" className="min-h-screen w-full max-w-full overflow-x-hidden bg-bg text-text font-arabic antialiased pb-12 transition-colors duration-300">
       {/* الشريط العلوي */}
       <header className="sticky top-0 z-40 w-full border-b border-border bg-bg/95 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
@@ -263,7 +351,7 @@ function AdminDashboardContent() {
               className="w-9 h-9 p-0 shrink-0"
               aria-label="تبديل المظهر"
             >
-              {theme === 'dark' ? <Sun className="w-4 h-4 text-text-muted" /> : <Moon className="w-4 h-4 text-text-muted" />}
+              {mounted && theme === 'light' ? <Moon className="w-4 h-4 text-text-muted" /> : <Sun className="w-4 h-4 text-text-muted" />}
             </Button>
 
             <Link
@@ -291,7 +379,7 @@ function AdminDashboardContent() {
         )}
 
         {/* إحصائيات سريعة للبيانات */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card className="p-4 flex items-center justify-between">
             <div className="space-y-1">
               <span className="text-xs text-text-muted font-bold">الأقسام التعليمية الحالية</span>
@@ -321,7 +409,19 @@ function AdminDashboardContent() {
               <BookOpen className="w-6 h-6" />
             </div>
           </Card>
+          <Card className="p-4 flex items-center justify-between">
+            <div className="space-y-1">
+              <span className="text-xs text-text-muted font-bold">المقالات التقنية والأكاديمية</span>
+              <h3 className="text-2xl font-black text-text-heading">{articles.length} مقالات</h3>
+            </div>
+            <div className="w-11 h-11 rounded-xl bg-accent-soft text-accent flex items-center justify-center">
+              <Newspaper className="w-6 h-6" />
+            </div>
+          </Card>
         </div>
+
+        {/* قسم النسخ الاحتياطي ونقل التقدم للمتعلم والمشرف */}
+        <BackupRestoreSection />
 
         {/* أزرار التبويب */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
@@ -363,6 +463,19 @@ function AdminDashboardContent() {
             >
               <BookOpen className="w-4 h-4" />
               <span>الكتب والأدلة المرافقة ({ebooks.length})</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab('articles')}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-all ${
+                activeTab === 'articles'
+                  ? 'bg-accent text-accent-ink shadow-sm'
+                  : 'text-text-muted hover:text-text-heading'
+              }`}
+            >
+              <Newspaper className="w-4 h-4" />
+              <span>إدارة المقالات التقنية ({articles.length})</span>
             </button>
           </div>
 

@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * @param {{ onClick?: () => void, showSubtitle?: boolean, className?: string }} props
  */

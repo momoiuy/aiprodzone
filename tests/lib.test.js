@@ -43,6 +43,14 @@ describe('YouTube utility functions', () => {
     expect(embedUrl).toContain('start=45');
   });
 
+  it('generates clean playlist videoseries embed URL when playlistId is given', () => {
+    const embedUrl = getCleanYouTubeEmbedUrl(null, { autoplay: true, playlistId: 'PLDoPjvoNmBAyE_gei5d18qKfIe-Z8mOCS', index: 3 });
+    expect(embedUrl).toContain('https://www.youtube-nocookie.com/embed/videoseries');
+    expect(embedUrl).toContain('list=PLDoPjvoNmBAyE_gei5d18qKfIe-Z8mOCS');
+    expect(embedUrl).toContain('index=3');
+    expect(embedUrl).toContain('enablejsapi=1');
+  });
+
   it('converts mm:ss time to seconds', () => {
     expect(toSeconds('11:11')).toBe(671);
     expect(toSeconds('00:00')).toBe(0);

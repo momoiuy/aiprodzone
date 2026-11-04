@@ -1,78 +1,61 @@
 {
-  "seededAt": "2026-11-02T18:51:08.453Z",
-  "categoriesCount": 10,
-  "coursesCount": 24,
-  "ebooksCount": 15,
+  "seededAt": "2026-11-03T18:23:52.660Z",
+  "storageKey": "aiprodzone_courses_v8",
+  "categoriesStorageKey": "aiprodzone_categories_v3",
+  "ebooksStorageKey": "aiprodzone_ebooks_v6",
+  "articlesStorageKey": "aiprodzone_articles_v1",
+  "categoriesCount": 8,
+  "coursesCount": 73,
+  "ebooksCount": 114,
+  "articlesCount": 18,
   "categories": [
     {
       "orderIndex": 1,
-      "id": "ai-filmmaking",
-      "name": "صناعة الأفلام والفيديو السينمائي (AI Filmmaking)",
-      "lessonsCount": 3,
-      "ebookTitle": "دليل الإخراج السينمائي والتحكم بالكاميرا في نماذج الفيديو الذكية (Runway & Kling & Veo)"
+      "id": "web-programming",
+      "name": "الويب والبرمجة",
+      "lessonsCount": 21
     },
     {
       "orderIndex": 2,
-      "id": "prompt-engineering",
-      "name": "هندسة الأوامر والتلقين المتقدم (Prompt Engineering)",
-      "lessonsCount": 3,
-      "ebookTitle": "موسوعة قوالب التلقين الاحترافية وهندسة السياق (Prompt & Context Engineering Cheat Sheet)"
+      "id": "languages-apps",
+      "name": "لغات وتطبيقات وألعاب",
+      "lessonsCount": 8
     },
     {
       "orderIndex": 3,
-      "id": "ai-commercials",
-      "name": "إنتاج الإعلانات التجارية بالذكاء الاصطناعي (AI Commercials & Ads)",
-      "lessonsCount": 3,
-      "ebookTitle": "دليل صناعة الإعلانات التجارية ومقاطع المنتجات عالية التحويل بالذكاء الاصطناعي"
+      "id": "computer-science",
+      "name": "علوم الحاسوب",
+      "lessonsCount": 8
     },
     {
       "orderIndex": 4,
-      "id": "ai-animation",
-      "name": "الأفلام الكرتونية والقصص التعليمية المتحركة (AI Animation)",
-      "lessonsCount": 2,
-      "ebookTitle": "كتاب ثبات الشخصيات وتحريك القصص الكرتونية بالذكاء الاصطناعي"
+      "id": "databases-backend",
+      "name": "قواعد البيانات والخلفية",
+      "lessonsCount": 6
     },
     {
       "orderIndex": 5,
-      "id": "comfyui-flux",
-      "name": "توليد الصور الاحترافية وسير عمل ComfyUI & Flux",
-      "lessonsCount": 3,
-      "ebookTitle": "الدليل المصور لإتقان Flux و ComfyUI وتصميم الصور الواقعية"
+      "id": "devops-cloud",
+      "name": "DevOps والسحابة والهندسة",
+      "lessonsCount": 11
     },
     {
       "orderIndex": 6,
-      "id": "ai-avatars",
-      "name": "الأفاتار المتحدث واستنساخ الصوت (AI Avatars & Voice Cloning)",
-      "lessonsCount": 2,
-      "ebookTitle": "دليل صناعة القنوات الآلية والأفاتار المتحدث والدبلجة الاحترافية"
+      "id": "ai-data-science",
+      "name": "الذكاء الاصطناعي وعلم البيانات",
+      "lessonsCount": 8
     },
     {
       "orderIndex": 7,
-      "id": "ai-audio-suno",
-      "name": "صناعة الموسيقى والهندسة الصوتية بالذكاء الاصطناعي (AI Audio & Suno)",
-      "lessonsCount": 2,
-      "ebookTitle": "قاموس أوامر الهندسة الصوتية والمؤثرات السينمائية بالذكاء الاصطناعي"
+      "id": "networking-cybersecurity",
+      "name": "الشبكات والأمن السيبراني",
+      "lessonsCount": 4
     },
     {
       "orderIndex": 8,
-      "id": "ai-agents-n8n",
-      "name": "الوكلاء الأذكياء والأتمتة بدون كود (AI Agents & n8n Automation)",
-      "lessonsCount": 2,
-      "ebookTitle": "كتاب تصميم وبناء وكلاء الأتمتة الأذكياء (n8n AI Agents Blueprint)"
-    },
-    {
-      "orderIndex": 9,
-      "id": "vibe-coding",
-      "name": "البرمجة بالذكاء الاصطناعي وبناء التطبيقات (Vibe Coding & AI Dev)",
-      "lessonsCount": 2,
-      "ebookTitle": "دليل المطور لبناء ونشر تطبيقات الويب الكاملة عبر وكلاء البرمجة و Vercel"
-    },
-    {
-      "orderIndex": 10,
-      "id": "local-ai-rag",
-      "name": "النماذج المحلية وأنظمة المعرفة الذكية (Local AI & RAG Systems)",
-      "lessonsCount": 2,
-      "ebookTitle": "المعمارية العملية لأنظمة الاسترجاع المعرفي (RAG) وتشغيل النماذج الخاصة"
+      "id": "business-languages",
+      "name": "الأعمال واللغات",
+      "lessonsCount": 7
     }
   ]
 }

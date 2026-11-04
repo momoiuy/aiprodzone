@@ -1,4 +1,4 @@
-import { Menu, X, Home, Wrench, Flame, Sparkles, DollarSign, FileText, Bookmark, Award, Plus, Shield } from 'lucide-react';
+import { Menu, X, Home, Wrench, Flame, Sparkles, DollarSign, FileText, Newspaper, Bookmark, Award, Plus, Shield } from 'lucide-react';
 import { TOP_DROPDOWN_DATA } from '../data/courses';
 import { useLibrary } from '../context/LibraryContext';
 import Logo from './Logo';
@@ -12,7 +12,7 @@ const DROPDOWN_ICONS = {
   'الربح من الإنترنت': DollarSign
 };
 
-// Props: { isOpen: boolean, onClose: () => void, view: string, setView: (v: string) => void, selectedCategory: string, onSelectFilter: (cat: string) => void, onOpenBrandModal: () => void, onOpenSubmitModal: () => void, onOpenEbooks: () => void }
+// Props: { isOpen: boolean, onClose: () => void, view: string, setView: (v: string) => void, selectedCategory: string, onSelectFilter: (cat: string) => void, onOpenBrandModal: () => void, onOpenLegal?: (tab?: string) => void, onOpenSubmitModal: () => void, onOpenEbooks: () => void }
 export default function Sidebar({
   isOpen,
   onClose,
@@ -21,6 +21,7 @@ export default function Sidebar({
   selectedCategory,
   onSelectFilter,
   onOpenBrandModal,
+  onOpenLegal,
   onOpenSubmitModal,
   onOpenEbooks
 }) {
@@ -31,16 +32,14 @@ export default function Sidebar({
   const itemActive = 'bg-accent-soft text-text-heading border-accent shadow-sm';
   const itemInactive = 'bg-surface text-text border-border hover:border-accent hover:text-text-heading';
 
+  if (!isOpen) return null;
+
   return (
     <>
-      {isOpen && (
-        <div onClick={onClose} className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[2px] transition-opacity" />
-      )}
+      <div onClick={onClose} className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[2px] transition-opacity" />
 
       <aside
-        className={`fixed top-0 left-0 bottom-0 z-50 w-[288px] border-r border-border bg-surface-2 text-text flex flex-col justify-between transition-transform duration-300 ease-out ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className="fixed top-0 left-0 bottom-0 z-50 w-[288px] max-w-[calc(100vw-1.5rem)] border-r border-border bg-surface-2 text-text flex flex-col justify-between shadow-2xl transition-transform duration-300 ease-out translate-x-0 overflow-y-auto no-scrollbar"
       >
         <div className="h-16 px-4 flex items-center justify-between border-b border-border shrink-0">
           <div className="flex items-center gap-2.5">
@@ -99,6 +98,18 @@ export default function Sidebar({
 
             <button
               type="button"
+              onClick={() => { setView('articles'); onClose(); }}
+              className={`${itemBase} ${view === 'articles' ? itemActive : itemInactive}`}
+            >
+              <div className="flex items-center gap-3">
+                <Newspaper className={`w-[18px] h-[18px] ${view === 'articles' ? 'text-accent' : 'text-text-muted'}`} />
+                <span>المقالات التقنية الشاملة</span>
+              </div>
+              <Chip tone="accent" className="text-[10px]">جديد</Chip>
+            </button>
+
+            <button
+              type="button"
               onClick={() => { setView('tools'); onClose(); }}
               className={`${itemBase} ${view === 'tools' ? itemActive : itemInactive}`}
             >
@@ -144,6 +155,25 @@ export default function Sidebar({
               </div>
               <Chip tone="accent" className="text-[10px]">إدارة</Chip>
             </a>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (onOpenLegal) {
+                  onOpenLegal('about');
+                } else {
+                  setView('legal');
+                }
+                onClose();
+              }}
+              className={`${itemBase} ${view === 'legal' ? itemActive : itemInactive}`}
+            >
+              <div className="flex items-center gap-3">
+                <FileText className={`w-[18px] h-[18px] ${view === 'legal' ? 'text-accent' : 'text-text-muted'}`} />
+                <span>السياسات والأسئلة الشائعة</span>
+              </div>
+              <Chip tone="neutral" className="text-[10px]">توثيق</Chip>
+            </button>
 
             <button
               type="button"

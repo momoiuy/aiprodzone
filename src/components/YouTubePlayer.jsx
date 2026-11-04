@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Play, ExternalLink, CheckCircle2, ArrowRight, RotateCcw } from 'lucide-react';
-import { handleThumbnailError, getCleanYouTubeEmbedUrl } from '../lib/youtube';
+import { Play, ExternalLink, CheckCircle2, ArrowRight, RotateCcw, Maximize2, Minimize2 } from 'lucide-react';
+import { handleThumbnailError, handleThumbnailLoad, getCleanYouTubeEmbedUrl } from '../lib/youtube';
 import Card from './Card';
 import Button from './Button';
 
@@ -10,14 +10,22 @@ import Button from './Button';
  * مشغل يوتيوب الاحترافي والآمن بنمط Lite Facade
  * - تضمين نظيف بدون فيديوهات عشوائية (youtube-nocookie)
  * - تحميل خفيف وسريع بنسبة 100% عبر Facade
+ * - دعم تشغيل درس محدد أو قائمة التشغيل الكاملة (Playlist / videoseries)
  * - استماع لأحداث IFrame API لوضع علامة مكتمل وتفعيل زر الدرس التالي تلقائياً
  */
 export default function YouTubePlayer({
   course,
+  videoId: videoIdProp,
+  playlistId: playlistIdProp,
+  playlistIndex = null,
+  lessonTitle: lessonTitleProp,
+  thumbnail: thumbnailProp,
   playing = false,
   startSeconds = 0,
   reloadKey = 0,
   nextLesson = null,
+  isFocusMode = false,
+  onToggleFocusMode = null,
   onStartFacade,
   onVideoEnd,
   onNextLesson
@@ -25,24 +33,26 @@ export default function YouTubePlayer({
   const [isPlaying, setIsPlaying] = useState(playing);
   const [hasEnded, setHasEnded] = useState(false);
   const iframeRef = useRef(null);
-  const playerInstanceRef = useRef(null);
 
-  const videoId = course?.youtubeVideoId || course?.youtubeId;
+  const videoId = videoIdProp || course?.youtubeVideoId || course?.youtubeId;
+  const playlistId = playlistIdProp || course?.playlistId;
+  const displayTitle = lessonTitleProp || course?.title || 'مشغل فيديو AIProdZone';
+  const displayThumbnail = thumbnailProp || course?.thumbnail;
 
   // مزامنة حالة التشغيل الخارجية
   useEffect(() => {
     setIsPlaying(playing);
   }, [playing]);
 
-  // إعادة ضبط حالة الانتهاء عند تغيير الفيديو
+  // إعادة ضبط حالة الانتهاء عند تغيير الفيديو أو الدرس
   useEffect(() => {
     setHasEnded(false);
-  }, [videoId, reloadKey]);
+  }, [videoId, playlistId, playlistIndex, reloadKey]);
 
   const handleEnded = useCallback(() => {
     setHasEnded(true);
-    if (typeof onVideoEnd === 'function' && course?.id) {
-      onVideoEnd(course.id);
+    if (typeof onVideoEnd === 'function') {
+      onVideoEnd(course?.id);
     }
   }, [course?.id, onVideoEnd]);
 
@@ -77,7 +87,7 @@ export default function YouTubePlayer({
     const timer = setTimeout(() => {
       if (iframeRef.current?.contentWindow) {
         iframeRef.current.contentWindow.postMessage(
-          JSON.stringify({ event: 'listening', id: `yt-${videoId}` }),
+          JSON.stringify({ event: 'listening', id: `yt-${videoId || playlistId}` }),
           '*'
         );
       }
@@ -87,7 +97,7 @@ export default function YouTubePlayer({
       window.removeEventListener('message', handleWindowMessage);
       clearTimeout(timer);
     };
-  }, [isPlaying, videoId, handleEnded]);
+  }, [isPlaying, videoId, playlistId, handleEnded]);
 
   const handleStart = () => {
     setIsPlaying(true);
@@ -114,7 +124,9 @@ export default function YouTubePlayer({
 
   const embedUrl = getCleanYouTubeEmbedUrl(videoId, {
     autoplay: true,
-    startSeconds
+    startSeconds,
+    playlistId: playlistId || null,
+    index: playlistIndex
   });
 
   return (
@@ -124,11 +136,11 @@ export default function YouTubePlayer({
           <>
             <iframe
               ref={iframeRef}
-              id={`yt-${videoId}`}
-              key={`${videoId}-${startSeconds}-${reloadKey}`}
+              id={`yt-${videoId || playlistId || 'player'}`}
+              key={`${videoId}-${playlistId}-${playlistIndex}-${startSeconds}-${reloadKey}`}
               className="w-full h-full border-0"
               src={embedUrl}
-              title={course?.title || 'مشغل فيديو AIProdZone'}
+              title={displayTitle}
               referrerPolicy="strict-origin-when-cross-origin"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
@@ -155,12 +167,12 @@ export default function YouTubePlayer({
                       onClick={() => {
                         setHasEnded(false);
                         if (typeof onNextLesson === 'function') {
-                          onNextLesson(nextLesson.id);
+                          onNextLesson(nextLesson);
                         }
                       }}
                       className="px-5 py-2.5 text-xs sm:text-sm font-extrabold shadow-lg"
                     >
-                      <span>الانتقال للدرس التالي #{nextLesson.orderIndex || nextLesson.rankOrder}: {nextLesson.title}</span>
+                      <span>الانتقال للدرس التالي #{nextLesson.index || nextLesson.orderIndex}: {nextLesson.title}</span>
                       <ArrowRight className="w-4 h-4 text-accent-ink" />
                     </Button>
                   )}
@@ -178,16 +190,17 @@ export default function YouTubePlayer({
             )}
           </>
         ) : (
-          /* واجهة Facade الخفيفة فائقة السرعة */
+          /* واجهة Facade الخفيفة فائقة السرعة والصفر حمولة */
           <div
             onClick={handleStart}
             className="group relative w-full h-full cursor-pointer select-none overflow-hidden"
           >
             <img
-              src={course?.thumbnail}
-              alt={course?.title}
+              src={displayThumbnail}
+              alt={displayTitle}
               loading="lazy"
               decoding="async"
+              onLoad={handleThumbnailLoad}
               onError={handleThumbnailError}
               className="w-full h-full object-cover brightness-[0.65] group-hover:scale-105 transition-transform duration-700"
             />
@@ -203,11 +216,11 @@ export default function YouTubePlayer({
                 className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-accent text-accent-ink shadow-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
                 aria-label="تشغيل الفيديو"
               >
-                <Play className="w-6 h-6 fill-current" />
+                <Play className="w-6 h-6 fill-current ml-0.5" />
               </button>
 
               <p className="mt-3 text-xs sm:text-sm font-extrabold text-white drop-shadow line-clamp-1 max-w-[90%]">
-                {course?.title}
+                {displayTitle}
               </p>
 
               {course?.runtime && (
@@ -226,19 +239,61 @@ export default function YouTubePlayer({
           تضمين فائق الخصوصية والنظافة (Clean No-Cookie Embed) مع حفظ تلقائي لمستوى تقدمك.
         </span>
 
-        {videoId && (
-          <a
-            href={`https://www.youtube.com/watch?v=${videoId}${
-              startSeconds > 0 ? `&t=${startSeconds}s` : ''
-            }`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-xl font-extrabold inline-flex items-center gap-1.5 shrink-0 bg-surface-2 text-text border border-border hover:border-accent hover:text-text-heading transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
-          >
-            <span>فتح في يوتيوب</span>
-            <ExternalLink className="w-3.5 h-3.5 text-accent" />
-          </a>
-        )}
+        <div className="flex items-center gap-2">
+          {typeof onToggleFocusMode === 'function' && (
+            <button
+              type="button"
+              onClick={onToggleFocusMode}
+              className={`hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-extrabold text-[11px] transition-all border ${
+                isFocusMode
+                  ? 'bg-accent text-accent-ink border-accent shadow-sm'
+                  : 'bg-surface-2 text-text border border-border hover:border-accent hover:text-text-heading'
+              }`}
+              title={
+                isFocusMode
+                  ? 'إنهاء وضع السينما / التركيز وإظهار القائمة الجانبية (Esc)'
+                  : 'وضع التركيز / السينما (تكبير الشاشة وإخفاء القائمة الجانبية)'
+              }
+              aria-label="تبديل وضع التركيز والسينما"
+            >
+              {isFocusMode ? (
+                <>
+                  <Minimize2 className="w-3.5 h-3.5 text-accent-ink" />
+                  <span>إنهاء وضع السينما</span>
+                </>
+              ) : (
+                <>
+                  <Maximize2 className="w-3.5 h-3.5 text-accent" />
+                  <span>وضع السينما</span>
+                </>
+              )}
+            </button>
+          )}
+
+          {videoId ? (
+            <a
+              href={`https://www.youtube.com/watch?v=${videoId}${
+                playlistId ? `&list=${playlistId}` : ''
+              }${startSeconds > 0 ? `&t=${startSeconds}s` : ''}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 rounded-xl font-extrabold inline-flex items-center gap-1.5 shrink-0 bg-surface-2 text-text border border-border hover:border-accent hover:text-text-heading transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+            >
+              <span>فتح في يوتيوب</span>
+              <ExternalLink className="w-3.5 h-3.5 text-accent" />
+            </a>
+          ) : playlistId ? (
+            <a
+              href={`https://www.youtube.com/playlist?list=${playlistId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 rounded-xl font-extrabold inline-flex items-center gap-1.5 shrink-0 bg-surface-2 text-text border border-border hover:border-accent hover:text-text-heading transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
+            >
+              <span>فتح قائمة التشغيل في يوتيوب</span>
+              <ExternalLink className="w-3.5 h-3.5 text-accent" />
+            </a>
+          ) : null}
+        </div>
       </div>
     </Card>
   );

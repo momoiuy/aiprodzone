@@ -1,4 +1,4 @@
-import { Home, GraduationCap, Wrench, Bookmark } from 'lucide-react';
+import { Home, GraduationCap, Newspaper, Wrench, Bookmark } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
 
 // Props: { view: string, setView: (v: string) => void, displayMode: string, setDisplayMode: (m: string) => void }
@@ -6,7 +6,8 @@ export default function BottomNav({ view, setView, displayMode, setDisplayMode }
   const { watchlistIds } = useLibrary();
 
   const isGridActive = view === 'courses' && displayMode === 'grid';
-  const isRoadmapActive = view === 'courses' && displayMode === 'roadmap';
+  const isRoadmapActive = view === 'courses' && (displayMode === 'roadmap' || displayMode === 'grouped');
+  const isArticlesActive = view === 'articles';
   const isToolsActive = view === 'tools';
   const isWatchlistActive = view === 'watchlist';
 
@@ -28,8 +29,15 @@ export default function BottomNav({ view, setView, displayMode, setDisplayMode }
       active: isRoadmapActive,
       onClick: () => {
         setView('courses');
-        setDisplayMode('roadmap');
+        setDisplayMode('grouped');
       }
+    },
+    {
+      id: 'articles',
+      label: 'المقالات',
+      icon: Newspaper,
+      active: isArticlesActive,
+      onClick: () => setView('articles')
     },
     {
       id: 'tools',
@@ -59,7 +67,7 @@ export default function BottomNav({ view, setView, displayMode, setDisplayMode }
             key={item.id}
             type="button"
             onClick={item.onClick}
-            className={`flex flex-col items-center justify-center gap-0.5 flex-1 min-w-0 py-1 px-1 rounded-xl text-[10px] font-extrabold transition-all select-none border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring ${
+            className={`flex flex-col items-center justify-center gap-0.5 flex-1 min-w-0 min-h-[44px] py-1.5 px-1 rounded-xl text-[10px] font-extrabold transition-all select-none border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring ${
               item.active
                 ? 'bg-accent-soft border-accent text-text-heading shadow-sm'
                 : 'bg-transparent border-transparent text-text-muted hover:text-text-heading'

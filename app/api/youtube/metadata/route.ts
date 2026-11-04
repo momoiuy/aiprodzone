@@ -48,7 +48,7 @@ async function handleYouTubeMetadata(input: string) {
         title: data.title || '',
         author_name: data.author_name || '',
         author_url: data.author_url || '',
-        thumbnail: maxresThumbnail,
+        thumbnail: data.thumbnail_url || hqThumbnail,
         thumbnailHq: hqThumbnail,
         originalThumbnail: data.thumbnail_url || hqThumbnail,
         provider_name: data.provider_name || 'YouTube'
@@ -63,7 +63,7 @@ async function handleYouTubeMetadata(input: string) {
     videoId,
     title: '',
     author_name: '',
-    thumbnail: maxresThumbnail,
+    thumbnail: hqThumbnail,
     thumbnailHq: hqThumbnail
   });
 }

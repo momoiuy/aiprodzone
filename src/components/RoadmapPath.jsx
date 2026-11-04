@@ -87,11 +87,11 @@ export default function RoadmapPath({ groups, onWatchCourse }) {
                       </span>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-extrabold text-text-heading">
+                    <h3 dir="rtl" className="text-base sm:text-lg font-extrabold text-text-heading [unicode-bidi:plaintext] text-right">
                       {course.title}
                     </h3>
 
-                    <p className="text-xs sm:text-sm text-text-muted leading-relaxed">
+                    <p dir="rtl" className="text-xs sm:text-sm text-text-muted leading-relaxed [unicode-bidi:plaintext] text-right">
                       {course.oneLineVerdict}
                     </p>
 
