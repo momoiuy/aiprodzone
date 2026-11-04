@@ -9,6 +9,11 @@ export const size = {
 export const contentType = 'image/png';
 
 export default async function Image() {
+  // جلب خط Cairo المحلي لدعم الحروف العربية في Satori بدقة كاملة
+  const fontData = await fetch(
+    new URL('../public/fonts/cairo-bold.ttf', import.meta.url)
+  ).then((res) => res.arrayBuffer());
+
   return new ImageResponse(
     (
       <div
@@ -21,7 +26,7 @@ export default async function Image() {
           padding: '60px 80px',
           background: 'linear-gradient(135deg, #090d16 0%, #0f172a 50%, #042f2e 100%)',
           color: '#ffffff',
-          fontFamily: 'sans-serif'
+          fontFamily: 'Cairo, sans-serif'
         }}
       >
         {/* Header brand */}
@@ -29,15 +34,15 @@ export default async function Image() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div
               style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '12px',
+                width: '52px',
+                height: '52px',
+                borderRadius: '14px',
                 background: '#042f2e',
                 border: '2px solid #14b8a6',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '26px',
+                fontSize: '28px',
                 fontWeight: 900,
                 color: '#ffffff'
               }}
@@ -46,11 +51,11 @@ export default async function Image() {
               <span style={{ color: '#14b8a6' }}>+</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontSize: '28px', fontWeight: 900 }}>
+              <span style={{ fontSize: '30px', fontWeight: 900 }}>
                 AIProd<span style={{ color: '#14b8a6' }}>Zone</span>
               </span>
               <span style={{ fontSize: '13px', color: '#94a3b8', fontWeight: 600 }}>
-                Academic Platform 2026
+                الدليل الأكاديمي العربي 2026
               </span>
             </div>
           </div>
@@ -59,16 +64,16 @@ export default async function Image() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              padding: '8px 20px',
-              borderRadius: '20px',
+              padding: '8px 22px',
+              borderRadius: '24px',
               background: 'rgba(20, 184, 166, 0.15)',
               border: '1px solid rgba(20, 184, 166, 0.4)',
               color: '#2dd4bf',
-              fontSize: '14px',
+              fontSize: '15px',
               fontWeight: 700
             }}
           >
-            100% Free • Open Academic Directory
+            مجاني 100% • بدون أي إعلانات
           </div>
         </div>
 
@@ -148,7 +153,15 @@ export default async function Image() {
       </div>
     ),
     {
-      ...size
+      ...size,
+      fonts: [
+        {
+          name: 'Cairo',
+          data: fontData,
+          style: 'normal',
+          weight: 700
+        }
+      ]
     }
   );
 }
