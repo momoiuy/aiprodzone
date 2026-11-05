@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Shield,
@@ -23,7 +23,12 @@ import {
   Sun,
   Moon,
   Newspaper,
-  Search
+  Search,
+  Lock,
+  KeyRound,
+  LogOut,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { LibraryProvider, useLibrary } from '@/src/context/LibraryContext';
 import { INITIAL_COURSES } from '@/src/data/courses';
@@ -36,8 +41,17 @@ import Chip from '@/src/components/Chip';
 import Button from '@/src/components/Button';
 import Logo from '@/src/components/Logo';
 import BackupRestoreSection from '@/src/components/BackupRestoreSection';
+import {
+  verifyAdminPin,
+  setCustomAdminPin,
+  resetAdminPinToDefault,
+  hasCustomAdminPin,
+  isAdminAuthenticated,
+  loginAdminSession,
+  logoutAdminSession
+} from '@/src/lib/adminAuth';
 
-function AdminDashboardContent() {
+function AdminDashboardContent({ onLogout = () => {} }: { onLogout?: () => void }) {
   const libraryContext = useLibrary() as any;
   const {
     theme,
@@ -64,6 +78,54 @@ function AdminDashboardContent() {
     deleteArticle,
     resetToSeedData
   } = libraryContext;
+
+  // حالة نافذة تغيير رمز مرور المشرف (SHA-256)
+  const [showPinModal, setShowPinModal] = useState(false);
+  const [newPin, setNewPin] = useState('');
+  const [pinModalError, setPinModalError] = useState('');
+  const [pinModalSuccess, setPinModalSuccess] = useState('');
+  const [savingPin, setSavingPin] = useState(false);
+  const [hasCustomPin, setHasCustomPin] = useState(false);
+
+  useEffect(() => {
+    setHasCustomPin(hasCustomAdminPin());
+  }, [showPinModal]);
+
+  const handleSavePin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPinModalError('');
+    setPinModalSuccess('');
+    const trimmed = newPin.trim();
+    if (trimmed.length < 4) {
+      setPinModalError('يجب ألا يقل رمز المرور عن 4 خانات');
+      return;
+    }
+    setSavingPin(true);
+    try {
+      await setCustomAdminPin(trimmed);
+      setPinModalSuccess('✓ تم تحديث وحفظ رمز المرور الجديد مشفراً بـ SHA-256 بنجاح!');
+      setNewPin('');
+      setHasCustomPin(true);
+      setTimeout(() => {
+        setShowPinModal(false);
+        setPinModalSuccess('');
+      }, 2000);
+    } catch (err: any) {
+      setPinModalError(err?.message || 'فشل حفظ رمز المرور');
+    } finally {
+      setSavingPin(false);
+    }
+  };
+
+  const handleResetPin = () => {
+    resetAdminPinToDefault();
+    setHasCustomPin(false);
+    setPinModalSuccess('✓ تمت استعادة الرمز الافتراضي (AIPROD-2026-OWNER) بنجاح');
+    setTimeout(() => {
+      setShowPinModal(false);
+      setPinModalSuccess('');
+    }, 2000);
+  };
 
   const [activeTab, setActiveTab] = useState<'lessons' | 'sections' | 'ebooks' | 'articles'>('lessons');
   const [articleSearchQuery, setArticleSearchQuery] = useState('');
@@ -355,6 +417,30 @@ function AdminDashboardContent() {
 
             <Button
               variant="secondary"
+              onClick={() => setShowPinModal(true)}
+              className="text-xs py-2 px-2.5 flex items-center gap-1.5"
+              title="تغيير رمز المرور السري للمالك (SHA-256)"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-accent" />
+              <span className="hidden sm:inline">تغيير الرمز</span>
+            </Button>
+
+            <Button
+              variant="secondary"
+              onClick={() => {
+                logoutAdminSession();
+                onLogout();
+              }}
+              className="text-xs py-2 px-2.5 border border-red-500/40 text-red-600 dark:text-red-400 hover:bg-red-500/10 flex items-center gap-1.5 transition-colors"
+              title="تسجيل خروج المدير وقفل لوحة التحكم"
+              aria-label="تسجيل خروج المدير"
+            >
+              <LogOut className="w-3.5 h-3.5 text-red-500" />
+              <span className="whitespace-nowrap font-bold">تسجيل خروج المدير 🔒</span>
+            </Button>
+
+            <Button
+              variant="secondary"
               onClick={toggleTheme}
               className="w-9 h-9 p-0 shrink-0"
               aria-label="تبديل المظهر"
@@ -457,7 +543,7 @@ function AdminDashboardContent() {
               }`}
             >
               <Layers className="w-4 h-4" />
-              <span>إدارة الأقسام الـ 10 ({categories.length})</span>
+              <span>إدارة القطاعات الأكاديمية ({categories.length})</span>
             </button>
 
             <button
@@ -491,13 +577,13 @@ function AdminDashboardContent() {
             <Button
               variant="secondary"
               onClick={() => {
-                if (window.confirm('هل أنت متأكد من رغبتك في إعادة تعيين كافة البيانات إلى بيانات الـ 10 أقسام الأصلية؟')) {
+                if (window.confirm('هل أنت متأكد من رغبتك في إعادة تعيين كافة البيانات إلى بيانات القطاعات الأكاديمية الـ 8 الأصلية؟')) {
                   resetToSeedData();
                   handleRevalidateVercel();
                 }
               }}
               className="text-xs py-2 px-3 text-text-muted hover:text-red-400"
-              title="إعادة تعيين إلى بيانات الـ 10 أقسام المغذاة الأصلية"
+              title="إعادة تعيين إلى بيانات القطاعات الأكاديمية الـ 8 الأصلية"
             >
               إعادة التعيين للأصل (Seed)
             </Button>
@@ -1306,18 +1392,239 @@ function AdminDashboardContent() {
           </Card>
         </div>
       )}
+      {/* نافذة تغيير رمز مرور المشرف (SHA-256) */}
+      {showPinModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-smooth">
+          <Card className="max-w-md w-full p-6 rounded-2xl border border-border bg-surface space-y-4" dir="rtl">
+            <div className="flex items-center justify-between border-b border-border pb-3">
+              <div className="flex items-center gap-2">
+                <KeyRound className="w-5 h-5 text-accent" />
+                <h3 className="text-base font-black text-text-heading">تغيير رمز الدخول السري للمالك</h3>
+              </div>
+              <Button variant="ghost" onClick={() => setShowPinModal(false)} className="w-8 h-8 p-0">✕</Button>
+            </div>
+
+            <p className="text-xs text-text-muted leading-relaxed">
+              يمكنك تعيين رمز مرور جديد للمالك. سيتم تشفيره فوراً بـ <span className="font-mono text-accent">SHA-256</span> وحفظه محلياً في متصفحك.
+            </p>
+
+            <form onSubmit={handleSavePin} className="space-y-3">
+              <div className="space-y-1 text-right">
+                <label className="text-xs font-bold text-text-heading">رمز المرور الجديد (4 خانات على الأقل):</label>
+                <input
+                  type="password"
+                  value={newPin}
+                  onChange={(e) => {
+                    setNewPin(e.target.value);
+                    if (pinModalError) setPinModalError('');
+                  }}
+                  placeholder="أدخل الرمز الجديد..."
+                  className="w-full text-xs rounded-xl px-3.5 py-2.5 border border-border bg-surface-2 text-text font-mono focus:border-accent"
+                />
+              </div>
+
+              {pinModalError && (
+                <div className="p-2.5 rounded-lg border border-red-500/40 bg-red-500/10 text-red-600 dark:text-red-400 text-xs font-bold flex items-center gap-1.5">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{pinModalError}</span>
+                </div>
+              )}
+
+              {pinModalSuccess && (
+                <div className="p-2.5 rounded-lg border border-teal-500/40 bg-teal-500/10 text-teal-700 dark:text-teal-300 text-xs font-bold flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 shrink-0 text-teal-500" />
+                  <span>{pinModalSuccess}</span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-between gap-2 pt-2 border-t border-border">
+                {hasCustomPin && (
+                  <Button
+                    variant="ghost"
+                    type="button"
+                    onClick={handleResetPin}
+                    className="text-xs text-text-muted hover:text-amber-500"
+                    title="استعادة الرمز الافتراضي من متغيرات البيئة"
+                  >
+                    استعادة الرمز الافتراضي
+                  </Button>
+                )}
+                <div className="flex items-center gap-2 mr-auto">
+                  <Button variant="ghost" type="button" onClick={() => setShowPinModal(false)}>إلغاء</Button>
+                  <Button variant="primary" type="submit" disabled={savingPin} className="text-xs">
+                    {savingPin ? 'جاري التشفير...' : 'حفظ وتشفير الرمز'}
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </Card>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AdminAuthGate({ onAuthenticated }: { onAuthenticated: () => void }) {
+  const [pin, setPin] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPin, setShowPin] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    const trimmed = pin.trim();
+    if (!trimmed) {
+      setError('يرجى إدخال رمز المرور السري للمالك');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const isValid = await verifyAdminPin(trimmed);
+      if (isValid) {
+        loginAdminSession();
+        onAuthenticated();
+      } else {
+        setError('رمز الدخول السري غير صحيح! يرجى إدخال الرمز المعتمد لمالك المنصة.');
+      }
+    } catch {
+      setError('حدث خطأ غير متوقع أثناء التحقق من الرمز.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div
+      dir="ltr"
+      className="min-h-screen bg-bg text-text font-arabic antialiased flex flex-col justify-between selection:bg-accent selection:text-accent-ink"
+    >
+      <header className="border-b border-border bg-bg/95 backdrop-blur-md">
+        <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <Logo onClick={() => {}} />
+          </Link>
+          <div className="flex items-center gap-1.5 text-xs font-bold text-accent">
+            <Shield className="w-4 h-4" />
+            <span>بوابة المشرف السرية</span>
+          </div>
+        </div>
+      </header>
+
+      <main className="flex-1 flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md animate-smooth">
+          <Card className="p-6 sm:p-8 rounded-3xl border border-border bg-surface shadow-2xl space-y-6">
+            <div className="text-center space-y-3">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-accent-soft text-accent flex items-center justify-center border border-accent/30 shadow-inner">
+                <Lock className="w-8 h-8 text-accent animate-pulse" />
+              </div>
+              <h1 className="text-xl sm:text-2xl font-black text-text-heading">
+                بوابة حماية مالك الموقع
+              </h1>
+              <p className="text-xs sm:text-sm text-text-muted leading-relaxed">
+                هذه الصفحة محمية وخاصة بمالك المنصة لإدارة الكتالوج الأكاديمي. يرجى إدخال رمز الدخول السري (Master PIN) للمتابعة.
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
+              <div className="space-y-1.5 text-right">
+                <label className="text-xs font-black text-text-heading flex items-center justify-between">
+                  <span>رمز الدخول السري للمالك:</span>
+                  <span className="text-[10px] text-accent font-mono font-normal">SHA-256 Protected</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPin ? 'text' : 'password'}
+                    value={pin}
+                    onChange={(e) => {
+                      setPin(e.target.value);
+                      if (error) setError('');
+                    }}
+                    placeholder="أدخل رمز المشرف السري..."
+                    autoFocus
+                    className="w-full h-11 text-sm rounded-xl pl-10 pr-4 bg-surface-2 text-text border border-border focus:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPin(!showPin)}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-heading transition-colors"
+                    aria-label={showPin ? 'إخفاء الرمز' : 'إظهار الرمز'}
+                  >
+                    {showPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              {error && (
+                <div className="p-3 rounded-xl border border-red-500/40 bg-red-500/10 text-red-600 dark:text-red-400 text-xs font-bold flex items-center gap-2 animate-smooth">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
+
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={loading}
+                className="w-full h-11 rounded-xl font-black text-xs sm:text-sm bg-accent text-accent-ink hover:opacity-90 active:scale-95 transition-all shadow-md flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-accent-ink" />
+                ) : (
+                  <KeyRound className="w-4 h-4 text-accent-ink" />
+                )}
+                <span>الدخول إلى لوحة التحكم 🔒</span>
+              </Button>
+            </form>
+
+            <div className="pt-4 border-t border-border/80 text-center">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-text-muted hover:text-accent transition-colors"
+              >
+                <span>← العودة إلى المنصة الرئيسية للزوار</span>
+              </Link>
+            </div>
+          </Card>
+        </div>
+      </main>
+
+      <footer className="py-4 border-t border-border text-center text-xs text-text-muted">
+        <span>AIProdZone Admin Portal — تشفير محلي 100% بدون خوادم خارجية</span>
+      </footer>
     </div>
   );
 }
 
 export default function AdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authReady, setAuthReady] = useState(false);
+
+  useEffect(() => {
+    setIsAuthenticated(isAdminAuthenticated());
+    setAuthReady(true);
+  }, []);
+
+  if (!authReady) {
+    return (
+      <div dir="ltr" className="min-h-screen bg-bg flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-accent animate-spin" />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <AdminAuthGate onAuthenticated={() => setIsAuthenticated(true)} />;
+  }
+
   return (
     <LibraryProvider
       initialCourses={INITIAL_COURSES}
       initialEbooks={EBOOK_GUIDES}
       initialArticles={INITIAL_ARTICLES}
     >
-      <AdminDashboardContent />
+      <AdminDashboardContent onLogout={() => setIsAuthenticated(false)} />
     </LibraryProvider>
   );
 }

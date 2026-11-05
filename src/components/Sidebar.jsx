@@ -1,4 +1,5 @@
-import { Menu, X, Home, Wrench, Flame, Sparkles, DollarSign, FileText, Newspaper, Bookmark, Award, Plus, Shield } from 'lucide-react';
+import React from 'react';
+import { Menu, X, Home, Wrench, Flame, Sparkles, DollarSign, FileText, Newspaper, Bookmark, Award, Plus, UserCheck } from 'lucide-react';
 import { TOP_DROPDOWN_DATA } from '../data/courses-summary';
 import { useLibrary } from '../context/LibraryContext';
 import Logo from './Logo';
@@ -145,16 +146,24 @@ export default function Sidebar({
               </Chip>
             </button>
 
-            <a
-              href="/admin"
-              className={`${itemBase} ${itemInactive}`}
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  window.location.href = '/profile';
+                } else {
+                  setView('profile');
+                }
+                onClose();
+              }}
+              className={`${itemBase} ${view === 'profile' ? itemActive : itemInactive}`}
             >
               <div className="flex items-center gap-3">
-                <Shield className="w-[18px] h-[18px] text-accent" />
-                <span>لوحة التحكم والإدارة (/admin)</span>
+                <UserCheck className={`w-[18px] h-[18px] ${view === 'profile' ? 'text-accent' : 'text-text-muted'}`} />
+                <span>حسابي ومحفظتي التعليمية</span>
               </div>
-              <Chip tone="accent" className="text-[10px]">إدارة</Chip>
-            </a>
+              <Chip tone="accent" className="text-[10px]">محفظتي</Chip>
+            </button>
 
             <button
               type="button"

@@ -17,6 +17,7 @@ const Ebooks = dynamic(() => import('./views/Ebooks'), { ssr: false });
 const Tools = dynamic(() => import('./views/Tools'), { ssr: false });
 const Articles = dynamic(() => import('./views/Articles'), { ssr: false });
 const LegalView = dynamic(() => import('./views/LegalView'), { ssr: false });
+const StudentProfileHub = dynamic(() => import('./components/StudentProfileHub'), { ssr: false });
 
 // Props: {} (تخطيط وتنقل المنصة الداخلي مع مزامنة الروابط وزر الرجوع)
 function AppShell() {
@@ -103,7 +104,7 @@ function AppShell() {
     if (initialSlug) {
       setView('articles');
       setActiveArticleSlug(initialSlug);
-    } else if (initialView && ['courses', 'watch', 'ebooks', 'tools', 'watchlist', 'articles', 'legal'].includes(initialView)) {
+    } else if (initialView && ['courses', 'watch', 'ebooks', 'tools', 'watchlist', 'articles', 'legal', 'profile'].includes(initialView)) {
       setView(initialView);
     }
     if (initialTab && ['about', 'privacy', 'terms', 'copyright', 'contact'].includes(initialTab)) {
@@ -236,6 +237,10 @@ function AppShell() {
             onBackToCourses={() => navigateView('courses')}
             onSelectCategory={handleSelectFilter}
           />
+        )}
+
+        {view === 'profile' && (
+          <StudentProfileHub onWatchCourse={openCourseWatch} />
         )}
       </main>
 

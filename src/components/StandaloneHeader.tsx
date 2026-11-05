@@ -10,13 +10,14 @@ import {
   Sun,
   Moon,
   Menu,
-  X
+  X,
+  UserCheck
 } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
 import Logo from './Logo';
 
 export interface StandaloneHeaderProps {
-  current?: 'tracks' | 'articles' | 'ebooks' | 'tools';
+  current?: 'tracks' | 'articles' | 'ebooks' | 'tools' | 'profile';
 }
 
 export default function StandaloneHeader({ current }: StandaloneHeaderProps) {
@@ -83,6 +84,18 @@ export default function StandaloneHeader({ current }: StandaloneHeaderProps) {
             <Wrench className="w-4 h-4 text-accent" />
             <span>مقارنة الأدوات</span>
           </Link>
+
+          <Link
+            href="/profile"
+            className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all flex items-center gap-1.5 border border-accent/30 ${
+              current === 'profile'
+                ? 'bg-accent text-accent-ink font-black shadow-sm'
+                : 'bg-accent/10 text-teal-700 dark:text-teal-400 hover:bg-accent/20'
+            }`}
+          >
+            <UserCheck className="w-4 h-4 text-accent" />
+            <span>حسابي ومحفظتي</span>
+          </Link>
         </nav>
 
         {/* Theme and Mobile Menu Toggle */}
@@ -145,6 +158,14 @@ export default function StandaloneHeader({ current }: StandaloneHeaderProps) {
           >
             <Wrench className="w-4 h-4 text-accent" />
             <span>مقارنة الأدوات البرمجية</span>
+          </Link>
+          <Link
+            href="/profile"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold text-teal-700 dark:text-teal-400 bg-accent/10 border border-accent/30 hover:bg-accent/20"
+          >
+            <UserCheck className="w-4 h-4 text-accent" />
+            <span>حسابي ومحفظتي التعليمية</span>
           </Link>
         </div>
       )}

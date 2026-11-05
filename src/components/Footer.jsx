@@ -8,7 +8,7 @@ import {
   Newspaper,
   Wrench,
   BookOpen,
-  Shield,
+  UserCheck,
   ArrowUp,
   Sparkles,
   ExternalLink,
@@ -69,6 +69,10 @@ export default function Footer({ onNavigate = null, onOpenLegal = null, onSelect
       }
       if (viewName === 'tools') {
         window.location.href = '/tools';
+        return;
+      }
+      if (viewName === 'profile') {
+        window.location.href = '/profile';
         return;
       }
     }
@@ -137,11 +141,11 @@ export default function Footer({ onNavigate = null, onOpenLegal = null, onSelect
       onClick: () => handleQuickNav('ebooks')
     },
     {
-      id: 'admin',
-      label: 'لوحة التحكم وإدارة الفهرس',
-      href: '/admin',
-      icon: Shield,
-      isExternalHref: '/admin'
+      id: 'profile',
+      label: 'حسابي ومحفظتي التعليمية',
+      href: '/profile',
+      icon: UserCheck,
+      onClick: () => handleQuickNav('profile')
     }
   ];
 

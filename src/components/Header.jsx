@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Menu,
   Layers,
@@ -12,7 +12,7 @@ import {
   Sun,
   Moon,
   Plus,
-  Shield
+  UserCheck
 } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
 import Logo from './Logo';
@@ -248,16 +248,16 @@ export default function Header({
             )}
           </button>
 
-          {/* زر لوحة التحكم للمشرف - تصميم فاخر وهوية زمردية بارزة */}
+          {/* زر حسابي ومحفظتي التعليمية للطلاب والزوار */}
           <a
-            href="/admin"
+            href="/profile"
             className="h-10 min-h-[40px] min-w-[40px] sm:h-9 sm:min-h-0 sm:min-w-0 lg:h-9.5 px-2.5 sm:px-2.5 lg:px-3 rounded-xl border border-accent/40 bg-accent/10 hover:bg-accent/20 hover:border-accent text-teal-700 dark:text-teal-400 text-xs font-extrabold inline-flex items-center justify-center gap-1.5 transition-all shadow-sm active:scale-95 shrink-0 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring"
-            title="لوحة تحكم المشرف (إدارة الأقسام والدروس والكتب)"
-            aria-label="لوحة تحكم المشرف"
+            title="حسابي ومحفظتي التعليمية (إحصائيات تقدمي والنسخ الاحتياطي)"
+            aria-label="حسابي ومحفظتي"
           >
-            <Shield className="w-4 h-4 text-teal-700 dark:text-teal-400 shrink-0" />
+            <UserCheck className="w-4 h-4 text-teal-700 dark:text-teal-400 shrink-0" />
             <span className="hidden md:inline whitespace-nowrap text-xs font-extrabold text-teal-700 dark:text-teal-400">
-              لوحة التحكم
+              حسابي ومحفظتي
             </span>
           </a>
 
