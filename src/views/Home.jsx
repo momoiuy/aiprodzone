@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import {
   Bookmark,
   ChevronRight,
@@ -14,12 +15,20 @@ import { getOverallScore } from '../lib/format';
 import { matchesSmartSearch } from '../lib/search';
 import { useLibrary } from '../context/LibraryContext';
 import { INITIAL_COURSES_SUMMARY } from '../data/courses-summary';
-import Hero from '../components/Hero';
 import FilterBar from '../components/FilterBar';
 import CourseCard from '../components/CourseCard';
 import Card from '../components/Card';
 import Chip from '../components/Chip';
 import Button from '../components/Button';
+
+const HeroArticleCarousel = dynamic(() => import('../components/HeroArticleCarousel'), {
+  loading: () => (
+    <div
+      dir="rtl"
+      className="rounded-3xl min-h-[280px] sm:min-h-[300px] lg:min-h-[320px] bg-surface-2 animate-pulse border border-border"
+    />
+  )
+});
 
 const ITEMS_PER_PAGE = 12;
 
@@ -234,12 +243,15 @@ export default function Home({
         </Card>
       )}
 
-      {/* قسم الهيرو الترحيبي عند الصفحة الرئيسية الافتراضية */}
+      {/* قسم الهيرو الترحيبي: عارض المقالات التقنية الـ 18 الدوّار كل 10 ثوانٍ */}
       {view === 'courses' &&
         !searchQuery &&
         selectedCategory === 'الكل' &&
         selectedSubFilter === 'الكل' && (
-          <Hero course={featuredCourse} onWatchCourse={onWatchCourse} />
+          <HeroArticleCarousel
+            setView={setView}
+            onViewAllArticles={() => setView('articles')}
+          />
         )}
 
       {/* شريط التصنيف ثنائي المستوى (2-Tier Navigation Bar) */}

@@ -39,6 +39,7 @@ import Card from '../components/Card';
 import Chip from '../components/Chip';
 import Button from '../components/Button';
 import ArticleCoverGraphic from '../components/ArticleCoverGraphic';
+import HeroArticleCarousel from '../components/HeroArticleCarousel';
 
 // مكون منسق للنصوص والأكواد البرمجية مع عزل كامل للاتجاه dir="ltr" text-left
 function FormattedArticleText({ content }) {
@@ -733,114 +734,12 @@ export default function Articles({ onWatchCourse, initialArticleSlug }) {
       {/* حقن مخطط CollectionPage و ItemList الخاص بفهرس مقالات المنصة */}
       <ArticleCollectionJsonLd articles={articles} />
 
-      {/* 1. المقال المميز العلوي (Hero Featured Article) */}
-      {heroArticle && !searchQuery && selectedCategory === 'الكل' && !onlyBookmarked && (
-        <Card
-          as="section"
-          className="relative overflow-hidden p-6 sm:p-8 border-accent/40 bg-gradient-to-br from-accent/15 via-surface to-surface-2 shadow-lg"
-        >
-          <div className="relative z-10 flex flex-col lg:flex-row items-start justify-between gap-6 text-right" dir="rtl">
-            <div className="space-y-3.5 flex-1 max-w-3xl">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="px-2.5 py-1 rounded-xl bg-accent text-accent-ink text-xs font-black flex items-center gap-1 shadow-sm">
-                  <Sparkles className="w-3 h-3 fill-current" />
-                  <span>مقال الأسبوع المميز</span>
-                </span>
-                <Chip tone="neutral">{heroArticle.category}</Chip>
-                <span className="px-2 py-0.5 rounded-lg bg-surface/80 border border-border text-[11px] text-text-muted font-bold flex items-center gap-1">
-                  <Clock className="w-3 h-3 text-accent" />
-                  <span>{heroArticle.readTime}</span>
-                </span>
-              </div>
-
-              <h2
-                dir="rtl"
-                onClick={() => openArticle(heroArticle.id)}
-                className="text-xl sm:text-2xl lg:text-3xl font-black text-text-heading hover:text-accent transition-colors cursor-pointer leading-snug [unicode-bidi:plaintext] text-right"
-              >
-                {heroArticle.title}
-              </h2>
-
-              <p dir="rtl" className="text-xs sm:text-sm text-text-muted leading-relaxed line-clamp-3 [unicode-bidi:plaintext] text-right">
-                {heroArticle.summary}
-              </p>
-
-              {/* الكاتب والوسوم وزر القراءة */}
-              <div className="pt-2 flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2 text-xs text-text-muted">
-                  <span className="font-extrabold text-text-heading">{heroArticle.author}</span>
-                  <span>•</span>
-                  <span>{heroArticle.authorRole}</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="secondary"
-                    onClick={(e) => toggleBookmarkArticle(e, heroArticle.id)}
-                    className="h-9 px-3 text-xs"
-                    title="حفظ المقال"
-                  >
-                    <Bookmark
-                      className={`w-3.5 h-3.5 ${
-                        bookmarkedArticleIds.includes(heroArticle.id) ? 'fill-current text-accent' : ''
-                      }`}
-                    />
-                  </Button>
-
-                  <Link
-                    href={`/articles/${heroArticle.id}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      openArticle(heroArticle.id);
-                    }}
-                    className="h-9 px-4 text-xs font-black rounded-xl bg-accent text-accent-ink hover:opacity-90 transition-opacity inline-flex items-center gap-1.5 shadow-sm"
-                  >
-                    <span>اقرأ المقال كاملاً</span>
-                    <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* الجانب البصري والتطبيقي المصاحب: الغلاف الهندسي وصندوق المسارات وأهم المحاور */}
-            <div className="w-full lg:w-80 shrink-0 flex flex-col sm:flex-row lg:flex-col gap-3">
-              {/* الغلاف البصري الهندسي الأكاديمي لمقال الأسبوع المميز */}
-              <div
-                onClick={() => openArticle(heroArticle.id)}
-                className="group cursor-pointer w-full sm:flex-1 lg:flex-none overflow-hidden rounded-2xl border border-border/70 shadow-sm transition-all duration-300 hover:border-accent/60"
-                title="اقرأ مقال الأسبوع المميز"
-              >
-                <ArticleCoverGraphic
-                  article={heroArticle}
-                  variant="hero"
-                  className="w-full h-36 sm:h-40"
-                />
-              </div>
-
-              {/* بطاقة جانبية سريعة لعدد المسارات المرتبطة وأهم النقاط */}
-              <div className="w-full sm:flex-1 lg:flex-none p-3.5 sm:p-4 rounded-2xl bg-surface/90 border border-border/80 space-y-2.5">
-                <div className="flex items-center justify-between text-xs font-extrabold">
-                  <span className="text-text-muted">المسارات المرتبطة:</span>
-                  <span className="text-accent font-mono">
-                    {(heroArticle.relatedCourseIds || []).length} مسارات أكاديمية
-                  </span>
-                </div>
-
-                <div className="space-y-1.5 border-t border-border/60 pt-2">
-                  <span className="text-[11px] font-bold text-text-heading block">
-                    أهم المحاور في المقال:
-                  </span>
-                  {(heroArticle.keyTakeaways || []).slice(0, 2).map((k, i) => (
-                    <p key={i} className="text-[11px] text-text-muted leading-tight flex items-start gap-1.5">
-                      <CheckCircle2 className="w-3 h-3 text-accent shrink-0 mt-0.5" />
-                      <span className="line-clamp-2">{k}</span>
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </Card>
+      {/* 1. المقال المميز العلوي: عارض المقالات التقنية الـ 18 الدوّار كل 10 ثوانٍ */}
+      {!searchQuery && selectedCategory === 'الكل' && !onlyBookmarked && (
+        <HeroArticleCarousel
+          articles={articles}
+          onOpenArticle={openArticle}
+        />
       )}
 
       {/* 2. شريط البحث والفلترة بالتصنيفات والمحفوظات */}

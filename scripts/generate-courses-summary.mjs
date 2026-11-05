@@ -91,6 +91,34 @@ export const INITIAL_COURSES_SUMMARY = ${JSON.stringify(summaryCourses)};
   fs.writeFileSync(outputPath, content, 'utf-8');
   const stats = fs.statSync(outputPath);
   console.log(`Generated ${outputPath} (${(stats.size / 1024).toFixed(1)} KB) with ${summaryCourses.length} courses`);
+
+  // 2. توليد ملخص المقالات التقنية الـ 18 للبانر الرئيسي (Hero Article Carousel)
+  const { INITIAL_ARTICLES } = await import('../src/data/articles.js');
+  const summaryArticles = INITIAL_ARTICLES.map((a) => ({
+    id: a.id,
+    slug: a.slug,
+    title: a.title,
+    category: a.category,
+    author: a.author,
+    authorRole: a.authorRole,
+    readTime: a.readTime,
+    featured: Boolean(a.featured),
+    definitionLead: a.definitionLead || a.summary,
+    summary: a.summary,
+    quickTakeaways: (a.quickTakeaways || a.keyTakeaways || a.tags || []).slice(0, 3),
+    keyTakeaways: (a.keyTakeaways || a.quickTakeaways || []).slice(0, 3),
+    tags: (a.tags || []).slice(0, 3),
+    relatedCourseIds: a.relatedCourseIds || []
+  }));
+
+  const articlesSummaryContent = `// ملخص المقالات التقنية المرجعية الـ 18 للبانر الرئيسي (Hero Article Carousel)
+// تم إنشاؤه لتخفيض حزمة الصفحة الرئيسية والحفاظ على First Load JS تحت 160 kB
+export const HERO_ARTICLES_SUMMARY = ${JSON.stringify(summaryArticles, null, 2)};
+`;
+  const articlesSummaryPath = path.join(rootDir, 'src', 'data', 'articles-summary.js');
+  fs.writeFileSync(articlesSummaryPath, articlesSummaryContent, 'utf-8');
+  const articlesStats = fs.statSync(articlesSummaryPath);
+  console.log(`Generated ${articlesSummaryPath} (${(articlesStats.size / 1024).toFixed(1)} KB) with ${summaryArticles.length} articles`);
 }
 
 main().catch((err) => {
