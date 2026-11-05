@@ -20,6 +20,7 @@ import { LEGAL_PAGES, LEGAL_PAGES_LIST, getLegalPage } from '../../../src/data/l
 import { LibraryProvider } from '../../../src/context/LibraryContext';
 import StandaloneHeader from '../../../src/components/StandaloneHeader';
 import Footer from '../../../src/components/Footer';
+import ContactFormSection from '../../../src/components/ContactFormSection';
 
 export const dynamic = 'force-static';
 
@@ -449,6 +450,9 @@ export default function GovernancePage({ params }: PageProps) {
                   </div>
                 </div>
               )}
+
+              {/* نموذج إرسال التذاكر والتواصل التفاعلي المباشر */}
+              <ContactFormSection />
 
               {/* بنك الأسئلة الشائعة (FAQ Accordion) المبني بـ HTML أصيل فائق السرعة */}
               {page.faqs && page.faqs.length > 0 && (

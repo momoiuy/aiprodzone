@@ -30,6 +30,7 @@ import {
   CONTACT_STORAGE_KEY
 } from '../data/legal-pages';
 import { getStorageItem, setStorageItem } from '../lib/storage';
+import { sendEmailNotification } from '../lib/email-service';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Chip from '../components/Chip';
@@ -125,6 +126,21 @@ export default function LegalView({
     } catch (err) {
       console.warn('LocalStorage save error:', err);
     }
+
+    // إرسال الإشعار لبريد مالك الموقع وحفظه في صندوق الوارد
+    sendEmailNotification({
+      type: 'contact_ticket',
+      subject: `📬 تذكرة تواصل جديدة: ${formData.subject.trim() || formData.category}`,
+      senderName: formData.name.trim(),
+      senderEmail: formData.email.trim(),
+      details: {
+        'رقم التذكرة': generatedTicket,
+        'تصنيف التذكرة': formData.category,
+        'الموضوع': formData.subject.trim() || 'بدون عنوان',
+        'نص الرسالة': formData.message.trim(),
+        'تاريخ الإرسال': new Date().toLocaleString('ar-EG')
+      }
+    }).catch(() => {});
 
     setTicketId(generatedTicket);
     setFormSubmitted(true);

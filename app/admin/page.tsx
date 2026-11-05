@@ -28,8 +28,25 @@ import {
   KeyRound,
   LogOut,
   Eye,
-  EyeOff
+  EyeOff,
+  Mail,
+  Send,
+  Download,
+  UserCheck
 } from 'lucide-react';
+import {
+  getOwnerEmail,
+  setOwnerEmail,
+  getWeb3FormsKey,
+  setWeb3FormsKey,
+  getInboxMessages,
+  deleteInboxMessage,
+  clearInboxMessages,
+  getInboxStats,
+  exportInboxToCsv,
+  testEmailNotification,
+  NOTIFICATION_TYPES
+} from '@/src/lib/email-service';
 import { LibraryProvider, useLibrary } from '@/src/context/LibraryContext';
 import { INITIAL_COURSES } from '@/src/data/courses';
 import { EBOOK_GUIDES } from '@/src/data/ebooks';
@@ -127,9 +144,80 @@ function AdminDashboardContent({ onLogout = () => {} }: { onLogout?: () => void 
     }, 2000);
   };
 
-  const [activeTab, setActiveTab] = useState<'lessons' | 'sections' | 'ebooks' | 'articles'>('lessons');
+  const [activeTab, setActiveTab] = useState<'lessons' | 'sections' | 'ebooks' | 'articles' | 'inbox'>('lessons');
   const [articleSearchQuery, setArticleSearchQuery] = useState('');
   const totalArticles = articles.length;
+
+  // حالة إدارة البريد والرسائل الواردة لمالك المنصة
+  const [inboxMessages, setInboxMessages] = useState<any[]>([]);
+  const [ownerEmailInput, setOwnerEmailInput] = useState('');
+  const [web3formsKeyInput, setWeb3formsKeyInput] = useState('');
+  const [inboxFilter, setInboxFilter] = useState<'all' | 'students' | 'tickets' | 'suggestions'>('all');
+  const [inboxSearch, setInboxSearch] = useState('');
+  const [testEmailStatus, setTestEmailStatus] = useState<string | null>(null);
+  const [testEmailLoading, setTestEmailLoading] = useState(false);
+  const [saveEmailStatus, setSaveEmailStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    setInboxMessages(getInboxMessages());
+    setOwnerEmailInput(getOwnerEmail());
+    setWeb3formsKeyInput(getWeb3FormsKey());
+  }, []);
+
+  const handleSaveEmailConfig = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaveEmailStatus(null);
+    const trimmed = ownerEmailInput.trim();
+    if (!trimmed.includes('@')) {
+      setSaveEmailStatus('❌ يرجى إدخال بريد إلكتروني صالح');
+      return;
+    }
+    setOwnerEmail(trimmed);
+    setWeb3FormsKey(web3formsKeyInput.trim());
+    setSaveEmailStatus('✓ تم حفظ إعدادات البريد بنجاح!');
+    setTimeout(() => setSaveEmailStatus(null), 3500);
+  };
+
+  const handleSendTestEmail = async () => {
+    setTestEmailLoading(true);
+    setTestEmailStatus(null);
+    try {
+      await testEmailNotification(ownerEmailInput);
+      setInboxMessages(getInboxMessages());
+      setTestEmailStatus(`✓ تم إرسال الإيميل التجريبي بنجاح إلى (${ownerEmailInput})! يرجى مراجعة صندوق الوارد.`);
+    } catch {
+      setTestEmailStatus('❌ تعذر إرسال الإيميل التجريبي، تم تسجيله في الصندوق المحلي.');
+    } finally {
+      setTestEmailLoading(false);
+      setTimeout(() => setTestEmailStatus(null), 5000);
+    }
+  };
+
+  const handleDeleteMessage = (id: string) => {
+    deleteInboxMessage(id);
+    setInboxMessages(getInboxMessages());
+  };
+
+  const handleClearInbox = () => {
+    if (window.confirm('هل أنت متأكد من رغبتك في إفراغ كافة الرسائل في صندوق الوارد؟')) {
+      clearInboxMessages();
+      setInboxMessages([]);
+    }
+  };
+
+  const handleExportCsv = () => {
+    const csvContent = exportInboxToCsv(inboxMessages);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `aiprodzone-inbox-${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const inboxStats = getInboxStats(inboxMessages);
 
   // حالة تحرير وإضافة المقالات التقنية
   const [showAddArticleModal, setShowAddArticleModal] = useState(false);
@@ -570,6 +658,19 @@ function AdminDashboardContent({ onLogout = () => {} }: { onLogout?: () => void 
             >
               <Newspaper className="w-4 h-4" />
               <span>إدارة المقالات التقنية ({articles.length})</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab('inbox')}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold flex items-center gap-2 transition-all ${
+                activeTab === 'inbox'
+                  ? 'bg-accent text-accent-ink shadow-sm'
+                  : 'text-text-muted hover:text-text-heading'
+              }`}
+            >
+              <Mail className="w-4 h-4" />
+              <span>📬 إدارة البريد والرسائل ({inboxMessages.length})</span>
             </button>
           </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
   UserCheck,
@@ -16,13 +16,18 @@ import {
   ArrowRight,
   ExternalLink,
   ShieldCheck,
-  Compass
+  Compass,
+  Copy,
+  LogOut,
+  KeyRound,
+  Mail
 } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
 import Card from './Card';
 import Chip from './Chip';
 import Button from './Button';
 import BackupRestoreSection from './BackupRestoreSection';
+import StudentAuthModal from './StudentAuthModal';
 
 /**
  * @param {{ onWatchCourse?: (courseId: string, instructorId?: string) => void }} props
@@ -34,8 +39,36 @@ export default function StudentProfileHub({ onWatchCourse = null }) {
     completedIds = [],
     completedLessons = {},
     userRatings = {},
-    customComments = {}
+    customComments = {},
+    studentProfile = null,
+    getPortableSyncCode = () => '',
+    logoutStudent = () => {}
   } = useLibrary() || {};
+
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState('register');
+  const [copiedSyncCode, setCopiedSyncCode] = useState(false);
+
+  const handleCopySyncCode = async () => {
+    const code = getPortableSyncCode();
+    if (!code) return;
+    try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(code);
+      } else {
+        const input = document.createElement('textarea');
+        input.value = code;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+      }
+      setCopiedSyncCode(true);
+      setTimeout(() => setCopiedSyncCode(false), 2500);
+    } catch {
+      // Fallback
+    }
+  };
 
   // إحصائيات تعلم الطالب الشخصية
   const completedLessonsCount = useMemo(() => {
@@ -147,6 +180,124 @@ export default function StudentProfileHub({ onWatchCourse = null }) {
           </span>
         </div>
       </div>
+
+      {/* ================== هوية الحساب الأكاديمي وكود المزامنة المحمول ================== */}
+      <section className="space-y-4" dir="rtl">
+        {studentProfile ? (
+          /* حالة المتعلم المسجل */
+          <div className="p-6 rounded-3xl bg-surface border border-teal-500/40 shadow-sm space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/80 pb-4">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <h2 className="text-lg sm:text-xl font-black text-text-heading">
+                    {studentProfile.name}
+                  </h2>
+                  <span className="px-2.5 py-0.5 rounded-full bg-teal-500/15 text-teal-700 dark:text-teal-400 text-xs font-black">
+                    طالب أكاديمي معتمد ✨
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-center gap-3 text-xs text-text-muted">
+                  <span className="flex items-center gap-1 font-mono">
+                    <Mail className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
+                    <span>{studentProfile.email}</span>
+                  </span>
+                  <span>•</span>
+                  <span>القطاع المفضل: <strong className="text-text-heading">{studentProfile.preferredSectorTitle || 'الويب والبرمجة'}</strong></span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    setAuthModalMode('restore');
+                    setShowAuthModal(true);
+                  }}
+                  className="text-xs py-2 px-3"
+                  title="استعادة حساب أو مزامنة جهاز آخر"
+                >
+                  <KeyRound className="w-3.5 h-3.5" />
+                  <span>مزامنة جهاز آخر</span>
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={logoutStudent}
+                  className="text-xs py-2 px-3 text-red-600 hover:bg-red-500/10"
+                  title="تسجيل الخروج من الحساب الأكاديمي المحلي"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>خروج</span>
+                </Button>
+              </div>
+            </div>
+
+            {/* صندوق كود المزامنة المحمول بنقرة واحدة */}
+            <div className="p-4 rounded-2xl bg-surface-2 border border-border/80 space-y-2.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                  <span className="text-xs sm:text-sm font-black text-text-heading">
+                    كود المزامنة المحمول (Portable Sync Code)
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCopySyncCode}
+                  className="text-xs font-black px-3 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white flex items-center gap-1.5 shadow-sm active:scale-95 transition-all"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>{copiedSyncCode ? '✓ تم النسخ بنجاح!' : 'نسخ كود المزامنة المحمول 📋'}</span>
+                </button>
+              </div>
+              <p className="text-[11px] text-text-muted leading-relaxed">
+                انسخ هذا الكود بضغطة زر واحدة والصقه في أي جهاز أو متصفح آخر لنقل حسابك وإنجازاتك في ثانية واحدة بأمان تام وبدون أي خوادم تتبع.
+              </p>
+            </div>
+          </div>
+        ) : (
+          /* حالة الزائر غير المسجل بعد — دعوة أنيقة باللون الزمردي */
+          <div className="p-6 rounded-3xl bg-surface border border-teal-500/40 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-5">
+            <div className="space-y-1.5 max-w-xl">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-500/15 text-teal-700 dark:text-teal-400 text-xs font-black">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>التسجيل الأكاديمي الفوري</span>
+              </div>
+              <h2 className="text-base sm:text-lg font-black text-text-heading">
+                سجّل حسابك الأكاديمي المجاني واحفظ شهاداتك وإنجازاتك
+              </h2>
+              <p className="text-xs text-text-muted leading-relaxed">
+                سجّل اسمك الآن لإصدار شهادات الإتمام باسمك المعتمد، وتخصيص توصياتك حسب قطاعك المفضل، ومزامنة تقدمك عبر أجهزتك في ثانية واحدة مجاناً.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode('register');
+                  setShowAuthModal(true);
+                }}
+                className="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black text-white shadow-sm transition-all hover:opacity-90 active:scale-95 flex items-center gap-1.5"
+                style={{ backgroundColor: '#14B8A6' }}
+              >
+                <UserCheck className="w-4 h-4" />
+                <span>إنشاء حساب أكاديمي مجاني ✨</span>
+              </button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  setAuthModalMode('restore');
+                  setShowAuthModal(true);
+                }}
+                className="text-xs py-2.5 px-3.5 flex items-center gap-1.5"
+              >
+                <KeyRound className="w-3.5 h-3.5" />
+                <span>استعادة حساب سابق 🔄</span>
+              </Button>
+            </div>
+          </div>
+        )}
+      </section>
 
       {/* ================== شبكة إحصائيات التعلم الشخصية ================== */}
       <section className="space-y-3" dir="rtl">
@@ -335,6 +486,13 @@ export default function StudentProfileHub({ onWatchCourse = null }) {
         </h2>
         <BackupRestoreSection />
       </section>
+
+      {/* نافذة تسجيل واستعادة الحساب الأكاديمي */}
+      <StudentAuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        initialMode={authModalMode}
+      />
     </div>
   );
 }

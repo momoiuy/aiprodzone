@@ -12,11 +12,13 @@ import {
   Sun,
   Moon,
   Plus,
-  UserCheck
+  UserCheck,
+  Sparkles
 } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
 import Logo from './Logo';
 import Button from './Button';
+import StudentAuthModal from './StudentAuthModal';
 
 // Props: { view: string, setView: (v: string) => void, displayMode: string, setDisplayMode: (m: string) => void, searchQuery: string, setSearchQuery: (q: string) => void, onOpenSidebar: () => void, onOpenSubmitModal: () => void, onResetHome: () => void }
 export default function Header({
@@ -30,8 +32,9 @@ export default function Header({
   onOpenSubmitModal,
   onResetHome
 }) {
-  const { theme, toggleTheme, watchlistIds, mounted } = useLibrary();
+  const { theme, toggleTheme, watchlistIds, mounted, studentProfile } = useLibrary();
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const searchInputRef = useRef(null);
 
   // اختصار لوحة المفاتيح العالمي للبحث السريع (⌘K أو Ctrl+K)
@@ -248,6 +251,20 @@ export default function Header({
             )}
           </button>
 
+          {/* زر التسجيل الأكاديمي السريع للمتعلم الجديد (Zero-Overhead) */}
+          {!studentProfile && (
+            <button
+              type="button"
+              onClick={() => setShowAuthModal(true)}
+              className="hidden lg:inline-flex h-9 lg:h-9.5 px-3 rounded-xl text-xs font-black text-white items-center gap-1.5 shadow-sm hover:opacity-90 active:scale-95 transition-all shrink-0 whitespace-nowrap"
+              style={{ backgroundColor: '#14B8A6' }}
+              title="إنشاء حساب أكاديمي مجاني لمتابعة تقدمك وإصدار الشهادات"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-white" />
+              <span>إنشاء حساب أكاديمي مجاني ✨</span>
+            </button>
+          )}
+
           {/* زر حسابي ومحفظتي التعليمية للطلاب والزوار */}
           <a
             href="/profile"
@@ -257,7 +274,7 @@ export default function Header({
           >
             <UserCheck className="w-4 h-4 text-teal-700 dark:text-teal-400 shrink-0" />
             <span className="hidden md:inline whitespace-nowrap text-xs font-extrabold text-teal-700 dark:text-teal-400">
-              حسابي ومحفظتي
+              {studentProfile?.name ? `أهلاً، ${studentProfile.name}` : 'حسابي ومحفظتي'}
             </span>
           </a>
 
@@ -333,6 +350,12 @@ export default function Header({
           </div>
         </div>
       )}
+
+      {/* نافذة تسجيل واستعادة حساب المتعلم الأكاديمي */}
+      <StudentAuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
     </header>
   );
 }

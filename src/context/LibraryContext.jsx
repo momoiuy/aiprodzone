@@ -5,6 +5,13 @@ import { SEED_CATEGORIES } from '../data/categories';
 import { getOverallScore } from '../lib/format';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useTheme } from '../hooks/useTheme';
+import {
+  generateSyncKey,
+  encodePortableSyncCode,
+  decodePortableSyncCode,
+  clearStudentProfileFromStorage
+} from '../lib/student-auth';
+import { sendEmailNotification } from '../lib/email-service';
 
 const LibraryContext = createContext(null);
 
@@ -52,6 +59,13 @@ export function LibraryProvider({
   const [completedLessons, setCompletedLessons] = useLocalStorage('aiprodzone_completed_lessons_v1', {}, isObjectMap);
   const [userRatings, setUserRatings] = useLocalStorage('aiprodzone_user_ratings', {}, isObjectMap);
   const [customComments, setCustomComments] = useLocalStorage('aiprodzone_custom_comments', {}, isObjectMap);
+
+  // الملف الشخصي وحساب المتعلم الأكاديمي (Zero-Overhead Student Profile)
+  const [studentProfile, setStudentProfile] = useLocalStorage(
+    'aiprodzone_student_profile',
+    null,
+    (val) => Boolean(val) && typeof val === 'object' && typeof val.name === 'string'
+  );
 
   // تخزين الأقسام والدروس والكتب مع إمكانية التعديل والترتيب من لوحة التحكم /admin
   const [categoriesList, setCategoriesList] = useLocalStorage(
@@ -202,6 +216,94 @@ export function LibraryProvider({
       return true;
     },
     [setCustomComments]
+  );
+
+  // ==================== عمليات حساب المتعلم الأكاديمي (Student Auth & Sync Operations) ====================
+  const registerStudent = useCallback(
+    (profileData) => {
+      const newProfile = {
+        id: `student-${Date.now()}`,
+        name: (profileData.name || '').trim(),
+        email: (profileData.email || '').trim().toLowerCase(),
+        preferredSectorId: profileData.preferredSectorId || 'web-programming',
+        preferredSectorTitle: profileData.preferredSectorTitle || 'الويب والبرمجة',
+        registeredAt: new Date().toISOString(),
+        syncKey: generateSyncKey()
+      };
+      setStudentProfile(newProfile);
+
+      // إرسال إشعار بريدي فوري لمالك المنصة
+      sendEmailNotification({
+        type: 'student_registration',
+        subject: `🎓 تسجيل طالب أكاديمي جديد: ${newProfile.name}`,
+        senderName: newProfile.name,
+        senderEmail: newProfile.email,
+        details: {
+          'اسم المتعلم': newProfile.name,
+          'البريد الإلكتروني': newProfile.email,
+          'القطاع المفضل': newProfile.preferredSectorTitle,
+          'تاريخ التسجيل': new Date().toLocaleString('ar-EG'),
+          'كود المزامنة السريع': newProfile.syncKey
+        }
+      }).catch(() => {});
+
+      return newProfile;
+    },
+    [setStudentProfile]
+  );
+
+  const updateStudentProfile = useCallback(
+    (fields) => {
+      setStudentProfile((prev) => (prev ? { ...prev, ...fields } : fields));
+    },
+    [setStudentProfile]
+  );
+
+  const logoutStudent = useCallback(() => {
+    setStudentProfile(null);
+    clearStudentProfileFromStorage();
+  }, [setStudentProfile]);
+
+  const getPortableSyncCode = useCallback(() => {
+    return encodePortableSyncCode(studentProfile, {
+      watchlistIds,
+      completedIds,
+      completedLessons,
+      userRatings,
+      customComments
+    });
+  }, [studentProfile, watchlistIds, completedIds, completedLessons, userRatings, customComments]);
+
+  const restoreFromSyncCode = useCallback(
+    (syncCodeStr) => {
+      const res = decodePortableSyncCode(syncCodeStr);
+      if (!res.valid) {
+        return res;
+      }
+      const { payload } = res;
+      if (payload.profile) {
+        setStudentProfile(payload.profile);
+      }
+      if (payload.progress) {
+        if (Array.isArray(payload.progress.watchlistIds)) {
+          setWatchlistIds(payload.progress.watchlistIds);
+        }
+        if (Array.isArray(payload.progress.completedIds)) {
+          setCompletedIds(payload.progress.completedIds);
+        }
+        if (payload.progress.completedLessons && typeof payload.progress.completedLessons === 'object') {
+          setCompletedLessons(payload.progress.completedLessons);
+        }
+        if (payload.progress.userRatings && typeof payload.progress.userRatings === 'object') {
+          setUserRatings(payload.progress.userRatings);
+        }
+        if (payload.progress.customComments && typeof payload.progress.customComments === 'object') {
+          setCustomComments(payload.progress.customComments);
+        }
+      }
+      return { valid: true, payload };
+    },
+    [setStudentProfile, setWatchlistIds, setCompletedIds, setCompletedLessons, setUserRatings, setCustomComments]
   );
 
   // ==================== عمليات إدارة الدروس (Courses Admin Operations) ====================
@@ -519,6 +621,12 @@ export function LibraryProvider({
       updateArticle,
       deleteArticle,
       resetToSeedData,
+      studentProfile,
+      registerStudent,
+      updateStudentProfile,
+      logoutStudent,
+      getPortableSyncCode,
+      restoreFromSyncCode,
       exportBackup: async (...args) => {
         const m = await import('../lib/backup');
         return m.downloadBackupFile(...args);
@@ -574,6 +682,12 @@ export function LibraryProvider({
       updateArticle,
       deleteArticle,
       resetToSeedData,
+      studentProfile,
+      registerStudent,
+      updateStudentProfile,
+      logoutStudent,
+      getPortableSyncCode,
+      restoreFromSyncCode,
       initialArticles,
       initialEbooks
     ]

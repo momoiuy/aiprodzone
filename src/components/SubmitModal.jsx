@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X, Sparkles, Loader2 } from 'lucide-react';
 import { parseYouTubeUrl } from '../lib/youtube';
 import { useLibrary } from '../context/LibraryContext';
+import { sendEmailNotification } from '../lib/email-service';
 import Card from './Card';
 import Chip from './Chip';
 import Button from './Button';
@@ -11,7 +12,7 @@ const fieldClass =
 
 // Props: { isOpen: boolean, onClose: () => void, onCourseCreated: (courseId: string) => void }
 export default function SubmitModal({ isOpen, onClose, onCourseCreated }) {
-  const { addCourse, categories } = useLibrary();
+  const { addCourse, categories, studentProfile } = useLibrary() || {};
 
   const [ytInput, setYtInput] = useState('');
   const [ytError, setYtError] = useState('');
@@ -72,7 +73,7 @@ export default function SubmitModal({ isOpen, onClose, onCourseCreated }) {
     e.preventDefault();
     if (!newCourseTitle.trim()) return;
 
-    const ytId = extractYouTubeId(ytInput);
+    const ytId = parseYouTubeUrl(ytInput);
     if (!ytId) {
       setYtError('رابط يوتيوب غير صالح. يرجى إدخال رابط صحيح (watch?v= أو youtu.be أو embed أو shorts أو live).');
       return;
@@ -121,6 +122,24 @@ export default function SubmitModal({ isOpen, onClose, onCourseCreated }) {
       promptBlueprint: 'قم بتطبيق الخطوات المشروحة في الفيديو مع تخصيص الأمر التالي لمشروعك: [حدد الهدف + الأداة + شكل المخرج النهائي].',
       comments: []
     });
+
+    // إرسال إشعار بريدي فوري لمالك المنصة وحفظه في صندوق الوارد
+    sendEmailNotification({
+      type: 'course_suggestion',
+      subject: `💡 اقتراح كورس/شرح جديد: ${newCourseTitle.trim()}`,
+      senderName: studentProfile?.name || 'زائر المنصة',
+      senderEmail: studentProfile?.email || 'contributor@aiprodzone.com',
+      details: {
+        'عنوان الشرح': newCourseTitle.trim(),
+        'المحاضر': newCourseInstructor.trim() || 'محاضر معتمد في AIProdZone',
+        'القطاع الأكاديمي': newCourseCategory,
+        'المستوى في المسار': newCourseLevel,
+        'الأداة المشروحة': newCourseTool,
+        'رابط يوتيوب': ytInput.trim(),
+        'معرّف الفيديو': ytId,
+        'نبذة وملخص': newCourseSynopsis.trim() || 'درس تطبيقي منتقى بعناية من يوتيوب'
+      }
+    }).catch(() => {});
 
     setYtInput('');
     setYtError('');

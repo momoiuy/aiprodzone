@@ -21,7 +21,7 @@ export interface StandaloneHeaderProps {
 }
 
 export default function StandaloneHeader({ current }: StandaloneHeaderProps) {
-  const { theme, toggleTheme } = useLibrary();
+  const { theme, toggleTheme, studentProfile } = useLibrary() as any;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -94,7 +94,7 @@ export default function StandaloneHeader({ current }: StandaloneHeaderProps) {
             }`}
           >
             <UserCheck className="w-4 h-4 text-accent" />
-            <span>حسابي ومحفظتي</span>
+            <span>{studentProfile?.name ? `أهلاً، ${studentProfile.name}` : 'حسابي ومحفظتي'}</span>
           </Link>
         </nav>
 
