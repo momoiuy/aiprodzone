@@ -31,7 +31,7 @@ import Chip from '../components/Chip';
 import Button from '../components/Button';
 
 // تحويل روابط الصور السحابية غير المشفرة أو ذات الشهادات المنتهية إلى مزود CDN السحابي الموثوق
-function getSecureCoverUrl(url) {
+export function getSecureCoverUrl(url) {
   if (!url || typeof url !== 'string') return '';
   if (url.includes('bimocode.com')) {
     const cleanUrl = url.replace(/^https?:\/\//, '');

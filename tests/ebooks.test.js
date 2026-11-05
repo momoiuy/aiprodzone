@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { BIMO_CATEGORIES, BIMO_CATALOG } from '../src/data/bimo-catalog.js';
 import { EBOOK_GUIDES, TRACK_GUIDES } from '../src/data/ebooks.js';
+import { getSecureCoverUrl } from '../src/views/Ebooks.jsx';
 
 describe('BimoCode Cloud Catalog & Navigation Taxonomy', () => {
   it('includes all 6 exact categories from the requested UI specification', () => {
@@ -88,5 +89,19 @@ describe('BimoCode Cloud Catalog & Navigation Taxonomy', () => {
       expect(item.remoteCoverUrl.startsWith('http')).toBe(true);
       expect(item.downloadUrl.startsWith('http')).toBe(true);
     });
+  });
+
+  it('transforms bimocode image URLs to secure edge CDN proxy (images.weserv.nl)', () => {
+    const rawBimoUrl = 'http://bimocode.com/public/storage/product/test-book.jpeg';
+    const secureUrl = getSecureCoverUrl(rawBimoUrl);
+    expect(secureUrl.startsWith('https://images.weserv.nl/')).toBe(true);
+    expect(secureUrl).toContain('bimocode.com');
+    expect(secureUrl).toContain('output=webp');
+
+    // Non-bimocode URLs (like YouTube thumbnails) remain unchanged
+    const ytUrl = 'https://i.ytimg.com/vi/NtZi_yluSAY/hqdefault.jpg';
+    expect(getSecureCoverUrl(ytUrl)).toBe(ytUrl);
+    expect(getSecureCoverUrl('')).toBe('');
+    expect(getSecureCoverUrl(null)).toBe('');
   });
 });
