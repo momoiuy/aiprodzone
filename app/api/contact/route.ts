@@ -116,3 +116,12 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET() {
+  return NextResponse.json({
+    status: 'online',
+    service: 'AIProdZone Mail & Notification Gateway',
+    timestamp: new Date().toISOString()
+  });
+}
+
