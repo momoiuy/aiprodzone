@@ -49,7 +49,8 @@ describe('BimoCode Cloud Catalog & Navigation Taxonomy', () => {
       expect(item.category).toBeTruthy();
       expect(item.isCloudBook).toBe(true);
       expect(item.remoteCoverUrl).toBeTruthy();
-      expect(item.downloadUrl).toBeTruthy();
+      expect(item.itemUrl).toBeTruthy();
+      expect(item.itemUrl.startsWith('/books?read=')).toBe(true);
     });
   });
 
@@ -84,10 +85,31 @@ describe('BimoCode Cloud Catalog & Navigation Taxonomy', () => {
     });
   });
 
-  it('maintains zero local load architecture (all covers and downloads are remote URLs)', () => {
-    BIMO_CATALOG.forEach((item) => {
-      expect(item.remoteCoverUrl.startsWith('http')).toBe(true);
-      expect(item.downloadUrl.startsWith('http')).toBe(true);
+  it('strictly guarantees ZERO links to bimocode.com across all 114 books (Zero Bimocode Redirection)', () => {
+    EBOOK_GUIDES.forEach((book, index) => {
+      if (book.downloadUrl) {
+        expect(book.downloadUrl.includes('bimocode.com'), `Book at index ${index} (${book.id}) has downloadUrl pointing to bimocode.com: ${book.downloadUrl}`).toBe(false);
+      }
+      if (book.itemUrl) {
+        expect(book.itemUrl.includes('bimocode.com'), `Book at index ${index} (${book.id}) has itemUrl pointing to bimocode.com: ${book.itemUrl}`).toBe(false);
+      }
+      if (book.trackUrl) {
+        expect(book.trackUrl.includes('bimocode.com')).toBe(false);
+      }
+    });
+  });
+
+  it('verifies cloud items link directly to external cloud storage (MediaFire / Google Drive / Mega)', () => {
+    const directItems = BIMO_CATALOG.filter((i) => i.hasDirectDownload);
+    expect(directItems.length).toBeGreaterThanOrEqual(44);
+    directItems.forEach((item) => {
+      expect(item.downloadUrl).toBeTruthy();
+      expect(
+        item.downloadUrl.includes('mediafire.com') ||
+        item.downloadUrl.includes('drive.google.com') ||
+        item.downloadUrl.includes('mega.nz') ||
+        item.downloadUrl.includes('dropbox.com')
+      ).toBe(true);
     });
   });
 

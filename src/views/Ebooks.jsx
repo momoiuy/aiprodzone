@@ -333,8 +333,8 @@ export default function Ebooks({
             )}
           </div>
 
-          {/* صندوق التحميل السحابي البارز */}
-          {activeEbook.downloadUrl && (
+          {/* صندوق التحميل السحابي المباشر أو القراءة الأكاديمية بالمنصة */}
+          {activeEbook.downloadUrl && !activeEbook.downloadUrl.includes('bimocode.com') ? (
             <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-accent/15 via-surface-2 to-surface-1 border border-accent/40 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
               <div className="space-y-1.5">
                 <div className="flex flex-wrap items-center gap-2">
@@ -360,6 +360,19 @@ export default function Ebooks({
                 <span>{activeEbook.isCloudBook ? 'تحميل المادة الرقمية الآن' : 'الانتقال إلى المسار التعليمي'}</span>
                 <ExternalLink className="w-3.5 h-3.5 opacity-80" />
               </a>
+            </div>
+          ) : (
+            <div className="p-5 sm:p-6 rounded-2xl bg-surface-2 border border-border flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm" dir="rtl">
+              <div className="space-y-1.5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                  <span className="text-xs font-bold text-text-heading">المحتوى الأكاديمي متاح للقراءة الكاملة في المنصة</span>
+                  <Chip tone="accent">وصول فوري مجاني</Chip>
+                </div>
+                <p className="text-xs sm:text-sm text-text-muted">
+                  يمكنك قراءة ملخص الدليل والنقاط التطبيقية المفصلة أدناه مباشرة داخل منصة AIProdZone بصفر تحويلات خارجية وبأعلى درجات الخصوصية.
+                </p>
+              </div>
             </div>
           )}
 
@@ -846,7 +859,7 @@ export default function Ebooks({
 
                     {/* تذييل البطاقة مع زر التحميل المباشر وزر التفاصيل */}
                     <div className="pt-3 mt-auto border-t border-border flex items-center justify-between text-xs gap-2">
-                      {eb.downloadUrl ? (
+                      {eb.downloadUrl && !eb.downloadUrl.includes('bimocode.com') ? (
                         <>
                           <a
                             href={eb.downloadUrl}
