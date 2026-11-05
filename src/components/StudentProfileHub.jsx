@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import {
   UserCheck,
   GraduationCap,
@@ -20,7 +21,8 @@ import {
   Copy,
   LogOut,
   KeyRound,
-  Mail
+  Mail,
+  Award
 } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
 import Card from './Card';
@@ -28,6 +30,9 @@ import Chip from './Chip';
 import Button from './Button';
 import BackupRestoreSection from './BackupRestoreSection';
 import StudentAuthModal from './StudentAuthModal';
+
+const CertificateModal = dynamic(() => import('./CertificateModal'), { ssr: false });
+const ResumeLearningBanner = dynamic(() => import('./ResumeLearningBanner'), { ssr: false });
 
 /**
  * @param {{ onWatchCourse?: (courseId: string, instructorId?: string) => void }} props
@@ -48,6 +53,8 @@ export default function StudentProfileHub({ onWatchCourse = null }) {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('register');
   const [copiedSyncCode, setCopiedSyncCode] = useState(false);
+  const [certModalOpen, setCertModalOpen] = useState(false);
+  const [selectedCertCourse, setSelectedCertCourse] = useState(null);
 
   const handleCopySyncCode = async () => {
     const code = getPortableSyncCode();
@@ -85,6 +92,11 @@ export default function StudentProfileHub({ onWatchCourse = null }) {
   const userRatingsCount = useMemo(() => {
     return Object.keys(userRatings).length;
   }, [userRatings]);
+
+  // المسارات المكتملة 100% لإصدار شهادات التخرج الرقمية
+  const completedCourses = useMemo(() => {
+    return courses.filter((c) => completedIds.includes(c.id));
+  }, [courses, completedIds]);
 
   // استخراج المسارات التي يدرسها الطالب حالياً (In-Progress Tracks)
   const inProgressCourses = useMemo(() => {
@@ -139,6 +151,9 @@ export default function StudentProfileHub({ onWatchCourse = null }) {
 
   return (
     <div dir="ltr" className="w-full space-y-8 animate-smooth text-right">
+      {/* شريط استأنف تعلمك الذكي من حيث توقفت */}
+      <ResumeLearningBanner onWatchCourse={handleContinueCourse} />
+
       {/* بطاقة الترحيب وهوية المتعلم الشخصية */}
       <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-border shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6" dir="rtl">
         <div className="space-y-3 max-w-2xl">
@@ -478,6 +493,77 @@ export default function StudentProfileHub({ onWatchCourse = null }) {
         )}
       </section>
 
+      {/* ================== المسارات المكتملة وشهادات التخرج الرقمية ================== */}
+      <section className="space-y-4" dir="rtl">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <h2 className="text-base sm:text-lg font-black text-text-heading flex items-center gap-2">
+              <Award className="w-5 h-5 text-teal-600 dark:text-teal-400" />
+              <span>المسارات المكتملة وشهادات التخرج الرقمية</span>
+            </h2>
+            <p className="text-xs text-text-muted">
+              وثّق إنجازاتك الأكاديمية وأصدر شهادات التخرج الرسمية المعتمدة بالبصمة الرقمية.
+            </p>
+          </div>
+
+          <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-xl bg-teal-500/15 text-teal-700 dark:text-teal-400">
+            {completedCourses.length} شهادات متاحة
+          </span>
+        </div>
+
+        {completedCourses.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {completedCourses.map((course) => (
+              <Card
+                key={course.id}
+                className="p-4 rounded-2xl border border-teal-500/40 bg-surface flex flex-col justify-between space-y-4 shadow-sm"
+              >
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <Chip tone="accent" className="text-[10px]">
+                      {course.category || course.domainTitle}
+                    </Chip>
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 text-[10px] font-black flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3" />
+                      <span>مكتمل 100%</span>
+                    </span>
+                  </div>
+
+                  <h3 className="text-sm font-black text-text-heading line-clamp-2">
+                    {course.title}
+                  </h3>
+                  <p className="text-xs text-text-muted font-bold">
+                    المحاضر: {course.instructor}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedCertCourse(course);
+                    setCertModalOpen(true);
+                  }}
+                  className="w-full py-2.5 px-3 rounded-xl text-xs font-black text-white bg-teal-600 hover:bg-teal-700 active:scale-95 transition-all shadow-sm flex items-center justify-center gap-2"
+                >
+                  <Award className="w-4 h-4" />
+                  <span>🎓 إصدار شهادة إتمام المسار</span>
+                </button>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div className="p-6 rounded-2xl border border-dashed border-border bg-surface-2/60 text-center space-y-2">
+            <Award className="w-8 h-8 text-teal-600 dark:text-teal-400 mx-auto opacity-70" />
+            <h4 className="text-xs sm:text-sm font-black text-text-heading">
+              لا توجد مسارات مكتملة بعد
+            </h4>
+            <p className="text-xs text-text-muted max-w-md mx-auto">
+              عند إتمام أي مسار تعليمي بنسبة 100% أو وضع علامة مكتمل عليه، ستتمكن من إصدار شهادة إتمام المسار الرسمية الموثقة محلياً من هنا فوراً.
+            </p>
+          </div>
+        )}
+      </section>
+
       {/* ================== قسم النسخ الاحتياطي ونقل التقدم ================== */}
       <section className="space-y-3" dir="rtl">
         <h2 className="text-base sm:text-lg font-black text-text-heading flex items-center gap-2">
@@ -493,6 +579,18 @@ export default function StudentProfileHub({ onWatchCourse = null }) {
         onClose={() => setShowAuthModal(false)}
         initialMode={authModalMode}
       />
+
+      {/* نافذة إصدار شهادة الإتمام الأكاديمية */}
+      {selectedCertCourse && (
+        <CertificateModal
+          isOpen={certModalOpen}
+          onClose={() => {
+            setCertModalOpen(false);
+            setSelectedCertCourse(null);
+          }}
+          course={selectedCertCourse}
+        />
+      )}
     </div>
   );
 }

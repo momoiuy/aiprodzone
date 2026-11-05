@@ -9,7 +9,9 @@ export const LEARNER_STORAGE_KEYS = {
   CUSTOM_COMMENTS: 'aiprodzone_custom_comments',
   BOOKMARKED_ARTICLES: 'aiprodzone_bookmarked_articles',
   TICKETS: 'aiprodzone_contact_tickets_v1',
-  THEME: 'aiprodzone_theme'
+  THEME: 'aiprodzone_theme',
+  LAST_ACTIVE_LESSON: 'aiprodzone_last_active_lesson',
+  LESSON_NOTES: 'aiprodzone_lesson_notes_v1'
 };
 
 // مخزن احتياطي في الذاكرة الحية (In-Memory Fallback Store)
@@ -212,4 +214,27 @@ export function removeStorageItem(key) {
  */
 export function clearMemoryFallback() {
   memoryStore.clear();
+}
+
+/**
+ * حفظ آخر درس نشط شاهده المتعلم لاستئناف التعلم اللحظي
+ * @param {object} lessonData
+ * @returns {boolean}
+ */
+export function saveLastActiveLesson(lessonData) {
+  if (!lessonData || typeof lessonData !== 'object' || !lessonData.courseId) return false;
+  return setStorageItem(LEARNER_STORAGE_KEYS.LAST_ACTIVE_LESSON, {
+    ...lessonData,
+    updatedAt: new Date().toISOString()
+  });
+}
+
+/**
+ * قراءة آخر درس نشط مسجل
+ * @returns {object | null}
+ */
+export function getLastActiveLesson() {
+  return getStorageItem(LEARNER_STORAGE_KEYS.LAST_ACTIVE_LESSON, null, (val) => {
+    return Boolean(val) && typeof val === 'object' && typeof val.courseId === 'string';
+  });
 }

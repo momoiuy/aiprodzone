@@ -5,11 +5,11 @@ import { INITIAL_COURSES_SUMMARY } from './data/courses-summary';
 import { LibraryProvider, useLibrary } from './context/LibraryContext';
 import dynamic from 'next/dynamic';
 import Header from './components/Header';
-import Sidebar from './components/Sidebar';
-import BottomNav from './components/BottomNav';
 import Home from './views/Home';
-import Footer from './components/Footer';
 
+const Sidebar = dynamic(() => import('./components/Sidebar'), { ssr: false });
+const BottomNav = dynamic(() => import('./components/BottomNav'), { ssr: false });
+const Footer = dynamic(() => import('./components/Footer'), { ssr: false });
 const SubmitModal = dynamic(() => import('./components/SubmitModal'), { ssr: false });
 const BrandModal = dynamic(() => import('./components/BrandModal'), { ssr: false });
 const Watch = dynamic(() => import('./views/Watch'), { ssr: false });

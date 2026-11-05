@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import {
   Layers,
   Code2,
@@ -34,7 +34,7 @@ export default function CategoryPills({
   selectedCategory: selectedCategoryProp,
   onSelectCategory: onSelectCategoryProp
 }) {
-  const { selectedCategory: ctxCategory, setSelectedCategory: ctxSetCategory, categories, courses } = useLibrary();
+  const { selectedCategory: ctxCategory, setSelectedCategory: ctxSetCategory, categories, courses, studentProfile } = useLibrary();
   const selectedCategory = selectedCategoryProp !== undefined ? selectedCategoryProp : ctxCategory;
   const onSelectCategory = onSelectCategoryProp || ctxSetCategory;
   const pillsScrollRef = useRef(null);
@@ -85,6 +85,23 @@ export default function CategoryPills({
             {totalCoursesCount}
           </span>
         </button>
+
+        {/* زر التخصص المفضل للمتعلم المسجل */}
+        {studentProfile?.preferredSectorTitle && (
+          <button
+            type="button"
+            onClick={() => onSelectCategory(studentProfile.preferredSectorTitle)}
+            title={`عرض مسارات تخصصك المفضل: ${studentProfile.preferredSectorTitle}`}
+            className={`shrink-0 whitespace-nowrap snap-start min-h-[40px] px-3 sm:px-3.5 py-2 rounded-xl text-xs sm:text-[13px] font-extrabold transition-all duration-200 border flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring ${
+              selectedCategory === studentProfile.preferredSectorTitle
+                ? 'bg-teal-500/20 text-teal-800 dark:text-teal-300 border-teal-500 shadow-sm'
+                : 'bg-surface text-teal-700 dark:text-teal-400 border-teal-500/40 hover:border-teal-500'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 shrink-0 text-teal-600 dark:text-teal-400" />
+            <span>⭐ تخصصي المفضل ({studentProfile.preferredSectorTitle})</span>
+          </button>
+        )}
 
         {/* القطاعات الثمانية الكبرى مع عدادات الدورات */}
         {sortedCategories.map((cat) => {

@@ -10,7 +10,8 @@ import {
   ArrowUpRight,
   Clock,
   Award,
-  Lightbulb
+  Lightbulb,
+  Sparkles
 } from 'lucide-react';
 import { formatViews, getOverallScore } from '../lib/format';
 import { handleThumbnailError, handleThumbnailLoad } from '../lib/youtube';
@@ -20,7 +21,14 @@ import Chip from './Chip';
 
 // Props: { course: object, onWatchCourse: (courseId: string, instructorId?: string) => void }
 export default function CourseCard({ course, onWatchCourse }) {
-  const { watchlistIds, completedIds, toggleWatchlist } = useLibrary();
+  const { watchlistIds, completedIds, toggleWatchlist, studentProfile } = useLibrary();
+
+  const isPreferredSector = Boolean(
+    studentProfile &&
+    (course.domainId === studentProfile.preferredSectorId ||
+     course.category === studentProfile.preferredSectorTitle ||
+     course.domainTitle === studentProfile.preferredSectorTitle)
+  );
 
   // المحاضرون المعتمدون
   const instructors = course.instructors && course.instructors.length > 0
@@ -101,6 +109,13 @@ export default function CourseCard({ course, onWatchCourse }) {
             <span className="px-2 py-0.5 rounded-lg bg-surface/90 backdrop-blur-md text-[10px] font-extrabold text-text-heading border border-border truncate shadow-sm">
               #{course.orderIndex || course.rankOrder} {course.badge || course.qualityBadge}
             </span>
+
+            {isPreferredSector && (
+              <span className="px-2 py-0.5 rounded-lg bg-teal-500 text-teal-950 font-black text-[10px] tracking-tight shrink-0 shadow-sm flex items-center gap-1">
+                <Sparkles className="w-2.5 h-2.5" />
+                <span>⭐ مقترح لتخصصك</span>
+              </span>
+            )}
 
             {course.examCode && (
               <span className="px-1.5 py-0.5 rounded-md bg-accent text-accent-ink text-[10px] font-mono font-black tracking-tight shrink-0 shadow-sm flex items-center gap-1">

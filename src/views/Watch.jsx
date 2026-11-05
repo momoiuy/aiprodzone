@@ -21,8 +21,16 @@ import {
   ChevronLeft,
   Loader2,
   Maximize2,
-  Minimize2
+  Minimize2,
+  FileText,
+  Sparkles,
+  Trash2
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { saveLastActiveLesson } from '../lib/storage';
+
+const CertificateModal = dynamic(() => import('../components/CertificateModal'), { ssr: false });
 import { formatViews, getOverallScore } from '../lib/format';
 import { matchesSmartSearch } from '../lib/search';
 import { useLibrary } from '../context/LibraryContext';
@@ -106,6 +114,16 @@ export default function Watch({
   const [playerPlaying, setPlayerPlaying] = useState(false);
   const [playerStartSeconds, setPlayerStartSeconds] = useState(0);
   const [playerReloadKey, setPlayerReloadKey] = useState(0);
+
+  // حالة شهادة الإتمام الأكاديمية والملاحظات المرتبطة بالثانية الزمنية
+  const [showCertificateModal, setShowCertificateModal] = useState(false);
+  const [lessonNotesMap, setLessonNotesMap] = useLocalStorage(
+    'aiprodzone_lesson_notes_v1',
+    {},
+    (val) => Boolean(val) && typeof val === 'object' && !Array.isArray(val)
+  );
+  const [newNoteText, setNewNoteText] = useState('');
+  const [noteTimestampInput, setNoteTimestampInput] = useState('00:00');
 
   // وضع التركيز والسينما وتثبيت المشغل على الهاتف
   const [isFocusMode, setIsFocusMode] = useState(false);
@@ -339,6 +357,71 @@ export default function Watch({
     setPlayerReloadKey((prev) => prev + 1);
   };
 
+  // حفظ آخر درس نشط ومسار قيد الدراسة في التخزين الآمن
+  useEffect(() => {
+    if (course?.id && activeInstructor?.id && currentLesson?.index) {
+      saveLastActiveLesson({
+        courseId: course.id,
+        courseTitle: course.title,
+        instructorId: activeInstructor.id,
+        instructorName: activeInstructor.name,
+        lessonIndex: currentLesson.index,
+        lessonTitle: currentLesson.title,
+        lessonDuration: currentLesson.duration || ''
+      });
+    }
+  }, [
+    course?.id,
+    course?.title,
+    activeInstructor?.id,
+    activeInstructor?.name,
+    currentLesson?.index,
+    currentLesson?.title,
+    currentLesson?.duration
+  ]);
+
+  // مفتاح الملاحظات الخاصة بهذا الدرس
+  const lessonKey = `${course?.id || ''}_${activeInstructor?.id || ''}_${currentLesson?.index || 1}`;
+  const currentLessonNotes = Array.isArray(lessonNotesMap[lessonKey]) ? lessonNotesMap[lessonKey] : [];
+
+  const handleAddNote = (e) => {
+    if (e && typeof e.preventDefault === 'function') e.preventDefault();
+    const trimmed = newNoteText.trim();
+    if (!trimmed) return;
+
+    let sec = 0;
+    const parts = (noteTimestampInput || '00:00').trim().split(':');
+    if (parts.length === 2) {
+      sec = (parseInt(parts[0], 10) || 0) * 60 + (parseInt(parts[1], 10) || 0);
+    } else if (parts.length === 3) {
+      sec = (parseInt(parts[0], 10) || 0) * 3600 + (parseInt(parts[1], 10) || 0) * 60 + (parseInt(parts[2], 10) || 0);
+    } else {
+      sec = parseInt(noteTimestampInput, 10) || 0;
+    }
+
+    const newNoteObj = {
+      id: Date.now(),
+      text: trimmed,
+      seconds: sec,
+      timestampText: noteTimestampInput.trim() || '00:00',
+      createdAt: new Date().toISOString()
+    };
+
+    setLessonNotesMap((prev) => ({
+      ...prev,
+      [lessonKey]: [newNoteObj, ...(prev[lessonKey] || [])]
+    }));
+
+    setNewNoteText('');
+  };
+
+  const handleDeleteNote = (noteId) => {
+    setLessonNotesMap((prev) => ({
+      ...prev,
+      [lessonKey]: (prev[lessonKey] || []).filter((n) => n.id !== noteId)
+    }));
+  };
+
   const handleLessonVideoEnd = () => {
     if (course?.id && activeInstructor?.id && currentLesson?.index) {
       if (!isLessonCompleted(course.id, activeInstructor.id, currentLesson.index)) {
@@ -562,36 +645,64 @@ export default function Watch({
 
           {/* شريط التحكم والتنقل السريع بين الدروس */}
           <Card className="p-3.5 sm:p-4 bg-surface flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Button
                 variant="secondary"
                 disabled={!prevLesson}
                 onClick={() => prevLesson && handleSelectLesson(prevLesson.index)}
-                className="py-1.5 px-3 text-xs font-bold"
+                className="min-h-[40px] py-2 px-3.5 text-xs font-bold"
                 title={prevLesson ? `الدرس السابق: ${prevLesson.title}` : 'لا يوجد درس سابق'}
               >
-                <ChevronRight className="w-3.5 h-3.5" />
-                <span>الدرس السابق</span>
+                <ChevronRight className="w-4 h-4" />
+                <span>الدرس السابق ⏮</span>
+              </Button>
+
+              <Button
+                variant={isCurrentLessonDone ? 'primary' : 'secondary'}
+                onClick={() =>
+                  toggleLessonCompleted(
+                    course.id,
+                    activeInstructor.id,
+                    currentLesson.index
+                  )
+                }
+                className="min-h-[40px] py-2 px-3.5 text-xs font-bold"
+              >
+                <CheckSquare className="w-4 h-4" />
+                <span>
+                  {isCurrentLessonDone ? 'أكملت هذا الدرس ✓' : 'تحديد كمكتمل ✓'}
+                </span>
               </Button>
 
               <Button
                 variant="primary"
                 disabled={!nextLesson}
                 onClick={() => nextLesson && handleSelectLesson(nextLesson.index)}
-                className="py-1.5 px-3 text-xs font-bold"
+                className="min-h-[40px] py-2 px-3.5 text-xs font-bold"
                 title={nextLesson ? `الدرس التالي: ${nextLesson.title}` : 'نهاية الدورة'}
               >
-                <span>الدرس التالي</span>
-                <ChevronLeft className="w-3.5 h-3.5" />
+                <span>الدرس التالي ⏭</span>
+                <ChevronLeft className="w-4 h-4" />
               </Button>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              {/* زر إصدار شهادة إتمام المسار الأكاديمي */}
+              <button
+                type="button"
+                onClick={() => setShowCertificateModal(true)}
+                className="min-h-[40px] py-2 px-3.5 rounded-xl text-xs font-black border border-teal-500/50 bg-teal-500/10 hover:bg-teal-500/20 text-teal-800 dark:text-teal-300 flex items-center gap-1.5 shadow-sm active:scale-95 transition-all"
+                title="إصدار شهادة إتمام المسار الأكاديمي المعتمدة"
+              >
+                <Award className="w-4 h-4 text-teal-600 dark:text-teal-400 stroke-[2.2]" />
+                <span>🎓 إصدار شهادة إتمام المسار</span>
+              </button>
+
               {/* زر وضع التركيز / السينما للشاشات الكبيرة (Focus / Theater Mode) */}
               <Button
                 variant={isFocusMode ? 'primary' : 'secondary'}
                 onClick={() => setIsFocusMode((prev) => !prev)}
-                className="hidden lg:inline-flex py-1.5 px-3 text-xs font-bold items-center gap-1.5"
+                className="hidden lg:inline-flex min-h-[40px] py-2 px-3 text-xs font-bold items-center gap-1.5"
                 title={
                   isFocusMode
                     ? 'الخروج من وضع السينما والتركيز وإظهار القائمة الجانبية (Esc)'
@@ -612,26 +723,9 @@ export default function Watch({
               </Button>
 
               <Button
-                variant={isCurrentLessonDone ? 'primary' : 'secondary'}
-                onClick={() =>
-                  toggleLessonCompleted(
-                    course.id,
-                    activeInstructor.id,
-                    currentLesson.index
-                  )
-                }
-                className="py-1.5 px-3 text-xs font-bold"
-              >
-                <CheckSquare className="w-3.5 h-3.5" />
-                <span>
-                  {isCurrentLessonDone ? 'أكملت هذا الدرس ✔' : 'وضع علامة مكتمل'}
-                </span>
-              </Button>
-
-              <Button
                 variant="secondary"
                 onClick={(e) => toggleWatchlist(e, course.id)}
-                className={`py-1.5 px-3 text-xs font-bold ${
+                className={`min-h-[40px] py-2 px-3 text-xs font-bold ${
                   watchlistIds.includes(course.id) ? 'border-accent text-accent' : ''
                 }`}
               >
@@ -639,6 +733,96 @@ export default function Watch({
                 <span>{watchlistIds.includes(course.id) ? 'محفوظ' : 'حفظ'}</span>
               </Button>
             </div>
+          </Card>
+
+          {/* بطاقة ملاحظاتي الشخصية على هذا الدرس (مرتبطة بالثانية الزمنية) */}
+          <Card className="p-4 sm:p-5 space-y-3.5 bg-surface border-border shadow-sm">
+            <div className="flex items-center justify-between border-b border-border/80 pb-2.5">
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4 text-accent" />
+                <h3 className="text-xs sm:text-sm font-black text-text-heading">
+                  ملاحظاتي الشخصية على هذا الدرس (مرتبطة بالثانية الزمنية)
+                </h3>
+              </div>
+              <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-surface-2 text-text-muted">
+                {currentLessonNotes.length} ملاحظات
+              </span>
+            </div>
+
+            {/* نموذج إضافة ملاحظة جديدة */}
+            <form onSubmit={handleAddNote} className="space-y-2.5">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <input
+                  type="text"
+                  value={newNoteText}
+                  onChange={(e) => setNewNoteText(e.target.value)}
+                  placeholder="دوّن ملحوظة أو قاعدة هامة حول هذا الدرس..."
+                  className="flex-1 text-xs font-medium rounded-xl px-3.5 py-2.5 bg-surface-2 text-text border border-border focus:border-accent focus-visible:outline-none transition-colors placeholder:text-text-muted"
+                />
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 bg-surface-2 border border-border rounded-xl px-2 py-1.5">
+                    <Clock className="w-3.5 h-3.5 text-text-muted shrink-0" />
+                    <input
+                      type="text"
+                      value={noteTimestampInput}
+                      onChange={(e) => setNoteTimestampInput(e.target.value)}
+                      placeholder="02:30"
+                      title="التوقيت الزمني للملاحظة (دقيقة:ثانية)"
+                      className="w-14 text-xs font-mono font-bold text-center bg-transparent text-text focus:outline-none"
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    disabled={!newNoteText.trim()}
+                    className="py-2 px-3 text-xs font-bold shrink-0"
+                  >
+                    <span>حفظ الملاحظة +</span>
+                  </Button>
+                </div>
+              </div>
+            </form>
+
+            {/* قائمة الملاحظات المسجلة لهذا الدرس */}
+            {currentLessonNotes.length > 0 ? (
+              <div className="space-y-1.5 pt-1">
+                {currentLessonNotes.map((note) => (
+                  <div
+                    key={note.id}
+                    className="p-2.5 rounded-xl bg-surface-2 border border-border/80 flex items-center justify-between gap-2.5 text-xs group hover:border-accent/40 transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                      <button
+                        type="button"
+                        onClick={() => handleSelectLesson(currentLesson.index, note.seconds)}
+                        title="القفز إلى هذه الثانية في مشغل الفيديو"
+                        className="px-2.5 py-1 rounded-lg bg-teal-500/15 text-teal-700 dark:text-teal-400 hover:bg-teal-500 hover:text-teal-950 font-mono font-black text-xs shrink-0 transition-all flex items-center gap-1 shadow-sm"
+                      >
+                        <Clock className="w-3 h-3" />
+                        <span>{note.timestampText || '00:00'}</span>
+                      </button>
+                      <p className="text-xs text-text-heading font-medium truncate flex-1">
+                        {note.text}
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteNote(note.id)}
+                      className="w-6 h-6 rounded-md flex items-center justify-center text-text-muted hover:text-red-500 hover:bg-red-500/10 transition-colors shrink-0"
+                      title="حذف الملاحظة"
+                      aria-label="حذف الملاحظة"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-[11px] text-text-muted py-0.5">
+                💡 يمكنك تسجيل أي نقطة هامة وربطها بالثانية الزمنية لتتمكن من القفز إليها لاحقاً بنقرة واحدة أثناء مراجعة الدرس.
+              </p>
+            )}
           </Card>
 
           {/* معلومات وتوجيهات المادة والمحاضر */}
@@ -918,6 +1102,14 @@ export default function Watch({
           <TechStack course={course} onWatchCourse={onWatchCourse} />
         </div>
       </div>
+
+      {/* نافذة إصدار شهادة إتمام المسار الأكاديمي المعتمدة */}
+      <CertificateModal
+        isOpen={showCertificateModal}
+        onClose={() => setShowCertificateModal(false)}
+        course={course}
+        instructor={activeInstructor}
+      />
     </div>
   );
 }

@@ -30,6 +30,9 @@ const HeroArticleCarousel = dynamic(() => import('../components/HeroArticleCarou
   )
 });
 
+const ResumeLearningBanner = dynamic(() => import('../components/ResumeLearningBanner'), { ssr: false });
+const PathFinderModal = dynamic(() => import('../components/PathFinderModal'), { ssr: false });
+
 const ITEMS_PER_PAGE = 12;
 
 // Props: { view: string, setView: (v: string) => void, displayMode: string, setDisplayMode?: (m: string) => void, searchQuery: string, setSearchQuery: (q: string) => void, onWatchCourse: (id: string, instructorId?: string) => void }
@@ -56,6 +59,7 @@ export default function Home({
   const [selectedTool, setSelectedTool] = useState('كل الأدوات والتقنيات');
   const [sortBy, setSortBy] = useState('rank');
   const [currentPage, setCurrentPage] = useState(1);
+  const [showPathFinderModal, setShowPathFinderModal] = useState(false);
 
   // إعادة ضبط الصفحة الأولى وفلتر التخصص الفرعي عند تغيير القطاع أو البحث
   useEffect(() => {
@@ -254,6 +258,9 @@ export default function Home({
           />
         )}
 
+      {/* شريط استأنف تعلمك الذكي من حيث توقفت */}
+      <ResumeLearningBanner onWatchCourse={onWatchCourse} />
+
       {/* شريط التصنيف ثنائي المستوى (2-Tier Navigation Bar) */}
       <FilterBar
         selectedSubFilter={selectedSubFilter}
@@ -268,6 +275,7 @@ export default function Home({
         setDisplayMode={setDisplayMode}
         onResetAll={resetAllFilters}
         onNavigateView={setView}
+        onOpenPathFinder={() => setShowPathFinderModal(true)}
       />
 
       {/* محتوى الشروحات والدورات */}
@@ -427,6 +435,13 @@ export default function Home({
           </div>
         </div>
       )}
+
+      {/* نافذة مستشار المسارات الذكي */}
+      <PathFinderModal
+        isOpen={showPathFinderModal}
+        onClose={() => setShowPathFinderModal(false)}
+        onWatchCourse={onWatchCourse}
+      />
     </div>
   );
 }

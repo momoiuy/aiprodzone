@@ -10,7 +10,8 @@ import {
   SlidersHorizontal,
   Sparkles,
   BookOpen,
-  Filter
+  Filter,
+  Compass
 } from 'lucide-react';
 import { useLibrary } from '../context/LibraryContext';
 import CategoryPills from './CategoryPills';
@@ -46,7 +47,8 @@ export default function FilterBar({
   displayMode = 'grid',
   setDisplayMode,
   onResetAll,
-  onNavigateView
+  onNavigateView,
+  onOpenPathFinder
 }) {
   const { selectedCategory, setSelectedCategory, courses } = useLibrary();
 
@@ -124,6 +126,20 @@ export default function FilterBar({
               <option value="rating" className="bg-surface text-text">★ الأعلى تقييماً</option>
               <option value="views" className="bg-surface text-text">الأكثر مشاهدة</option>
             </select>
+
+            {/* مستشار المسارات الذكي */}
+            {onOpenPathFinder && (
+              <button
+                type="button"
+                onClick={onOpenPathFinder}
+                title="مستشار المسارات: من أين أبدأ؟"
+                className="min-h-[40px] px-3 sm:px-3.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 bg-teal-500/15 hover:bg-teal-500/25 text-teal-800 dark:text-teal-300 border border-teal-500/40 shadow-sm shrink-0 active:scale-95"
+              >
+                <Compass className="w-4 h-4 text-teal-600 dark:text-teal-400 stroke-[2.2]" />
+                <span className="hidden sm:inline">🧭 مستشار المسارات: من أين أبدأ؟</span>
+                <span className="sm:hidden">🧭 من أين أبدأ؟</span>
+              </button>
+            )}
 
             {/* أزرار التبديل بين عرض الشبكة والمضغوط */}
             {setDisplayMode && (

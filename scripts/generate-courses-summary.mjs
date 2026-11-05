@@ -51,14 +51,11 @@ async function main() {
         language: inst.language || 'AR',
         verified: typeof inst.verified === 'boolean' ? inst.verified : true,
         lessonsCount: inst.lessonsCount || (inst.lessons ? inst.lessons.length : 0) || 0,
-        durationText: inst.durationText || '',
-        note: inst.note || '',
-        playlistId: inst.playlistId || '',
-        channelUrl: inst.channelUrl || '',
+        durationText: inst.durationText || undefined,
+        playlistId: inst.playlistId || undefined,
         firstVideoId: inst.lessons?.[0]?.videoId || '',
         lessons: []
-      })),
-      comments: []
+      }))
     };
   });
 

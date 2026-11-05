@@ -15,10 +15,12 @@ import {
   UserCheck,
   Sparkles
 } from 'lucide-react';
+import dynamic from 'next/dynamic';
 import { useLibrary } from '../context/LibraryContext';
 import Logo from './Logo';
 import Button from './Button';
-import StudentAuthModal from './StudentAuthModal';
+
+const StudentAuthModal = dynamic(() => import('./StudentAuthModal'), { ssr: false });
 
 // Props: { view: string, setView: (v: string) => void, displayMode: string, setDisplayMode: (m: string) => void, searchQuery: string, setSearchQuery: (q: string) => void, onOpenSidebar: () => void, onOpenSubmitModal: () => void, onResetHome: () => void }
 export default function Header({
