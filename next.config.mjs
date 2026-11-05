@@ -7,7 +7,7 @@ const cspDirectives = [
   "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://www.youtube-nocookie.com https://s.ytimg.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
-  "img-src 'self' data: blob: https://i.ytimg.com https://s.ytimg.com https://www.youtube.com https://www.youtube-nocookie.com http: https:",
+  "img-src 'self' data: blob: https://images.weserv.nl https://i.ytimg.com https://s.ytimg.com https://www.youtube.com https://www.youtube-nocookie.com http: https:",
   "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com",
   "connect-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://fonts.googleapis.com https://fonts.gstatic.com",
   "media-src 'self' https://*.googlevideo.com blob: data:",

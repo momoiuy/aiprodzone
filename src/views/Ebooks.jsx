@@ -30,12 +30,31 @@ import Card from '../components/Card';
 import Chip from '../components/Chip';
 import Button from '../components/Button';
 
+// تحويل روابط الصور السحابية غير المشفرة أو ذات الشهادات المنتهية إلى مزود CDN السحابي الموثوق
+function getSecureCoverUrl(url) {
+  if (!url || typeof url !== 'string') return '';
+  if (url.includes('bimocode.com')) {
+    const cleanUrl = url.replace(/^https?:\/\//, '');
+    return `https://images.weserv.nl/?url=${encodeURIComponent(cleanUrl)}&w=480&q=82&output=webp`;
+  }
+  return url;
+}
+
 // مكون غلاف الكتاب الذكي (Zero Load): بديل جمالي CSS دائم في الخلفية وصورة سحابية ناعمة
 function EbookCover({ ebook, size = 'card' }) {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const coverUrl = ebook.remoteCoverUrl || ebook.cover || ebook.image || ebook.thumbnail;
-  const hasRemoteCover = Boolean(coverUrl) && !imageError;
+  const rawCover = ebook.remoteCoverUrl || ebook.cover || ebook.image || ebook.thumbnail;
+  const [currentCoverUrl, setCurrentCoverUrl] = useState(() => getSecureCoverUrl(rawCover));
+  const hasRemoteCover = Boolean(currentCoverUrl) && !imageError;
+
+  const handleImageError = () => {
+    if (rawCover && currentCoverUrl !== rawCover) {
+      setCurrentCoverUrl(rawCover);
+    } else {
+      setImageError(true);
+    }
+  };
 
   const isDetail = size === 'detail';
   const containerHeight = isDetail ? 'h-56 sm:h-72 w-full max-w-sm mx-auto' : 'h-48 w-full';
@@ -70,13 +89,13 @@ function EbookCover({ ebook, size = 'card' }) {
       {/* في حال وجود صورة سحابية عن بُعد - تظهر بسلاسة عند اكتمال الجلب */}
       {hasRemoteCover && (
         <img
-          src={coverUrl}
+          src={currentCoverUrl}
           alt={ebook.title}
           loading="lazy"
           decoding="async"
           referrerPolicy="no-referrer"
           onLoad={() => setImageLoaded(true)}
-          onError={() => setImageError(true)}
+          onError={handleImageError}
           className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${
             imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
