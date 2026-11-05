@@ -38,7 +38,7 @@ export default function NotFound() {
     {
       title: 'المسارات الأكاديمية المتكاملة',
       desc: 'خرائط طريق تعليمية مجمعة للانتقال من الصفر إلى الاحتراف المتقدم.',
-      href: '/?display=grouped',
+      href: '/tracks',
       icon: GraduationCap,
       badge: 'خرائط طريق'
     },

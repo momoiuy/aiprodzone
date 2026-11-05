@@ -59,6 +59,30 @@ describe('BimoCode Cloud Catalog & Navigation Taxonomy', () => {
     expect(ids.size).toBe(114);
   });
 
+  it('guarantees 100% of all 114 books have valid cover URLs and download/read links', () => {
+    EBOOK_GUIDES.forEach((book, index) => {
+      const coverUrl = book.remoteCoverUrl || book.cover || book.image || book.thumbnail;
+      expect(coverUrl, `Book at index ${index} (${book.id}) is missing cover URL`).toBeTruthy();
+      expect(coverUrl.startsWith('http'), `Cover URL must start with http/https: ${coverUrl}`).toBe(true);
+
+      const linkUrl = book.downloadUrl || book.itemUrl || book.trackUrl;
+      expect(linkUrl, `Book at index ${index} (${book.id}) is missing link URL`).toBeTruthy();
+
+      expect(book.title).toBeTruthy();
+      expect(book.category).toBeTruthy();
+      expect(book.content).toBeTruthy();
+    });
+  });
+
+  it('verifies the 10 track guides have direct educational track links and original thumbnails', () => {
+    TRACK_GUIDES.forEach((guide) => {
+      expect(guide.isCloudBook).toBe(false);
+      expect(guide.remoteCoverUrl).toContain('i.ytimg.com');
+      expect(guide.downloadUrl.startsWith('/tracks/')).toBe(true);
+      expect(guide.itemUrl.startsWith('/books?read=')).toBe(true);
+    });
+  });
+
   it('maintains zero local load architecture (all covers and downloads are remote URLs)', () => {
     BIMO_CATALOG.forEach((item) => {
       expect(item.remoteCoverUrl.startsWith('http')).toBe(true);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -34,7 +34,8 @@ import Button from '../components/Button';
 function EbookCover({ ebook, size = 'card' }) {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const hasRemoteCover = Boolean(ebook.remoteCoverUrl) && !imageError;
+  const coverUrl = ebook.remoteCoverUrl || ebook.cover || ebook.image || ebook.thumbnail;
+  const hasRemoteCover = Boolean(coverUrl) && !imageError;
 
   const isDetail = size === 'detail';
   const containerHeight = isDetail ? 'h-56 sm:h-72 w-full max-w-sm mx-auto' : 'h-48 w-full';
@@ -69,7 +70,7 @@ function EbookCover({ ebook, size = 'card' }) {
       {/* في حال وجود صورة سحابية عن بُعد - تظهر بسلاسة عند اكتمال الجلب */}
       {hasRemoteCover && (
         <img
-          src={ebook.remoteCoverUrl}
+          src={coverUrl}
           alt={ebook.title}
           loading="lazy"
           decoding="async"
@@ -109,9 +110,18 @@ const CATEGORY_ICONS = {
 
 const ITEMS_PER_PAGE = 12;
 
-export default function Ebooks({ activeEbook, setActiveEbook, onSelectCategory }) {
+export default function Ebooks({
+  activeEbook: propActiveEbook = null,
+  setActiveEbook: propSetActiveEbook = null,
+  onSelectCategory = null,
+  hideHeader = false
+} = {}) {
   const library = useLibrary();
   const ebooks = Array.isArray(library?.ebooks) && library.ebooks.length > 0 ? library.ebooks : EBOOK_GUIDES;
+
+  const [internalActiveEbook, setInternalActiveEbook] = useState(null);
+  const activeEbook = propActiveEbook !== undefined ? propActiveEbook : internalActiveEbook;
+  const setActiveEbook = propSetActiveEbook || setInternalActiveEbook;
 
   // فلاتر التصنيف والبحث والتنقل
   const [selectedCategory, setSelectedCategory] = useState('all'); // 'all' | 'tracks' | 'ebook' | 'software' | 'stickers' | 'adobe' | 'theme' | 'plugin'
@@ -119,6 +129,30 @@ export default function Ebooks({ activeEbook, setActiveEbook, onSelectCategory }
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
+  // مزامنة حالة قراءة الكتاب أو التصنيف المباشر من معلمات الرابط
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const readId = params.get('read');
+    const catParam = params.get('cat');
+    if (readId && !activeEbook) {
+      const found = ebooks.find((b) => b.id === readId);
+      if (found) setActiveEbook(found);
+    }
+    if (catParam && catParam !== selectedCategory) {
+      setSelectedCategory(catParam);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ebooks]);
+
+  const handleCategoryNav = (cat) => {
+    if (onSelectCategory) {
+      onSelectCategory(cat);
+    } else if (typeof window !== 'undefined') {
+      window.location.href = `/?cat=${encodeURIComponent(cat)}`;
+    }
+  };
 
   // حالة فتح/طي القوائم المنسدلة (Adobe, Theme, Plugin)
   const [expandedCategories, setExpandedCategories] = useState({
@@ -231,33 +265,35 @@ export default function Ebooks({ activeEbook, setActiveEbook, onSelectCategory }
   return (
     <div className="space-y-6 animate-smooth">
       {/* ترويسة الصفحة والملخص السحابي */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div className="space-y-1.5">
-          <div className="flex flex-wrap items-center gap-2">
-            <Chip tone="accent">مكتبة AIProdZone الرقمية والسحابية 2026</Chip>
-            <span className="text-xs text-text-muted font-bold font-mono">
-              ({ebooks.length} مادة رقمية معتمدة • Zero Server Load)
-            </span>
+      {!hideHeader && (
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="space-y-1.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <Chip tone="accent">مكتبة AIProdZone الرقمية والسحابية 2026</Chip>
+              <span className="text-xs text-text-muted font-bold font-mono">
+                ({ebooks.length} مادة رقمية معتمدة • Zero Server Load)
+              </span>
+            </div>
+            <h1 className="text-xl sm:text-3xl font-extrabold text-text-heading">
+              الكتب الإلكترونية، حزم التصميم والمكتبة الرقمية الشاملة
+            </h1>
+            <p className="text-xs sm:text-sm text-text-muted leading-relaxed max-w-3xl">
+              تصفح أدلة مسارات الذكاء الاصطناعي الـ 10 الحصرية، بالإضافة إلى مكتبة Bimocode الرقمية المتكاملة: كتب، قوالب المواقع، أنظمة SaaS، إضافات وملصقات، ومؤثرات أدوبي السحابية مع روابط تحميل مباشر.
+            </p>
           </div>
-          <h1 className="text-xl sm:text-3xl font-extrabold text-text-heading">
-            الكتب الإلكترونية، حزم التصميم والمكتبة الرقمية الشاملة
-          </h1>
-          <p className="text-xs sm:text-sm text-text-muted leading-relaxed max-w-3xl">
-            تصفح أدلة مسارات الذكاء الاصطناعي الـ 10 الحصرية، بالإضافة إلى مكتبة Bimocode الرقمية المتكاملة: كتب، قوالب المواقع، أنظمة SaaS، إضافات وملصقات، ومؤثرات أدوبي السحابية مع روابط تحميل مباشر.
-          </p>
-        </div>
 
-        {/* إحصائيات سريعة */}
-        <div className="flex items-center gap-2 text-xs text-text-muted bg-surface-2 p-2 rounded-xl border border-border self-start lg:self-auto shrink-0">
-          <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-surface-1 font-bold text-text-heading">
-            <Cloud className="w-4 h-4 text-accent" />
-            <span>تحميل سحابي مباشر</span>
+          {/* إحصائيات سريعة */}
+          <div className="flex items-center gap-2 text-xs text-text-muted bg-surface-2 p-2 rounded-xl border border-border self-start lg:self-auto shrink-0">
+            <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-surface-1 font-bold text-text-heading">
+              <Cloud className="w-4 h-4 text-accent" />
+              <span>تحميل سحابي مباشر</span>
+            </div>
+            <span className="text-border">|</span>
+            <span className="font-mono text-accent font-extrabold">{filteredEbooks.length}</span>
+            <span>مادة معروضة</span>
           </div>
-          <span className="text-border">|</span>
-          <span className="font-mono text-accent font-extrabold">{filteredEbooks.length}</span>
-          <span>مادة معروضة</span>
         </div>
-      </div>
+      )}
 
       {/* عرض تفاصيل المادة الرقمية المختارة */}
       {activeEbook ? (
@@ -270,7 +306,7 @@ export default function Ebooks({ activeEbook, setActiveEbook, onSelectCategory }
             {activeEbook.category && (
               <Button
                 variant="primary"
-                onClick={() => onSelectCategory(activeEbook.category)}
+                onClick={() => handleCategoryNav(activeEbook.category)}
                 className="text-xs py-1.5 px-3"
               >
                 <span>مشاهدة شروحات قسم: {activeEbook.category}</span>
@@ -297,12 +333,12 @@ export default function Ebooks({ activeEbook, setActiveEbook, onSelectCategory }
 
               <a
                 href={activeEbook.downloadUrl}
-                target="_blank"
+                target={activeEbook.downloadUrl.startsWith('http') ? '_blank' : '_self'}
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-accent text-surface-0 font-extrabold text-sm hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-accent/25 shrink-0"
               >
                 <Download className="w-4 h-4" />
-                <span>تحميل المادة الرقمية الآن</span>
+                <span>{activeEbook.isCloudBook ? 'تحميل المادة الرقمية الآن' : 'الانتقال إلى المسار التعليمي'}</span>
                 <ExternalLink className="w-3.5 h-3.5 opacity-80" />
               </a>
             </div>
@@ -795,13 +831,13 @@ export default function Ebooks({ activeEbook, setActiveEbook, onSelectCategory }
                         <>
                           <a
                             href={eb.downloadUrl}
-                            target="_blank"
+                            target={eb.downloadUrl.startsWith('http') ? '_blank' : '_self'}
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
                             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/15 hover:bg-accent hover:text-accent-ink text-teal-700 dark:text-teal-400 font-extrabold transition-all text-xs"
                           >
                             <Download className="w-3.5 h-3.5" />
-                            <span>تحميل مباشر</span>
+                            <span>{eb.isCloudBook ? 'تحميل مباشر' : 'المسار التعليمي'}</span>
                             <ExternalLink className="w-3 h-3 opacity-70" />
                           </a>
                           <span className="font-extrabold inline-flex items-center gap-1 text-text-heading group-hover:text-accent transition-colors">

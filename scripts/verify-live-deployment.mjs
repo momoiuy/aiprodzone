@@ -42,6 +42,11 @@ async function runSmokeTests() {
         const j = JSON.parse(t);
         return j.short_name === "AIProdZone" && Array.isArray(j.icons) && j.icons.length > 0;
       }
+    },
+    {
+      name: "Books Library (/books)",
+      path: "/books",
+      validate: (t) => t.includes("114") && t.includes("الكتب والأدلة الرقمية") && t.includes("CollectionPage")
     }
   ];
 
