@@ -54,6 +54,13 @@ describe('المرحلة الثالثة: مشغل الفيديو وقائمة ا
     it('يضبط شريط التنقل العلوي Header في صفحة المشاهدة ليتيح تثبيت المشغل في top-0 بسلاسة على الهاتف', () => {
       expect(headerContent).toContain("view === 'watch' ? 'relative lg:sticky' : 'sticky'");
     });
+
+    it('يضمن ظهور زر "أضف شرحاً" الدائم وعدم انحشاره أو اختفائه عبر تجاوب ذكي في شريط الهيدر', () => {
+      expect(headerContent).toContain('aria-label="أضف شرحاً"');
+      expect(headerContent).toContain('hidden xl:flex');
+      expect(headerContent).toContain('xl:hidden');
+      expect(headerContent).toContain('max-w-[1440px]');
+    });
   });
 
   describe('2. شريط التبديل بين المحاضرين (Multi-Instructor Switcher) وقائمة الدروس', () => {
