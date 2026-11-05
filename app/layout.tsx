@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   },
   description:
     'منصة أكاديمية عربية مجانية 100% وبلا إعلانات تضم 73 مساراً تعليمياً متعدد المحاضرين، 114 كتاباً ودليلاً برمجياً، و18 مقالاً هندسياً معمقاً في البرمجة، الذكاء الاصطناعي، والأمن السيبراني.',
+  verification: {
+    google: 'a77f8eb75e2ad942'
+  },
   icons: {
     icon: [
       { url: '/icon.svg', type: 'image/svg+xml' },

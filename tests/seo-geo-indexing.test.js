@@ -298,4 +298,44 @@ describe('AIProdZone Technical SEO & Generative Engine Optimization (GEO) Tests'
       expect(layoutModule.metadata.twitter?.description).toBe(expectedDesc);
     });
   });
+
+  describe('7. التحقق من توثيق ملكية النطاق لـ Google Search Console (HTML File + Meta Tag)', () => {
+    it('يتحقق من وجود ملف التحقق الثابت في المجلد العام ومطابقة محتواه الحرفي الصارم', () => {
+      const verificationFilePath = path.join(rootDir, 'public', 'googlea77f8eb75e2ad942.html');
+      expect(fs.existsSync(verificationFilePath)).toBe(true);
+
+      const content = fs.readFileSync(verificationFilePath, 'utf8');
+      expect(content.trim()).toBe('google-site-verification: googlea77f8eb75e2ad942.html');
+    });
+
+    it('يتحقق من إضافة وسم التحقق verification.google داخل metadata في app/layout.tsx', async () => {
+      const layoutModule = await import('../app/layout');
+      expect(layoutModule.metadata).toBeDefined();
+      expect(layoutModule.metadata.verification).toBeDefined();
+      expect(layoutModule.metadata.verification?.google).toBe('a77f8eb75e2ad942');
+    });
+
+    it('يتحقق من عدم حجب مسار التحقق في robots.ts أو قواعد التوجيه في next.config.mjs', async () => {
+      const robotsConfig = robots();
+      const verificationRoute = '/googlea77f8eb75e2ad942.html';
+      const mainRule = robotsConfig.rules[0];
+
+      // التأكد من أن المسار مسموح به صراحة أو ضمناً عبر allow: '/'
+      expect(mainRule.allow).toBe('/');
+      const isDisallowed = (Array.isArray(mainRule.disallow) ? mainRule.disallow : [mainRule.disallow]).some(
+        (prefix) => prefix && verificationRoute.startsWith(prefix)
+      );
+      expect(isDisallowed).toBe(false);
+
+      const nextConfigModule = await import('../next.config.mjs');
+      const nextConfig = nextConfigModule.default;
+      if (typeof nextConfig.redirects === 'function') {
+        const redirects = await nextConfig.redirects();
+        const conflictingRedirect = redirects.find(
+          (r) => r.source === verificationRoute || r.source === '/googlea77f8eb75e2ad942.html'
+        );
+        expect(conflictingRedirect).toBeUndefined();
+      }
+    });
+  });
 });
